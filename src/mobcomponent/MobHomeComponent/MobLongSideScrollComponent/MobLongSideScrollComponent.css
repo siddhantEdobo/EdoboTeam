@@ -1,0 +1,44 @@
+.mob-long-slidescroll-container {
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.mob-longimg-container {
+  min-height: 300px;
+  max-height: 300px;
+  /* padding: 5px; */
+  padding: 0;
+}
+
+.mob-shortimg-subcontainer {
+  height: 120px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.mob-shortimg-container {
+  max-height: 300px;
+  overflow: scroll;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.mob-short-productcard-container {
+  display: flex;
+  width: 100%;
+}
+
+.mob-short-productcard-img {
+  height: 100px;
+  width: 100%;
+  padding: 2px;
+}
+
+.mob-short-productcard-details {
+  width: 100%;
+}

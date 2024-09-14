@@ -1,0 +1,11 @@
+.mob-popular-image-container {
+  width: 200px;
+  max-height: 200px;
+}
+
+.mob-popular-image-container img {
+  width: 100px; /* Set a fixed width */
+  height: 100px; /* Set the same height */
+  object-fit: cover; /* Ensures the image covers the area */
+  border-radius: 50%; /* Makes the image circular */
+}

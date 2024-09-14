@@ -1,0 +1,99 @@
+.mob-product-details-image-container {
+  display: flex;
+  min-width: 300px;
+  max-width: 400px;
+  margin: auto;
+  padding-left: 10px;
+  padding-right: 20px;
+}
+.tab-scroll-container {
+  overflow-x: auto; /* Enables horizontal scrolling */
+  white-space: nowrap; /* Prevents wrapping of child elements */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.nav {
+  display: inline-flex; /* Aligns children in a row */
+}
+
+.nav-item {
+  display: inline-block; /* Ensures each item takes up only as much space as needed */
+}
+
+.nav-link {
+  padding: 10px 15px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s, border-bottom-color 0.3s;
+}
+
+.nav-link.active {
+  color: #000;
+  border-bottom: 2px solid #000;
+}
+
+.nav-link:hover {
+  color: #007bff;
+}
+
+.bg-body-secondary {
+  background-color: #f8f9fa; /* Adjust this color as needed */
+}
+
+.nav-item {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  margin-inline: 4px;
+}
+.mob-product-details-main-container {
+  margin-top: -16px;
+}
+
+.mob-proudct-details-related-bg {
+  background-color: #add8e6;
+}
+
+.mob-proudct-details-recomded-bg {
+  background-color: #fcc550;
+}
+.nav-details {
+  display: flex;
+  /* padding: 5px;
+  margin: 2px; */
+}
+
+.mob-product-details-imglist-container {
+  min-height: 80px;
+  min-width: 80px;
+  width: 80px;
+  border: 1px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.mob-product-details-largeimg-container {
+  height: 80%;
+  margin-top: 5px;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+}
+
+.mob-product-details-largeimg-subcontainer {
+  height: 300px;
+  width: 200px;
+  max-width: 300px;
+  margin-top: 5px;
+  /* min-width: 300px; */
+  width: 80%;
+  margin: auto;
+  display: flex;
+  align-self: center;
+}
+
+.mob-product-details-price-style {
+  margin-left: 10px;
+}

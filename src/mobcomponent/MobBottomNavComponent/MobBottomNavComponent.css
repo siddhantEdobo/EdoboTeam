@@ -1,0 +1,32 @@
+.mob-bottom-nav {
+  display: flex;
+}
+
+.mob-bottom-nav-container {
+  /* z-index: 1000; */
+}
+
+.mob-bottom-nav,
+.mob-bottom-nav-link {
+  display: flex;
+}
+
+.mob-bottom-nav-link {
+  flex-direction: column;
+  align-items: center;
+  row-gap: 4px;
+  color: black;
+  font-weight: 600;
+}
+
+.mob-bottom-nav {
+  justify-content: space-around;
+}
+
+.mob-bottom-nav-name {
+  font-size: 12px;
+}
+
+.active-nav-link {
+  color: red;
+}

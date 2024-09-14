@@ -1,0 +1,41 @@
+.mob-serach-component-container {
+  min-width: 230px;
+}
+.mob-search-component-daily-need-items {
+  background-color: #fffaf5;
+  border: 1px solid #d41a25;
+  /* width: 100px; */
+  height: 30px;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-search-item-list {
+  border-bottom: 1px solid rgb(211, 208, 208);
+  padding: 10px;
+}
+/* .mob-product-search-item-list-image-container {
+  min-width: 20px;
+  padding: 10px;
+  background-color: aqua;
+} */
+
+.mob-search-product-list-two-line-container {
+  max-height: 2.4em;
+  overflow: hidden;
+  line-height: 1.2em;
+}
+
+.mob-search-product-list-amount {
+  display: flex;
+  justify-content: center;
+}
+
+.mob-search-imagelist-container {
+  height: 60px;
+  min-width: 60px;
+  display: flex;
+  align-items: center;
+}

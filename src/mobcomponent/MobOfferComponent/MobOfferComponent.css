@@ -1,0 +1,27 @@
+.offer-component-coupon-container {
+  background-color: rgb(125, 138, 142);
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.offer-coupon-code-container {
+  width: 80%;
+  background-color: rgb(255, 255, 255, 0.8);
+  border-radius: 10px;
+  box-shadow: 5px;
+}
+
+.offer-coupon-code-subcontainer {
+  margin-top: -30% !important;
+}
+
+.offer-coupon-img-container {
+  height: 200px;
+  /* width: 120px; */
+  background-color: rgb(223, 255, 253);
+  border-radius: 10px;
+}

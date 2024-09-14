@@ -1,0 +1,28 @@
+.mob-otp-verification-component-back-header-container {
+  width: 100%;
+  background-color: #d41a25;
+  min-height: 50px;
+  color: white;
+  display: flex;
+}
+.mob-otp-verification-component-countdown-container {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.mob-otp-verification-component-continue-btn {
+  width: 90%;
+  height: 38px;
+  background-color: #d41a25;
+  color: white;
+  justify-content: center;
+  border-radius: 10px;
+  font-weight: 600;
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  margin-bottom: 20px;
+  margin-left: auto; /* Align to the center horizontally */
+  margin-right: auto; /* Align to the center horizontally */
+}

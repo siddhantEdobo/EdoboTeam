@@ -1,0 +1,49 @@
+.form-control:focus {
+  color: #000 !important;
+  background-color: rgb(255, 251, 251) !important;
+  border-color: #de190a !important;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.mob-request-new-product-component-back-btn-img {
+  width: 24px;
+  height: 24px;
+  /* justify-content: center;
+  align-items: center;
+  display: flex; */
+}
+
+.mob-request-new-product-component-heading-container {
+  width: 100%;
+  height: 30px;
+  background-color: #d5d5d5;
+  color: #000;
+  padding-left: 10px;
+  align-items: center;
+  display: flex;
+  font-weight: 600;
+}
+
+.mob-request-new-product-component-history-image {
+  width: 30px;
+  height: 30px;
+}
+.mob-request-new-product-component-border-bottom {
+  border-bottom: 1px solid rgb(222, 220, 220);
+}
+
+.mob-request-new-product-component--btn-request-here {
+  width: 100px;
+  height: 32px;
+  border: 1px solid rgb(223, 41, 41);
+  border-radius: 15px;
+  color: #de190a;
+  font-weight: 600;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+}
+
+/* cursor-pointer border border-danger text-danger fw-bold w-50 h-25  rounded-3 */

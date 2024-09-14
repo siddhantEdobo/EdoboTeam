@@ -1,0 +1,7 @@
+.mob-grocery-card-img-top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 100%;
+  min-height: 100px;
+  max-height: 120px;
+}

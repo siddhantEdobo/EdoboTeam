@@ -1,0 +1,50 @@
+.mob-tobe-reviewed-component-emptylistimg-main-container {
+  margin-top: 30px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 100%;
+  height: 300px;
+}
+
+.mob-tobe-reviewed-component-image {
+  width: 200px;
+  height: 200px;
+}
+
+.mob-tobe-reviewed-component-order-now {
+  width: 100px;
+  height: 30px;
+  background-color: #d41a25;
+  color: #fff;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.mob-tobe-reviewed-component-list-img-container {
+  /* width: 100px;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  display: flex; */
+  /* background-color: aqua; */
+}
+
+.mobtobe-reviewed-component-write-a-review {
+  border: 1px solid red;
+}
+
+.mob-review-component-review-edit{
+    width: 300px;
+    height: auto;
+}
+
+.mob-review-component-mainview-container{
+    width: 100%;
+    height: auto;
+}

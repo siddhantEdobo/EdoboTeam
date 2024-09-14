@@ -1,0 +1,23 @@
+.mob-combo-product-image-container {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+}
+
+.mob-combo-product-card-container {
+  border: none;
+  /* background-color: pink; */
+  min-width: 220px;
+  align-items: center;
+  gap: 10px;
+}
+
+.mob-combo-product-details {
+  background-color: #ffcd94;
+  width: 100%;
+  margin-top: -20%;
+  padding-top: 50px;
+  /* z-index: 10; */
+  border: 1px solid rgb(0, 0, 0, 0.2);
+  border-radius: 10px;
+}

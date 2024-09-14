@@ -1,0 +1,17 @@
+.call-rider {
+  width: 90px;
+  text-align: center;
+  background-color: #add8e6;
+  border-radius: 25px;
+}
+
+.chat-rider {
+  width: 70px;
+  background-color: #add8e6;
+  border-radius: 25px;
+  text-align: center;
+}
+
+.StepperContainer-0-2-1 {
+  padding: 20px 0px 5px 0px !important;
+}

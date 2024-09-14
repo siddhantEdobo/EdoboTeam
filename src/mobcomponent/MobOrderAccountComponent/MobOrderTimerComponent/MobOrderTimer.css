@@ -1,0 +1,12 @@
+.bg {
+  background: url(../../../assets/Icon/ordertimerbackgroung.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  padding: 1px;
+  margin-top: -20px;
+}
+
+.progress-card {
+  opacity: 0.92;
+}

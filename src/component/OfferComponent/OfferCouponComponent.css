@@ -1,0 +1,48 @@
+.offer-coupon-sorting .form-select {
+  border: solid #dc3545 !important;
+  /* color: #dc3545 !important; */
+}
+
+/*  flip card */
+
+.offer-coupon-component-card-img {
+  width: 160px;
+  height: 178px;
+  /* align-items: center;
+  justify-content: center; */
+  display: flex;
+}
+
+.offer-coupon-component-card-text {
+  position: relative;
+  font-size: 14px;
+  font-weight: 600;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding: 40px;
+}
+
+.offer-coupon-component-card-front-text {
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding: 40px;
+}
+.offer-coupon-component-card-active-offer {
+  position: absolute;
+  min-width: 70px;
+  height: 28px;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 10px;
+  background-color: #dc3545;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin: -120px 0px 0px -30px;
+}

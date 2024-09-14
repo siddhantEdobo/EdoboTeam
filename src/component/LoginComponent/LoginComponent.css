@@ -1,0 +1,50 @@
+.login-component-cantainer {
+  width: 600px;
+  height: 500px;
+  background-color: #d41a25 !important;
+}
+
+.login-component-cantainer-first-part {
+  background-color: #d41a25 !important;
+}
+
+.login-component-continue-btn {
+  min-width: 210px;
+  /* height: 35px; */
+  background-color: #fff;
+  border-radius: 10px;
+  color: #d41a25;
+  font-size: 14px;
+  font-weight: 600;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.login-component-modal-container {
+  background-color: #d41a25;
+}
+
+/* Inside LoginComponent.css or a new CSS file */
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.otp-verification-modal {
+  width: 600px;
+  height: 500px;
+  background-color: #d41a25 !important;
+
+  border-radius: 8px;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+}

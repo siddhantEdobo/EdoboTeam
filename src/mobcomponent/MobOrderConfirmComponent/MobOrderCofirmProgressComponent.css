@@ -1,0 +1,17 @@
+.step-progress-bar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.step {
+  width: 20%; /* Adjust as per your requirement */
+  background-color: #ddd;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.step.active {
+  background-color: #007bff; /* Change the color for active step */
+  color: #fff;
+}

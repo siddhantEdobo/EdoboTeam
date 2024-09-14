@@ -1,0 +1,63 @@
+.productDetailsComponent-card-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.productDetailsComponent-card {
+  width: 49%;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  border-width: 1;
+}
+
+.productDetailsComponent-card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.productDetailsComponent-card-body {
+  padding: 1.25rem;
+}
+
+.productDetailsComponent-card-text {
+  margin-bottom: 1rem;
+}
+
+.text-body-secondary {
+  color: #6c757d;
+}
+
+h6 {
+  margin-bottom: 0.5rem;
+}
+/* 
+button {
+  margin-top: 15px;
+} */
+
+/* Custom styles for icons and text */
+/* .col-md-5 {
+  margin-top: 15px;
+}
+
+.col-md-5 img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+} */
+
+.productDetailsComponent-custom-padding {
+  padding-right: 10px; /* Adjust the value as needed */
+}
+
+/* Media query for responsiveness */
+/* @media (max-width: 768px) {
+  .card-group {
+    flex-direction: column;
+  }
+
+  .card {
+    width: 100%;
+  }
+} */

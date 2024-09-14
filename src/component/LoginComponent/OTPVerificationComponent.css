@@ -1,0 +1,21 @@
+.otp-verification-component-card-container {
+  width: 520px;
+  background-color: #d41a25 !important;
+}
+.otp-verification-component-phone-email-text-container {
+  padding-left: 105px;
+  padding-top: 10px;
+}
+
+.otp-verification-component-continue-btn {
+  width: 370px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #d41a25;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,33 @@
+.productdetails-card-group {
+  display: flex;
+  justify-content: space-between;
+  /* background-color: yellow; */
+}
+
+.productdetails-card {
+  width: 49%;
+  margin-bottom: 20px;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  border-width: 1; */
+  margin-left: "20px";
+}
+
+.productdetails-card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.productdetails-scrollable-container {
+  /* overflow-x: auto; */
+  white-space: nowrap;
+}
+
+.productdetails-row {
+  flex-wrap: nowrap !important; /* Override default flex-wrap */
+}
+
+.productdetails-style {
+  margin-left: 20;
+}

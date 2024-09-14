@@ -1,0 +1,198 @@
+.header_container {
+  height: 120px;
+}
+
+.header-categories-menu {
+  overflow-y: scroll;
+  height: 35em;
+}
+
+.header-categories-menu .dropdown-item {
+  color: white;
+  padding: 10px;
+}
+
+.header-categories-menu .dropdown-item:hover {
+  color: red !important;
+  font-weight: 600;
+}
+
+.sub-header {
+  position: fixed !important;
+  top: 75px;
+  padding: 3px !important;
+  z-index: 1030;
+}
+
+.nav-link a {
+  font-size: 12px;
+}
+
+.line {
+  color: white;
+  border-left: 2px solid white;
+  height: 30px;
+  position: absolute;
+  /* left: 50%; */
+  margin-left: -3px;
+  top: 0;
+}
+
+.cart-number {
+  position: absolute;
+  top: -18px;
+  right: 0;
+  background-color: white;
+  color: black;
+  border-radius: 50%;
+  padding: 4px 7px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.sub-header-component-pickup-popup {
+  width: 70px;
+  height: 70px;
+  border-radius: 35px;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 15px;
+}
+
+.sub-header-component-pickup-popup-title {
+  display: block;
+  font-size: 15px;
+  margin-top: 2px;
+  color: #fff;
+  text-align: center;
+}
+.header-profile-menu-item .dropdown-item {
+  color: white;
+}
+
+.header-profile-menu-item .dropdown-item:hover {
+  color: red !important;
+  font-weight: 600;
+}
+
+.navbar-nav .nav-link {
+  color: #fff;
+}
+
+.dropend .dropdown-toggle {
+  color: salmon;
+  background-color: blue;
+}
+.dropdown-item:hover {
+  background-color: lightsalmon;
+  color: #fff;
+}
+
+.dropdown .dropdown-menu {
+  display: none;
+}
+
+.dropdown:hover > .dropdown-menu {
+  display: block;
+}
+
+.header-categories-menu {
+  height: 550px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  width: 300px;
+  display: block;
+}
+
+.active-button {
+  padding: 10px !important;
+  width: 300px !important;
+  font-size: 13px !important;
+  background-color: #ff4f4f !important; /* Active button background color */
+  color: #fff !important; /* Active button text color */
+  margin-left: 20px;
+}
+
+.inactive-button {
+  padding: 10px !important;
+  width: 300px !important;
+  font-size: 13px !important;
+  color: #000000 !important; /* Inactive button text color */
+  margin-left: 20px;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: #ff4f4f !important; /* Inactive button background color */
+  color: #fff !important;
+}
+
+/* Main menu styles */
+.main-dropdown-menu {
+  position: relative;
+  height: 560px !important;
+  padding: 0px !important;
+  width: 250px !important;
+  /* overflow-x: hidden; */
+  /*overflow-y: scroll;  */
+}
+
+.main-dropdown-menu .dropdown-item {
+  color: black;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 10px !important;
+  /* border-bottom: 0.5px solid black; */
+  height: 40px !important;
+}
+
+.main-dropdown-menu .dropdown-item:hover {
+  color: red !important;
+  font-weight: 600;
+}
+
+/* Submenu styles */
+.submenu {
+  position: absolute;
+  left: 100%; /* Position the submenu to the right of the main menu */
+  top: 0; /* Adjust this value to position the submenu vertically */
+  width: 500px !important;
+  height: 560px !important;
+}
+
+.pac-container {
+  z-index: 10000 !important;
+}
+
+.sub-header-serach .pac-target-input {
+  position: relative;
+  top: 0px;
+  width: 180px;
+  height: 40px;
+  margin-left: 10px;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.modal {
+  display: block;
+  visibility: hidden;
+}
+
+.modal-show {
+  visibility: visible;
+  background-color: rgba(169, 169, 169, 0.8);
+  transition: opacity 0.2s linear;
+}
+
+.modal-content {
+  opacity: 0;
+}
+
+.modal-show .modal-content {
+  opacity: 1;
+  transition: 0.2s linear;
+}

@@ -1,0 +1,13 @@
+.mob-profile-editaccount-update {
+  width: 2000px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+  border: 1px solid red;
+  font-weight: 600;
+  border-radius: 15px;
+  font-size: 14px;
+  cursor: pointer;
+}

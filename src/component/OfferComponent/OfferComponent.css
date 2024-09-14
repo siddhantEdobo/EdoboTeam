@@ -1,0 +1,25 @@
+.offer-web-component-coupon-container {
+  background-color: rgb(125, 138, 142);
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.offer-web-coupon-code-container {
+  width: 80%;
+  background-color: rgb(255, 255, 255, 0.8);
+  border-radius: 10px;
+  box-shadow: 5px;
+}
+
+.offer-web-coupon-code-subcontainer {
+  margin-top: -30% !important;
+}
+
+.offer-web-coupon-img-container {
+  height: 600px;
+  background-color: rgb(223, 255, 253);
+  border-radius: 10px;
+}

@@ -1,0 +1,50 @@
+.mob-order-confirm-share {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-top: 0.5px solid rgb(218, 215, 215);
+  border-bottom: 0.5px solid rgb(218, 215, 215);
+  padding: 8px;
+}
+.mob-order-confirm-missed-order {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.mob-order-confirm-border-bottom {
+  border-bottom: 0.5px solid rgb(218, 215, 215);
+  padding: 5px;
+}
+
+.mob-order-confirm-card-schedule {
+}
+
+.mob-order-confirm-review-us {
+  width: 120px;
+  height: 35px;
+  border: 1px solid green;
+  font-weight: 600;
+  border-radius: 14px;
+  color: green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mob-order-confirm-countinue-shopping {
+  width: 180px;
+  height: 35px;
+  font-weight: 600;
+  border: 1px solid rgb(200, 52, 52);
+  border-radius: 14px;
+  color: rgb(200, 52, 52);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mob-order-confirm-bar {
+  min-width: 50px;
+}

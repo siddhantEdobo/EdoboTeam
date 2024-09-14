@@ -1,0 +1,11 @@
+.mob-freshveg-image-container {
+  min-width: 80px;
+  /* width: 22.5%; */
+  padding-bottom: 1rem;
+}
+
+.mob-freshveg-image-large-container {
+  min-width: 100px;
+  /* width: 44.66666667%; */
+  padding-bottom: 1rem;
+}

@@ -1,0 +1,26 @@
+.mob-vegitable-list-button {
+  padding: 5px 15px;
+  /* border-radius: 20px; */
+  white-space: none;
+  text-wrap: nowrap;
+  border: 1px solid rgb(0, 0, 0, 0.2);
+}
+
+.mob-vegitable-product-discount-container {
+  border-bottom-left-radius: 80%;
+  border-top-right-radius: 10px;
+  top: 0px;
+  right: 0;
+  width: 40px !important;
+  height: 40px;
+  padding: 10px;
+  color: #ffff;
+  position: absolute;
+  background-color: #d41a25;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+}

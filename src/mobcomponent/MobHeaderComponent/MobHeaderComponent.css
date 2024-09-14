@@ -1,0 +1,16 @@
+.mob-header-container {
+  min-height: 40px;
+}
+
+.mob-drawer-width {
+  /* width: 300px !important; */
+  max-width: 100% !important;
+}
+
+.mob-header-badge-icons {
+  top: 0;
+  right: 0;
+  color: white;
+  font-size: 8px;
+  background-color: #d41a25;
+}

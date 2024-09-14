@@ -1,0 +1,92 @@
+/* .mob-login-component-login-screen-img {
+  min-width: 100%;
+  height: 200px;
+} */
+
+.mob-login-component-skip-login-btn {
+  width: 100px;
+  height: 35px;
+  border: 1px solid #d41a25;
+  color: #d41a25;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.mobile-login-image {
+  width: 100%;
+  height: 120%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.mob-login-image-container {
+  width: 100%;
+  height: 60%;
+}
+
+.mob-login-component-opt-lock-container {
+  margin-top: 100px;
+  max-width: 200px;
+  height: 35px;
+  border: 3px solid #d41a25;
+  color: #d41a25;
+  border-radius: 15px;
+  display: flex;
+  justify-content: end; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  font-size: 20px;
+  padding: 10px;
+  margin-left: 24%;
+  cursor: pointer;
+}
+
+.mob-login-component-phone-email-img-container {
+  height: 30px;
+}
+
+/* border css */
+/* .mob-login-component-opt-whatsapp-email {
+  width: 100px;
+  height: 30px;
+  border: 1px solid #d41a25;
+  color: #d41a25;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+} */
+
+.mob-login-component-whatsapp-bg-container {
+  width: 26px;
+  height: 26px;
+  border-radius: 13px;
+  background-color: #32ba46;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.mob-login-component-sms-bg-container {
+  width: 26px;
+  height: 26px;
+  border-radius: 13px;
+  background-color: #212b23;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.mob-login-component-email-bg-container {
+  width: 26px;
+  height: 26px;
+  border-radius: 13px;
+  background-color: #3271ba;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}

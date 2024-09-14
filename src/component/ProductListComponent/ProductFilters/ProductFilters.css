@@ -1,0 +1,100 @@
+/* ProductFilters.css */
+.product-filter-component-container {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  height: 700px;
+}
+
+.product-filter-component-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* .brand-product-filter-component-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 40px;
+} */
+
+.product-filter-component-image {
+  width: 34px;
+  height: auto;
+  margin-right: 16px;
+}
+
+.product-filter-component-text {
+  font-size: 12px;
+  margin: 0;
+}
+
+.product-filter-component-divider {
+  width: 100%;
+  border-top: 1px solid transparent;
+  margin: 0;
+}
+
+.product-filter-component-heading {
+  margin-left: 2px;
+  margin-bottom: 1px;
+  margin-top: 1px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.fresh-vegetables-bg {
+  background-color: pink;
+  margin: 0;
+}
+.red-text {
+  color: red;
+}
+
+.black-text {
+  color: black;
+}
+
+.product-filter-component-radio {
+  margin-right: 8px;
+}
+
+.brand-text {
+  /* flex-grow: 1; */
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.radio-btn {
+  margin-left: 4px;
+}
+
+.product-filter-component-heading {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.radio-btn {
+  margin-left: 8px; /* Add some margin between the label and the radio button */
+  appearance: none; /* Remove default styles */
+}
+
+.radio-btn::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #000;
+  margin-right: 4px;
+}
+
+.radio-btn:checked::before {
+  background-color: #d41a25;
+  border: 2px solid #000;
+}

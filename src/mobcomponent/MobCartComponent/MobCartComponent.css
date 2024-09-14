@@ -1,0 +1,230 @@
+.mob-cart-component-coupon-text-container {
+  max-height: 2.4em;
+  overflow: hidden;
+  line-height: 1.2em;
+  justify-content: center;
+  padding-bottom: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mob-cart-product-img-container {
+  width: 80px;
+  height: 80px;
+}
+
+.mob-cart-component-available-slot-container {
+  border-left: 1px solid rgb(211, 29, 29);
+}
+
+.mob-cart-component-selected-slot {
+  color: red;
+  cursor: pointer;
+  font-weight: 600;
+  background-color: #fcebeb;
+}
+
+.mob-cart-component-normal-slot {
+  color: black;
+  cursor: pointer;
+}
+
+.mob-cart-component-normal-slot:hover {
+  text-decoration: underline;
+}
+
+.mob-cartcomponent-scroll-view-container {
+  height: 220px;
+  overflow: scroll;
+}
+
+.mob-cart-component-wishlist {
+  margin-right: 20px;
+}
+
+.mob-cart-component-view-more-coupon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  border-top: 1px solid grey;
+}
+/* .mob-cart-component-tip-style {
+  width: 50px;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  font-weight: 600;
+  cursor: pointer;
+} */
+/* .mob-cart-component-tip-style {
+  cursor: pointer;
+} */
+
+.mob-cart-component-tip-style:hover {
+  background-color: rgb(192, 18, 18);
+  color: #fff;
+}
+
+.mob-cart-component-billing-heading-style {
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  background: #4e974e;
+  color: #fff;
+  height: 35px;
+  width: 100%;
+}
+
+.mob-cart-component-large-amount {
+  font-size: 1em;
+  font-weight: bold;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.mob-cart-component-save-bill-style {
+  width: 60px;
+  height: 15px;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: #4e974e;
+  font-size: 9px;
+  font-weight: 600;
+  display: flex;
+  margin-left: 5px;
+}
+
+.mob-cart-component-billing-border {
+  border-bottom: 1px solid rgb(213, 212, 212);
+  padding-bottom: 5px;
+}
+
+.mob-cart-component-edobo-credito {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.mob-cart-component-delivery-instruction {
+  width: 80px;
+  height: 80px;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  margin-left: 10px;
+  font-size: 10px;
+  padding: 5px;
+  opacity: 0.7;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.mob-cart-component-delivery-instruction {
+  cursor: pointer;
+}
+
+/* .mob-cart-component-delivery-instruction:hover {
+  background-color: #fff;
+  color: #272525;
+} */
+
+.mob-cart-component-delivery-payment {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 10px;
+  font-weight: 600;
+}
+
+.mob-cart-component-payment-button {
+  width: 220px;
+  height: 30px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  background: rgb(187, 26, 26);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin: 10px;
+}
+
+.mob-cart-component-empty-cart-container {
+  justify-content: center;
+  align-items: center;
+  /* display: flex; */
+}
+
+.mob-cart-component-empty-cart {
+  width: 150px;
+  height: 150px;
+  justify-content: center;
+  align-items: center;
+}
+.mob-cart-component-empty-cart-grab-button {
+  justify-content: center;
+  align-items: center;
+  /* display: flex; */
+  width: 250px;
+  height: 40px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  background: rgb(187, 26, 26);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin: 10px;
+}
+
+.mob-cart-component-paynow-container-img {
+  height: 30px;
+}
+
+.selected {
+  border: 2px solid rgb(187, 26, 26);
+  background-color: rgb(255, 255, 255);
+}
+
+.mob-cart-component-selected-delivery-instraction {
+  background-color: #ffe1e1;
+}
+
+/* .mob-cart-component-tip-style {
+  width: 50px;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.active {
+  background-color: lightblue; 
+  color: white; 
+  border: 1px solid darkblue;
+} */
+
+.mob-cart-component-tip-selection-bg-white {
+  width: 60px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  font-weight: 600;
+  border-radius: 10px;
+  margin-left: 10px;
+  font-size: 10px;
+  padding: 5px;
+  opacity: 0.7;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.mob-cart-component-tip-selected-bg-blue {
+  background-color: #ffe1e1;
+}

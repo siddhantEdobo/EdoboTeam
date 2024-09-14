@@ -1,0 +1,73 @@
+.mob-account-register-component-form {
+  width: 100%;
+  height: auto;
+  background-color: #f8d4d4;
+}
+
+.mob-account-register-component-submit-btn {
+  width: 90%;
+  height: 38px;
+  background-color: #d41a25;
+  color: white;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mob-account-register-component-horizontal-line {
+  width: 100%;
+  border-bottom: 1px solid #d41a25;
+  /* padding: 20px; */
+}
+.mob-account-register-component-gender {
+  width: 80px;
+  min-height: 30px;
+  border: 1px solid #d41a25;
+  color: #000;
+  font-weight: 600;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+}
+.mob-account-register-component-age {
+  min-width: 70px;
+  height: 30px;
+  border: 1px solid #d41a25;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.horizontal-scroll-container-age-container {
+  overflow-x: auto;
+  white-space: nowrap;
+  display: flex;
+  width: 100%;
+}
+.mob-account-register-component-login-btn {
+  width: 170px;
+  height: 35px;
+  background-color: #d41a25;
+  border-radius: 8px;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  padding-left: 10px;
+  cursor: pointer;
+}

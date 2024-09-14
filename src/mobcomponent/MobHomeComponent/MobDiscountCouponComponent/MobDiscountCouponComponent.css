@@ -1,0 +1,22 @@
+.mob-delivery-instuction-container {
+  width: 100% !important;
+  /* overflow: auto; */
+  /* background-color: aqua; */
+  /* -ms-overflow-style: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none; */
+}
+
+.mob-cart-delivery-instuction-container {
+  /* width: 100%; */
+  display: flex;
+  flex-wrap: nowrap;
+  /* gap: 10px; */
+  /* background-color: red; */
+  overflow: scroll;
+}
+
+.mob-cart-delivery-instuction-img-card {
+  /* width: 100% !important; */
+  height: 70px;
+}

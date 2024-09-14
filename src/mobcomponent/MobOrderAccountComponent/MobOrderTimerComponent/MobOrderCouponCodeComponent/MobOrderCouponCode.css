@@ -1,0 +1,21 @@
+.card-coupon-code {
+  background-color: #cdbcf9;
+  opacity: 0.91;
+  border-radius: 20px;
+  border: dotted;
+  border-width: 2px;
+}
+.coupon-card-body {
+  min-height: auto;
+  padding: 10px 0px 0px 0px;
+}
+
+.coupon-card-footer {
+  background-color: #6546bb;
+  color: white;
+  font-size: 17px;
+  text-align: center;
+  border-bottom-right-radius: 20px !important;
+  border-bottom-left-radius: 20px !important;
+  overflow: hidden;
+}

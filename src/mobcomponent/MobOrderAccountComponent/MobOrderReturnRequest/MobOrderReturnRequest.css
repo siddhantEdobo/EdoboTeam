@@ -1,0 +1,26 @@
+.mob-order-return-request .card-body {
+  padding: 10px;
+  height: 70px;
+}
+
+.mob-order-checklist-component-card-container {
+  height: 50px;
+  width: 100%;
+}
+
+.mob-order-checklist-component-card-body {
+  padding: 0px 10px 70px 10px;
+}
+
+.mob-order-return-request-btn {
+  width: 100px;
+  height: 30px;
+  border: 1px solid red;
+  border-radius: 15px;
+  align-items: center;
+  justify-content: center;
+  color: red;
+  display: flex;
+  font-weight: 600;
+  cursor: pointer;
+}

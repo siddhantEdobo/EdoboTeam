@@ -1,0 +1,5 @@
+/* Ensure the container of the home screen is scrollable */
+.home-container {
+  overflow-y: auto; /* Ensure vertical scrolling */
+  height: 100vh; /* Full viewport height */
+}

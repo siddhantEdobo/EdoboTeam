@@ -1,0 +1,46 @@
+.mob-order-background-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  z-index: 999;
+}
+
+.mob-order-delay-card-discount {
+  background-color: #ed6212;
+  color: #fff;
+}
+
+.mob-order-delay-star-main-div {
+  background-color: #f5c7c7;
+}
+
+.mob-order-delay-stardiv {
+  display: flex;
+  justify-content: left;
+  margin-top: 15px;
+}
+
+.mob-order-delay-input {
+  display: none;
+}
+
+.mob-order-delay-star {
+  cursor: pointer;
+  transition: color 200ms;
+  margin-bottom: 20px;
+}
+
+.line:before {
+  content: "";
+  height: 1px;
+  width: 50%;
+  background: black;
+  display: block;
+  position: relative;
+  top: 42%;
+  left: 88%;
+  transform: translateY(-50%);
+}

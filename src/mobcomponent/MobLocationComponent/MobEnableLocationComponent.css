@@ -1,0 +1,107 @@
+.mob-enable-location-component-select-delivery-location-container {
+  width: 100%;
+  height: 100px;
+}
+
+.mob-enable-location-component-enable-btn {
+  width: 95px;
+  height: 35px;
+  border: 1px solid #d42029;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: 600;
+  justify-content: center;
+  align-items: center;
+  color: #d42029;
+  display: flex;
+  cursor: pointer;
+}
+
+.map-search-box-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 1%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  z-index: 5;
+}
+
+.map-search-input {
+  width: 80%;
+  max-width: 500px;
+  height: 40px;
+  padding: 0 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.locate-me-button {
+  position: absolute;
+  width: 100%;
+  max-width: 130px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  top: 65%;
+  font-weight: 600;
+  left: 30%;
+  z-index: 5;
+  background-color: white;
+  color: black;
+  border: none;
+  /* padding: 10px 20px; */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* .locate-me-button:hover {
+} */
+
+.mob-enable-location-component-change-btn {
+  width: 100px;
+  height: 35px;
+  background-color: #d42029;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  cursor: pointer;
+}
+.location {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.mob-enable-location-component-confirm-btn {
+  width: 96%;
+  height: 35px;
+  background-color: #d42029;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+
+  display: flex;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+.mob-enble-location-component-max-line-address {
+  max-height: 2.4em; /* Two lines of text */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
+  -webkit-box-orient: vertical;
+}

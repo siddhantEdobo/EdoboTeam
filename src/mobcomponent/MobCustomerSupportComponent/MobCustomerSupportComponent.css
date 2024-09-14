@@ -1,0 +1,53 @@
+.mob-cart-choose-change-location-container-heading {
+  width: 100%;
+  height: 30px;
+  background-color: #d5d5d5;
+  color: #000;
+  padding-left: 10px;
+  align-items: center;
+  display: flex;
+  font-weight: 600;
+}
+
+.mob-cart-choose-change-location-border {
+  border-bottom: 1px solid rgb(213, 212, 212);
+  /* padding-bottom: 5px; */
+}
+
+.mob-customer-support-component-border-top-bottom {
+  border-bottom: 1px solid rgb(213, 212, 212);
+  border-top: 1px solid rgb(213, 212, 212);
+}
+
+.mob-cart-choose-change-location-hight {
+  height: 700px;
+}
+
+.mob-cart-choose-change-location-add-new-address {
+  width: 200px;
+  height: 35px;
+  border-radius: 10px;
+  border: 1px solid rgb(233, 29, 29);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  color: rgb(233, 29, 29);
+}
+
+.mob-customer-support-component {
+  width: 100px;
+  height: 30px;
+  border: 1px solid #d41a25;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  color: #d41a25;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mob-customer-support-component.active {
+  background-color: #d41a25;
+  color: white;
+}

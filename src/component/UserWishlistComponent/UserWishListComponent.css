@@ -1,0 +1,45 @@
+.wish-list-history-card-fixed-size-image {
+  height: 100px;
+  object-fit: cover;
+}
+
+.wish-list-details-col2-container {
+  margin-top: 3px;
+  padding-left: 10px;
+  flex: 1;
+}
+.wish-list-text-color {
+  color: rgb(141, 142, 142);
+}
+
+.wish-list-product-info-text {
+  margin-left: 20px;
+}
+
+.wish-list-check-style {
+  margin-left: 10px;
+}
+
+.wish-list-check-text-style {
+  font-size: 12px;
+  color: rgb(141, 142, 142);
+}
+
+.wish-list-help-button {
+  /* border: 1px solid red;// */
+  color: red;
+  background-color: white;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.wish-list-help-button.active {
+  background-color: red;
+  color: white;
+}
+
+.wish-list-help-button {
+  width: 100px;
+  height: 40px;
+  margin: 10px;
+}

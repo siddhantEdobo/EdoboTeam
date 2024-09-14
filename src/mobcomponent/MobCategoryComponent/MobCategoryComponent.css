@@ -1,0 +1,45 @@
+.mob-category-card-container {
+  margin-bottom: 0px;
+  border: none;
+  max-width: 80px;
+  min-height: 50px;
+}
+.mob-category-card-img-container {
+  height: auto;
+  width: auto;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mob-category-card-text {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+.mob-category-card-heading {
+  font-size: 16px;
+}
+
+.mob-category-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px 0;
+}
+
+.mob-category-card-container {
+  margin-right: 25px;
+  border: none;
+  max-width: 80px;
+  min-height: 50px;
+}
+
+.mob-category-scroll-container::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,14 @@
+.mob-wallet-commponent-copoun-btn-container {
+  min-width: 55px;
+  height: 30px;
+  border: 1px solid red;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: red;
+  font-weight: 600;
+  margin: 5px; /* Adjusted margin to provide spacing between buttons */
+  white-space: nowrap; /* Prevent text wrapping */
+  flex-shrink: 0; /* Prevent buttons from shrinking */
+}

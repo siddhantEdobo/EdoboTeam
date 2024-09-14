@@ -1,0 +1,47 @@
+.mob-add-address-location-save-as-icon-label {
+  /* width: 100px; */
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000;
+  /* background-color: aqua; */
+  border-radius: 10px;
+  gap: 10px;
+}
+
+.mob-add-address-location-selected {
+  background-color: #ffffff;
+  font-weight: 700;
+}
+.text-danger {
+  color: red;
+  font-size: 12px;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.mob-add-address-location-save-continue {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(202, 45, 45);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  height: 35px;
+  border-radius: 10px;
+}
+
+/* CSS for smaller icon */
+/* .mob-add-address-location-save-as-icon-label {
+  font-size: 20px; 
+} */
+
+/* CSS for larger icon */
+/* .mob-add-address-location-save-as-icon-label.mob-add-address-location-selected {
+  font-size: 30px;
+} */

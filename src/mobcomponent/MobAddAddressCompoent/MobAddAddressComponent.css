@@ -1,0 +1,26 @@
+.mob-add-address-save-as-icon-label {
+  width: 200px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000;
+  border-radius: 10px;
+  gap: 10px;
+}
+
+.mob-add-address-selected {
+  background-color: #f5c7c7;
+}
+
+.mob-add-address-save-continue {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(202, 45, 45);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  height: 35px;
+  border-radius: 10px;
+}

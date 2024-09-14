@@ -1,0 +1,70 @@
+.mob-location-component-image-container {
+  width: 50px;
+  height: 60px;
+  margin-top: 10px;
+  /* justify-content: center;
+    align-items: center;
+    display: flex; */
+}
+
+.mob-location-component-enable-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #d42029;
+  color: #fff;
+  height: 40px;
+  width: 100%;
+  font-weight: 600;
+  font-size: 13px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.mob-location-component-search-loaction-container {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #d42029;
+  height: 38px;
+  width: 100%;
+  font-weight: 600;
+  font-size: 13px;
+  border: 1px solid rgb(199, 195, 195);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.mob-location-component-search-close-btn {
+  width: 100px;
+  height: 40px;
+  border: 1px solid rgb(199, 195, 195);
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  color: #d42029;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.mob-location-component-offcanvas {
+  padding: 0 !important;
+}
+
+.pac-container {
+  z-index: 10000 !important;
+}
+
+.pac-target-input {
+  position: absolute;
+  top: 10px;
+  width: 368px;
+  height: 40px;
+  margin-left: -184px;
+  /* border-radius: 25px; */
+  padding: 15px;
+}
