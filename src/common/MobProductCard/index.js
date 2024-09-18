@@ -6,6 +6,7 @@ import useWindowDimensions from "../../utils/dimensionsHelpers";
 import AddToCartButtonCustomIcon from "../AddToCartButtonCustomIcon";
 
 const MobProductCard = ({
+  product,
   hideWishlist = false,
   imageSrc,
   title,
@@ -69,16 +70,17 @@ const MobProductCard = ({
         </div>
         <div className="position-absolute bottom-0 end-0">
           <AddToCartButtonCustomIcon
-            quantity={quantity}
-            onAddtoCartClick={() => {
-              onAddtoCartClick();
-            }}
-            onIncrement={() => {
-              onIncrement();
-            }}
-            onDecrement={() => {
-              onDecrement();
-            }}
+            product={product}
+            // quantity={quantity}
+            // onAddtoCartClick={() => {
+            //   onAddtoCartClick();
+            // }}
+            // onIncrement={() => {
+            //   onIncrement();
+            // }}
+            // onDecrement={() => {
+            //   onDecrement();
+            // }}
           />
         </div>
       </div>

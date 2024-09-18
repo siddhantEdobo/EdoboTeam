@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+// import { useDispatch } from 'react-redux';
+import { decrementQuantity } from "../../../redux/reducers/addCart"; // Adjust the import path
 import "./MobSlideCollectionComponent.css";
 import AddToCartButtonCustomIcon from "../../../common/AddToCartButtonCustomIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,7 +11,7 @@ import { get } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ROUTES_NAVIGATION from "../../../routes/routes";
-import { addToCart } from "../../../redux/reducers/addCart";
+import { addToCart, removeFromCart } from "../../../redux/reducers/addCart";
 import Cookies from "universal-cookie";
 
 const MobSlideCollectionComponent = ({ data }) => {
@@ -18,43 +20,37 @@ const MobSlideCollectionComponent = ({ data }) => {
   const pincode = useSelector((state) => state.home.pincode);
   const [productQuantities, setProductQuantities] = useState({});
   const cookies = new Cookies();
+  const cartItems = useSelector((state) => state.cart.items);
+  console.log(cartItems);
 
   const handleIncrement = async (product) => {
     const token = cookies.get("auth_token");
-    console.log("Token:", token);
-
     if (!token) {
       console.error("No auth token found");
       return;
     }
 
-    const requestData = {
-      pincode: pincode,
-      product_id: product.id,
-      action: "add",
-      // coupon_code: "SAVER101",
-    };
-
-    console.log("Request Data:", requestData);
-
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/v2/cart/product",
-        requestData,
+        {
+          pincode: pincode,
+          product_id: product.id,
+          action: "add",
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log("Product plus added successfully", response.data);
-
-      setProductQuantities((prevQuantities) => ({
-        ...prevQuantities,
-        [product.id]: (prevQuantities[product.id] || 0) + 1,
-      }));
+      dispatch(addToCart(product)); // Update Redux store
+      console.log("Product incremented successfully", response.data);
     } catch (error) {
-      console.error("Error adding product", error.response?.data || error);
+      console.error(
+        "Error incrementing product",
+        error.response?.data || error
+      );
     }
   };
 
@@ -65,35 +61,27 @@ const MobSlideCollectionComponent = ({ data }) => {
       return;
     }
 
-    const currentQuantity = productQuantities[product.id] || 0;
-    if (currentQuantity > 0) {
-      try {
-        // Call the API to reduce the product
-        const response = await axios.post(
-          "http://127.0.0.1:8000/api/v2/cart/product",
-          {
-            // pincode, // Use the pincode from the Redux store
-            pincode: pincode,
-            product_id: product.id,
-            action: "minus",
-            coupon_code: "SAVER101", // You can modify this if needed
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/v2/cart/product",
+        {
+          pincode: pincode,
+          product_id: product.id,
+          action: "minus",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log("Product reduced successfully", response.data);
-
-        // Update the quantity in state after successful API call
-        setProductQuantities((prevQuantities) => ({
-          ...prevQuantities,
-          [product.id]: currentQuantity - 1,
-        }));
-      } catch (error) {
-        console.error("Error reducing product", error.response?.data || error);
-      }
+        }
+      );
+      dispatch(decrementQuantity(product.id)); // Update Redux store
+      console.log("Product decremented successfully", response.data);
+    } catch (error) {
+      console.error(
+        "Error decrementing product",
+        error.response?.data || error
+      );
     }
   };
 
@@ -107,11 +95,12 @@ const MobSlideCollectionComponent = ({ data }) => {
     try {
       // Get the current quantity or default to 1 if not set
       const quantity = productQuantities[product.id] || 1;
+      console.log(quantity);
       const response = await axios.post(
         "http://127.0.0.1:8000/api/v2/add-to-cart",
         {
           product_id: product.id,
-          qty: quantity,
+          qty: 1,
         },
         {
           headers: {
@@ -132,6 +121,7 @@ const MobSlideCollectionComponent = ({ data }) => {
       console.error("Error adding to cart", error.response?.data || error);
     }
   };
+  console.log(productQuantities);
 
   const productHandle = (productId, product_name) => {
     // Navigate to the product detail page, passing the productId as a URL parameter
@@ -195,6 +185,14 @@ const MobSlideCollectionComponent = ({ data }) => {
     data.data[1].items[0] &&
     data.data[1].items[0].products;
 
+  const getItemQuantity = (itemId) => {
+    // console.log("itemsid", itemId);
+    // console.log(cartItems);
+    const item = cartItems.find((item) => item.id === itemId);
+
+    return item ? item.quantity : 0;
+  };
+
   return (
     <div>
       {isValidData ? (
@@ -253,10 +251,11 @@ const MobSlideCollectionComponent = ({ data }) => {
                   </div>
                   <div className="position-absolute bottom-0 end-0">
                     <AddToCartButtonCustomIcon
-                      quantity={quantity.toString()}
-                      onAddtoCartClick={() => handleAddToCart(product)}
-                      onDecrement={() => handleDecrement(product)}
-                      onIncrement={() => handleIncrement(product)}
+                      product={product}
+                      // quantity={getItemQuantity(product.id)}
+                      // onAddtoCartClick={() => handleAddToCart(product)}
+                      // onDecrement={() => handleDecrement(product)}
+                      // onIncrement={() => handleIncrement(product)}
                     />
                   </div>
                 </div>

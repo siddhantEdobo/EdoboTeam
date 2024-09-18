@@ -6,6 +6,7 @@ import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import MobProductCard from "../../../common/MobProductCard";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/reducers/addCart";
+import AddToCartButtonCustomIcon from "../../../common/AddToCartButtonCustomIcon";
 
 const EDITIBLE = [
   {
@@ -43,6 +44,7 @@ const MobEdiblesComponent = ({ data }) => {
             <div key={value?.id}>
               <div className="edititable-product-image-container me-2">
                 <MobProductCard
+                  product={value}
                   imageSrc={
                     value?.thumb_image_url
                       ? "http://103.165.118.218/edobo/" + value?.thumb_image_url
@@ -56,6 +58,7 @@ const MobEdiblesComponent = ({ data }) => {
                     handleAddToCart(value);
                   }}
                 />
+                {/* <AddToCartButtonCustomIcon product={value} /> */}
               </div>
             </div>
           ))}

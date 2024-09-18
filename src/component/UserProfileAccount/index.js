@@ -280,12 +280,7 @@ const UserProfileAccount = () => {
                       </div>
                       {/* <CustomeMapLocation /> */}
 
-                      <LoadScript
-                        googleMapsApiKey="AIzaSyBYaUmkSyrXGhQhl2GmRjpQ53a99fI7d5E"
-                        // Pass libraries as a static class property
-                        libraries={libraries}
-                        onLoad={handleLoad}
-                      >
+                      
                         <GoogleMap
                           mapContainerStyle={{
                             width: "46%",
@@ -345,7 +340,7 @@ const UserProfileAccount = () => {
                             <MarkerF position={currentLocation} />
                           )}
                         </GoogleMap>
-                      </LoadScript>
+                      {/* </LoadScript> */}
                     </div>
                     <div className="col-6">
                       <div className="d-flex">

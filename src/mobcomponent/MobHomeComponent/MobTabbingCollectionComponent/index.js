@@ -132,12 +132,8 @@ const MobTabbingCollection = ({ data }) => {
                       <p className="fs-12">{"Combo of 5"}</p>
                       <div className="position-absolute bottom-0 end-0">
                         <AddToCartButtonCustomIcon
-                          quantity={quantity.toString()}
-                          onAddtoCartClick={() => {
-                            handleAddToCart(value);
-                          }}
-                          onDecrement={() => handleDecrement(value.id)}
-                          onIncrement={() => handleIncrement(value.id)}
+                          product={value}
+                          // quantity={getItemQuantity(product.id)}
                         />
                       </div>
                     </div>

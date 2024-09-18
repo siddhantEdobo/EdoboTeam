@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const home = createSlice({
   name: "home",
-  initialState:{
-    pincode:"",
+  initialState: {
+    pincode: "",
   },
   reducers: {
     setPincode: (state, action) => {

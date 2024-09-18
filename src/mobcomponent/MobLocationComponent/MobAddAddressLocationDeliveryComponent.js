@@ -76,10 +76,17 @@ const MobAddAddressLocationDeliveryComponent = ({
 
   const isFormValid = () => {
     const newErrors = {
-      houseNumber: houseNumber.trim() === "" ? "Fill the form" : "",
-      apartmentDetails: apartmentDetails.trim() === "" ? "Fill the form" : "",
-      receiverName: receiverName.trim() === "" ? "Fill the form" : "",
-      receiverPhoneNo: receiverPhoneNo.trim() === "" ? "Fill the form" : "",
+      houseNumber: houseNumber.trim() === "" ? "Fill the House number" : "",
+      apartmentDetails:
+        apartmentDetails.trim() === "" ? "Fill the apartment details" : "",
+      receiverName:
+        selectedIcon === "Family & Friends" && receiverName.trim() === ""
+          ? "Enter receiver name"
+          : "",
+      receiverPhoneNo:
+        selectedIcon === "Family & Friends" && receiverPhoneNo.trim() === ""
+          ? "Enter phone number"
+          : "",
       icon: selectedIcon === null ? "Select an icon" : "",
     };
 
@@ -100,7 +107,7 @@ const MobAddAddressLocationDeliveryComponent = ({
   };
 
   return (
-    <div className="">
+    <div>
       {/* Form Fields */}
       <div className="mt-2">
         <div className="fw-bold">HOUSE / FLAT / BLOCK no.</div>
@@ -151,36 +158,40 @@ const MobAddAddressLocationDeliveryComponent = ({
         {errors.icon && <div className="text-danger mt-1">{errors.icon}</div>}
       </div>
 
-      <div className="mt-2">
-        <div className="fw-bold">RECEIVER'S NAME</div>
-        <input
-          type="text"
-          className="border-0 border-bottom border-danger w-100 h-100 fs-14 p-2"
-          placeholder="Enter Receiver's name"
-          value={receiverName}
-          onChange={(e) => handleInputChange(e, "receiverName")}
-        />
-        {errors.receiverName && (
-          <div className="text-danger">{errors.receiverName}</div>
-        )}
-      </div>
+      {selectedIcon === "Family & Friends" && (
+        <>
+          <div className="mt-2">
+            <div className="fw-bold">RECEIVER'S NAME</div>
+            <input
+              type="text"
+              className="border-0 border-bottom border-danger w-100 h-100 fs-14 p-2"
+              placeholder="Enter Receiver's name"
+              value={receiverName}
+              onChange={(e) => handleInputChange(e, "receiverName")}
+            />
+            {errors.receiverName && (
+              <div className="text-danger">{errors.receiverName}</div>
+            )}
+          </div>
 
-      <div className="mt-2">
-        <div className="fw-bold">RECEIVER'S PHONE NO.</div>
-        <input
-          type="text"
-          className="border-0 border-bottom border-danger w-100 h-100 fs-14 p-2"
-          placeholder="Enter Receiver's phone no."
-          value={receiverPhoneNo}
-          onChange={(e) => handleInputChange(e, "receiverPhoneNo")}
-        />
-        {errors.receiverPhoneNo && (
-          <div className="text-danger">{errors.receiverPhoneNo}</div>
-        )}
-      </div>
+          <div className="mt-2">
+            <div className="fw-bold">RECEIVER'S PHONE NO.</div>
+            <input
+              type="text"
+              className="border-0 border-bottom border-danger w-100 h-100 fs-14 p-2"
+              placeholder="Enter Receiver's phone no."
+              value={receiverPhoneNo}
+              onChange={(e) => handleInputChange(e, "receiverPhoneNo")}
+            />
+            {errors.receiverPhoneNo && (
+              <div className="text-danger">{errors.receiverPhoneNo}</div>
+            )}
+          </div>
+        </>
+      )}
 
       <div
-        className="mt-5 mob-add-address-location-save-continue"
+        className="mt-3 mob-add-address-location-save-continue"
         onClick={handleConfirmContinue}
       >
         Save & Continue

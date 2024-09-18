@@ -23,18 +23,21 @@ import ProductDetailsComponent from "../../component/ProductDetailsComponent";
 import MobSlideCollectionComponent from "./MobSlideCollectionComponent";
 import MobMultiBannerComponent from "./MobMultiBannerComponent/MobMultiBannerComponent";
 import MobTabbingCollection from "./MobTabbingCollectionComponent";
+import { setCartItems } from "../../redux/reducers/addCart";
 
 const MobHomeComponent = () => {
-  const [pinCode, setPinCode] = useState(localStorage.getItem("pinCode") || "");
   const [showLocation, setShowLocation] = useState(false);
   const [productData, setProductData] = useState(null);
   const [refreshCounter, setRefreshCounter] = useState(0);
   const { loading, fetchData, error } = useFetchProducts();
   const pincode = useSelector((state) => state.home.pincode);
+ const cartItems =useSelector((state)=> state.cart.addToCart)
+
+  
 
   useEffect(() => {
     localStorage.removeItem("pinCode");
-    setPinCode(""); // Clear the pinCode state as well
+    // Clear the pinCode state as well
   }, []);
 
   useEffect(() => {
@@ -62,7 +65,7 @@ const MobHomeComponent = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (!pinCode) {
+      if (!pincode) {
         setShowLocation(true);
       }
       // setShowLocation(true);
@@ -73,9 +76,8 @@ const MobHomeComponent = () => {
     };
   }, []);
 
-  const handleConfirmLocation = (pinCode) => {
-    setPinCode(pinCode);
-    localStorage.setItem("pinCode", pinCode);
+  const handleConfirmLocation = (pincode) => {
+    localStorage.setItem("pinCode", pincode);
     setShowLocation(false);
   };
 

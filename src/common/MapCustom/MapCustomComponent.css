@@ -59,6 +59,9 @@
   z-index: 10000 !important;
 }
 
+.inputBox {
+  margin-left: 1px;
+}
 .pac-target-input {
   position: absolute;
   top: 10px;
