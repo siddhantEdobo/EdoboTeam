@@ -19,7 +19,7 @@ const AddToCartButtonCustomIcon = ({ product }, props) => {
   const [productQuantities, setProductQuantities] = useState({});
   const cookies = new Cookies();
   const cartItems = useSelector((state) => state.cart.items);
-  console.log(cartItems);
+  // console.log(cartItems);
 
   const getItemQuantity = (itemId) => {
     // console.log("itemsid", itemId);

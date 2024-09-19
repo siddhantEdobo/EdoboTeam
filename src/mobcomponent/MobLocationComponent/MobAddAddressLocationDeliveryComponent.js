@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPincode } from "../../redux/reducers/home";
 import {
   faBagShopping,
@@ -9,6 +9,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./MobAddAddressLocationDeliveryComponent.css";
+import axios from "axios";
+import Cookies from "universal-cookie";
 
 const MobAddAddressLocationDeliveryComponent = ({
   onConfirm = () => {},
@@ -21,6 +23,15 @@ const MobAddAddressLocationDeliveryComponent = ({
   const [receiverName, setReceiverName] = useState("");
   const [receiverPhoneNo, setReceiverPhoneNo] = useState("");
   const [selectedIcon, setSelectedIcon] = useState(null);
+  // const pincode = useSelector((state) => state.home.pincode);
+  const pincode = useSelector((state) => state.home.pincode);
+
+  const cookies = new Cookies();
+  const token = cookies.get("auth_token");
+
+  const gpsAddress = useSelector((state) => state.addData.add);
+  console.log(gpsAddress);
+  console.log("okk", gpsAddress?.results[0]?.address_components[5]?.long_name);
   const [errors, setErrors] = useState({
     houseNumber: "",
     apartmentDetails: "",
@@ -94,13 +105,48 @@ const MobAddAddressLocationDeliveryComponent = ({
 
     return !Object.values(newErrors).some((error) => error !== "");
   };
+  const fullData = {
+    formatted: houseNumber + gpsAddress?.results[0].formatted_address,
+    state:
+      apartmentDetails +
+      gpsAddress?.results[0]?.address_components[8]?.long_name,
+    city: gpsAddress?.results[0]?.address_components[5]?.long_name,
+    country: gpsAddress?.results[0]?.address_components[9]?.long_name,
+    pincode:
+      gpsAddress?.results[0]?.address_components[10]?.long_name ||
+      gpsAddress?.results[0]?.address_components[9]?.long_name,
+  };
+  console.log("fullData", fullData);
 
-  const handleConfirmContinue = () => {
+  const handleConfirmContinue = async () => {
     if (isFormValid()) {
-      dispatch(setPincode(pinCode));
-      console.log("Pincode set in Redux:", pinCode); // Set the pinCode in the Redux store
-      onConfirm(pinCode); // Trigger the onConfirm callback
-      onClose(); // Close the component
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/api/v2/address/add",
+          fullData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response && response.status === 200) {
+          console.log("Address added successfully:", response.data);
+
+          dispatch(setPincode(pinCode));
+          console.log("Pincode set in Redux:", pinCode);
+
+          onConfirm(pinCode);
+
+          onClose();
+        }
+      } catch (error) {
+        console.error(
+          "Error while adding address:",
+          error.response ? error.response.data : error.message
+        );
+      }
     } else {
       console.log("Form is invalid");
     }

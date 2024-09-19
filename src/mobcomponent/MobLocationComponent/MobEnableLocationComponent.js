@@ -11,6 +11,8 @@ import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import locatesymbol from "../MobLocationComponent/location.png";
 import "./MobEnableLocationComponent.css";
 import MobAddAddressLocationDeliveryComponent from "./MobAddAddressLocationDeliveryComponent";
+import { useDispatch } from "react-redux";
+import { addData } from "../../redux/reducers/gpsAdd";
 
 const MobEnableLocationComponent = ({
   onClose = () => {},
@@ -22,6 +24,8 @@ const MobEnableLocationComponent = ({
   const [searchBox, setSearchBox] = useState(null);
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
   const [isAddressShow, setIsAddressShow] = useState(false);
+  const [gpsAdd, setGpsAdd] = useState();
+  const dispatch = useDispatch();
 
   const mapRef = useRef(null);
 
@@ -65,6 +69,7 @@ const MobEnableLocationComponent = ({
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBYaUmkSyrXGhQhl2GmRjpQ53a99fI7d5E`
       );
       if (response.data.status === "OK") {
+        setGpsAdd(response?.data);
         if (response.data.results.length > 0) {
           const formattedAddress = response.data.results[0].formatted_address;
           setAddress(formattedAddress);
@@ -97,7 +102,8 @@ const MobEnableLocationComponent = ({
         (position) => {
           const { latitude, longitude } = position.coords;
           const location = { lat: latitude, lng: longitude };
-          console.log("Geolocation found:", location);
+          console.log("Geolocation fund:", location);
+          console.log("GPS data", address);
           setCurrentLocation(location);
         },
         (error) => {
@@ -121,6 +127,8 @@ const MobEnableLocationComponent = ({
     }
   }, [currentLocation, getAddressFromLatLng]);
 
+  console.log(gpsAdd);
+  dispatch(addData(gpsAdd));
   return (
     <>
       <GoogleMap

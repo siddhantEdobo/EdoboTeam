@@ -1,137 +1,153 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MobHeaderComponent from "../../MobHeaderComponent";
-import MobTabDiscountComponent from "../../MobOfferComponent/MobTabDiscountComponent";
 import parse from "html-react-parser";
-import imageHowdy10 from "../../../assets/Mob/mob-image/ImageHowdy10.png";
-import appNewCoupon from "../../../assets/Mob/mob-image/AppNewCoupon.png";
-import bigFamiyCoupon from "../../../assets/Mob/mob-image/BigFamilyCoupon.png";
-import overStockedCoupon from "../../../assets/Mob/mob-image/OverStockedCoupon.png";
-
-const DISCOUNT_LIST = [
-  {
-    id: 1,
-    src: imageHowdy10,
-    status: true,
-    title: "Get discount up to Rs.100",
-    subtitle:
-      " Use code 125ICICI & get 15% discount up to Rs.100 on orders Rs.500 & above offer valid only on Wednesday",
-    more_title: "Applicable on orders above Rs.500",
-    discription:
-      "<p><strong>Terms and Conditions</strong></p><ul><li>Offer valid for first 5000 customers on a minimum cart value of Rs.300</li><li>Offer valid only on ICICI net-banking payment method</li><li>Offer valid only on Weekends</li><li>Offer valid once per user per week</li><li>Cashback will be credited into ICICI Bank account in 30 working days</li><li>Other T&amp;Cs may apply</li><li>Offer valid till Dec 31, 2019 23:59 PM</li></ul>",
-  },
-  {
-    id: 2,
-    status: true,
-    src: appNewCoupon,
-    title: "Get discount up to Rs.100",
-    subtitle:
-      " Use code 125ICICI & get 15% discount up to Rs.100 on orders Rs.500 & above offer valid only on Wednesday",
-    more_title: "Applicable on orders above Rs.500",
-    discription:
-      "<p><strong>Terms and Conditions</strong></p><ul><li>Offer valid for first 5000 customers on a minimum cart value of Rs.300</li><li>Offer valid only on ICICI net-banking payment method</li><li>Offer valid only on Weekends</li><li>Offer valid once per user per week</li><li>Cashback will be credited into ICICI Bank account in 30 working days</li><li>Other T&amp;Cs may apply</li><li>Offer valid till Dec 31, 2019 23:59 PM</li></ul>",
-  },
-  {
-    id: 3,
-    src: bigFamiyCoupon,
-    status: true,
-    title: "Get discount up to Rs.100",
-    subtitle:
-      " Use code 125ICICI & get 15% discount up to Rs.100 on orders Rs.500 & above offer valid only on Wednesday",
-    more_title: "Applicable on orders above Rs.500",
-    discription:
-      "<p><strong>Terms and Conditions</strong></p><ul><li>Offer valid for first 5000 customers on a minimum cart value of Rs.300</li><li>Offer valid only on ICICI net-banking payment method</li><li>Offer valid only on Weekends</li><li>Offer valid once per user per week</li><li>Cashback will be credited into ICICI Bank account in 30 working days</li><li>Other T&amp;Cs may apply</li><li>Offer valid till Dec 31, 2019 23:59 PM</li></ul>",
-  },
-  {
-    id: 4,
-    src: overStockedCoupon,
-    status: false,
-    title: "Get discount up to Rs.100",
-    subtitle:
-      " Use code 125ICICI & get 15% discount up to Rs.100 on orders Rs.500 & above offer valid only on Wednesday",
-    more_title: "Applicable on orders above Rs.500",
-    discription:
-      "<p><strong>Terms and Conditions</strong></p><ul><li>Offer valid for first 5000 customers on a minimum cart value of Rs.300</li><li>Offer valid only on ICICI net-banking payment method</li><li>Offer valid only on Weekends</li><li>Offer valid once per user per week</li><li>Cashback will be credited into ICICI Bank account in 30 working days</li><li>Other T&amp;Cs may apply</li><li>Offer valid till Dec 31, 2019 23:59 PM</li></ul>",
-  },
-];
+import axios from "axios";
+import Cookies from "universal-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { addCoupon } from "../../../redux/reducers/coupon";
 
 const MobCartCouponComponent = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [couponData, setCouponData] = useState(null);
+  const cookies = new Cookies();
+  const appliedCoupon = useSelector((state) => state.coupons.appliedCoupon);
+  const [couponCode, setCouponCode] = useState(
+    appliedCoupon ? appliedCoupon.code : ""
+  ); // State for the currently applied coupon ID
+  const token = cookies.get("auth_token");
+  const dispatch = useDispatch();
+
+  // Fetch coupon data
+  useEffect(() => {
+    const offer = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          "http://127.0.0.1:8000/api/v2/coupons-list"
+        );
+        if (response) {
+          setCouponData(response.data);
+        } else {
+          throw new Error("Failed to fetch");
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    offer();
+  }, []);
+
+  // Function to apply the selected coupon
+  const handleApplyCoupon = async (coupon) => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/apply-coupon",
+        { coupon_code: coupon.code },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response) {
+        dispatch(addCoupon(coupon)); // Replace any previously applied coupon with the new one
+        // setAppliedCouponId(coupon.id); // Track the currently applied coupon by ID
+        setCouponCode(coupon.code);
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   return (
     <>
       <MobHeaderComponent
         isBack={true}
-        headerText={"Coupons"}
+        headerText={"Discount and Coupons"}
         isCartShow={false}
         isEdoboLogo={true}
       />
       <div className="container home-container">
         <div className="fs-6 border-bottom pb-1">Available Coupons</div>
-        {DISCOUNT_LIST.map((value, index) => {
-          return (
-            <div key={index}>
-              {!value?.status && (
-                <div className="fs-6 border-bottom pb-1 bg-secondary text-white p-2 ">
-                  Unavailable Coupons
-                </div>
-              )}
-              <div
-                key={index}
-                className={`pt-2 ${!value?.status && " opacity-50"}`}
-              >
-                <div className="border-bottom 1 pb-1 mt-2">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="mob-discount-image-container">
-                      <img
-                        loading="lazy"
-                        src={value?.src}
-                        alt={value?.src}
-                        className="w-100 h-100"
-                      />
-                    </div>
-                    <div
-                      className="text-success fs-7 fw-bold cursor-pointer"
-                      onClick={() => {
-                        if (value?.status) {
-                          //here will be Apply coupon's logic
-                        }
-                      }}
-                    >
-                      APPLY
-                    </div>
+        {couponData && couponData.data ? (
+          couponData.data.map((coupon, index) => {
+            return (
+              <div key={coupon.id}>
+                {!coupon?.amount && (
+                  <div className="fs-6 border-bottom pb-1 bg-secondary text-white p-2">
+                    Unavailable Coupons
                   </div>
-                  <div className="mt-1 ">{value?.title}</div>
-                </div>
-                <div
-                  className={`border-bottom 1 pb-1 mt-2 ${
-                    value.status ? "false" : "d-none"
-                  }`}
-                >
-                  <div className="two-line-container">
-                    <span className="fs-8">{value?.subtitle}</span>
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className=" text-danger ">{value?.more_title}</div>
-                    <div
-                      className="btn text-warning fs-13"
-                      data-bs-toggle="collapse"
-                      href={`#mob_tab_discount_coupon_more_${index}`}
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls={`mob_tab_discount_coupon_more_${index}`}
-                    >
-                      + More
+                )}
+                <div className={`pt-2 ${!coupon?.amount && "opacity-50"}`}>
+                  <div className="border-bottom pb-1 mt-2">
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div className="mob-discount-image-container">
+                        <img
+                          loading="lazy"
+                          src={coupon?.code}
+                          alt={coupon?.code}
+                          className="w-100 h-100"
+                        />
+                      </div>
+                      <div
+                        className={`text-success fs-7 fw-bold cursor-pointer ${
+                          appliedCoupon?.id === coupon.id ? "text-muted" : ""
+                        }`}
+                        onClick={() => {
+                          if (
+                            coupon?.amount &&
+                            appliedCoupon?.id !== coupon.id
+                          ) {
+                            handleApplyCoupon(coupon); // Apply only the clicked coupon
+                          }
+                        }}
+                      >
+                        {appliedCoupon?.id === coupon.id ? "Applied" : "Apply"}
+                      </div>
                     </div>
+                    <div className="mt-1">{coupon?.description}</div>
                   </div>
                   <div
-                    className="collapse"
-                    id={`mob_tab_discount_coupon_more_${index}`}
+                    className={`border-bottom pb-1 mt-2 ${
+                      coupon.amount ? "false" : "d-none"
+                    }`}
                   >
-                    {parse(value?.discription)}
+                    <div className="two-line-container">
+                      <span className="fs-8">{coupon?.meta_fields}</span>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div className="text-danger">{coupon?.type}</div>
+                      <div
+                        className="btn text-warning fs-13"
+                        data-bs-toggle="collapse"
+                        href={`#mob_tab_discount_coupon_more_${index}`}
+                        role="button"
+                        aria-expanded="false"
+                        aria-controls={`mob_tab_discount_coupon_more_${index}`}
+                      >
+                        + More
+                      </div>
+                    </div>
+                    <div
+                      className="collapse"
+                      id={`#mob_tab_discount_coupon_more_${index}`}
+                    >
+                      {coupon?.discription &&
+                      typeof coupon.discription === "string"
+                        ? parse(coupon.discription)
+                        : "No further details available."}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : (
+          <div>No Coupons Available</div>
+        )}
       </div>
     </>
   );

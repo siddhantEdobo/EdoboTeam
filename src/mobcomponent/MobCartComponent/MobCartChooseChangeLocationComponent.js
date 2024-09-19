@@ -1,12 +1,18 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import MobHeaderComponent from "../MobHeaderComponent";
 import "./MobCartChooseChangeLocationComponent.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding } from "@fortawesome/free-solid-svg-icons";
 import MobAddAddressComponent from "../MobAddAddressCompoent";
+import axios from "axios";
+import Cookies from "universal-cookie";
 
 const MobCartChooseChangeLocationComponent = () => {
   const [isAddressShow, setIsAddressShow] = useState(false);
+  const [data, setData] = useState([]);
+  const cookies = new Cookies();
+  const token = cookies.get("auth_token");
+  console.log("sadasdadasda TOKEN", token);
 
   const handleAddressOpen = () => {
     setIsAddressShow(true);
@@ -79,6 +85,29 @@ const MobCartChooseChangeLocationComponent = () => {
     // Add more addresses as needed
   ];
 
+  useEffect(() => {
+    const data = async () => {
+      try {
+        const response = await axios.get(
+          "http://127.0.0.1:8000/api/v2/address/get",
+
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response) {
+          console.log(response.data);
+          setData(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    data();
+  }, []);
+
   return (
     <>
       <MobHeaderComponent
@@ -92,21 +121,28 @@ const MobCartChooseChangeLocationComponent = () => {
           <div className="">Choose Delivery Address</div>
         </div>
 
-        <div className="mt-3 ">
-          {deliveryAddresses.map((address) => (
-            <div
-              key={address.id}
-              className="mob-cart-choose-change-location-border p-2"
-            >
-              <div className="d-flex">
-                <FontAwesomeIcon icon={faBuilding} className="faicons-size" />
-                <div className="fw-bold ps-2">{address.type}</div>
-              </div>
+        <div className="mt-3">
+          {data?.data && data.data.length > 0 ? (
+            data.data.map((address) => (
+              <div
+                key={address.id}
+                className="mob-cart-choose-change-location-border p-2"
+              >
+                <div className="d-flex">
+                  <FontAwesomeIcon icon={faBuilding} className="faicons-size" />
+                  <div className="fw-bold ps-2">{address.id}</div>
+                </div>
 
-              <div className="ps-4 mt-1">{address.address}</div>
-            </div>
-          ))}
+                <div className="ps-4 mt-1">
+                  {address.customer_shipping_addess}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div>No addresses available</div>
+          )}
         </div>
+
         <div className="d-flex mt-3 justify-content-center">
           <div
             className="mob-cart-choose-change-location-add-new-address"

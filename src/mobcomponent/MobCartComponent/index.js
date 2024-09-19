@@ -30,6 +30,10 @@ import MobCartProductSelectedList from "./MobCartProductSelectedList";
 import MobCartBillingComponent from "./MobCartBillingComponent";
 import MobProductCard from "../../common/MobProductCard";
 import { Images } from "../../assets";
+import axios from "axios";
+import Cookies from "universal-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { addCoupon, removeCoupon } from "../../redux/reducers/coupon";
 
 // import { faUserSecret, faDoorClosed, faPhoneSlash, faCat } from '@fortawesome/free-solid-svg-icons';
 
@@ -216,6 +220,52 @@ const MobCartComponent = () => {
     slidesToScroll: 1,
   };
 
+  const cookies = new Cookies();
+
+  const token = cookies.get("auth_token");
+  // const coupon = useSelector((state) => [...state.coupons.appliedCoupons]);
+  const coupon = useSelector((state) => state.coupons.appliedCoupon);
+  console.log(coupon);
+
+  const dispatch = useDispatch();
+  const [code, setCode] = useState(null);
+  // const [couponCode, setCouponCode] = useState(coupon.map((item) => item.code));
+  const [couponCode, setCouponCode] = useState(coupon ? coupon.code : "");
+  console.log(couponCode);
+  // const couponCode = coupon.map((item) => item.code);
+  // setCode(couponCode);
+  // console.log(couponCode);
+
+  // console.log("couponiss", coupon.code);
+
+  const handleRemove = async () => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/remove-coupon",
+        {
+          coupon_code: couponCode,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.success === true) {
+        console.log(
+          `remove successfullty deleted coupons is %${couponCode}`,
+          response.data
+        );
+        dispatch(removeCoupon(coupon));
+        setCouponCode("");
+      } else {
+        console.log("dont have any coupon OR already deleted");
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <>
       <MobHeaderComponent
@@ -283,7 +333,7 @@ const MobCartComponent = () => {
             <div className="">Pickup and Delivery Options</div>
           </div>
           <div className="conatiner d-flex justify-content-between mb-4 gap-3 ps-2 pe-2">
-            <div className="card w-75 cart-delivery-type-card shadow-sm border-danger cursor-pointer">
+            <div className="card w-75 cart-delivery-type-card shadow-sm  cursor-pointer">
               <FontAwesomeIcon icon={faBus} className="faicons-size" />
               <div>Shoping</div>
               <div>Express Delivery</div>
@@ -415,45 +465,72 @@ const MobCartComponent = () => {
             })}
           </div>
         </div>
+
         <div className="">
-          <div className="mt-3 border border-danger rounded-2">
-            <div className="d-flex justify-content-between">
-              <div className="d-flex">
-                <div className="p-3">
-                  <FontAwesomeIcon
-                    icon={faTags}
-                    className="faicons-size text-danger"
-                  />
-                </div>
-
-                <div className=" mt-2 ">
-                  <div className="fw-bold fs-5">APPNEW</div>
-                  <div className="text-body-secondary fw-bold fs-10">
-                    Save Flat₹75 on this order
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-3">
-                <div className="fw-bold text-danger fs-13">Remove</div>
-              </div>
-            </div>
-
+          {couponCode.length <= 0 ? (
             <div
-              className="p-2 mob-cart-component-view-more-coupon"
+              className="border border-danger rounded-3 mt-3 p-2 d-flex justify-content-around cursor-pointer"
               onClick={() => {
                 navigate(ROUTES_NAVIGATION.ALL_COUPONS_LIST);
               }}
             >
-              <div className="">View more coupons</div>
+              <FontAwesomeIcon icon={faHeart} className="faicon-size mt-1 " />
+              <div className="fw-bold ">Apply coupons </div>
               <FontAwesomeIcon
                 icon={faChevronRight}
-                className="faicon-size ps-2"
+                className="faicon-size   "
               />
             </div>
+          ) : (
+            <div className="mt-3 border border-danger rounded-2">
+              <div className="d-flex justify-content-between">
+                <div className="d-flex">
+                  <div className="p-3">
+                    <FontAwesomeIcon
+                      icon={faTags}
+                      className="faicons-size text-danger"
+                    />
+                  </div>
+                  <div className="mt-2">
+                    <div className="fw-bold fs-5">
+                      {/* Conditionally render "APPLY" or the applied coupon code */}
+                      {couponCode}
+                    </div>
 
-            {/* {showCouponComponent && <MobCartCouponComponent />} */}
-          </div>
+                    <div className="text-body-secondary fw-bold fs-10">
+                      {couponCode.length > 0
+                        ? `Coupon ${couponCode} applied!`
+                        : "Save Flat ₹75 on this order"}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-3">
+                  <div
+                    className="fw-bold text-danger fs-13"
+                    onClick={handleRemove}
+                  >
+                    Remove
+                  </div>
+                </div>
+              </div>
+
+              <div
+                className="p-2 mob-cart-component-view-more-coupon"
+                onClick={() => {
+                  navigate(ROUTES_NAVIGATION.ALL_COUPONS_LIST);
+                }}
+              >
+                <div className="">View more coupons</div>
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  className="faicon-size ps-2"
+                />
+              </div>
+
+              {/* {showCouponComponent && <MobCartCouponComponent />} */}
+            </div>
+          )}
         </div>
 
         <div className="mt-3 card p-2">
