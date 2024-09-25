@@ -15,6 +15,8 @@ import {
 import CollectionProductCard from "../../common/CollectionProductCard";
 import MobOptionVarientComponent from "../MobOptionVarientComponent";
 import MobFilterComponent from "../MobFilterComponent";
+import { useSelector } from "react-redux";
+import useFetchCategoryProducts from "../../hooks/categorySetPincode";
 
 const category_product = [
   {
@@ -152,10 +154,26 @@ const COLLECTIONDATA = [
 ];
 
 const MobBrowserCategoryComponent = () => {
+  const pincode = useSelector((state) => state.home.pincode);
+  const [productData, setProductData] = useState([]);
+  const { loading, fetchData, error } = useFetchCategoryProducts();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (pincode) {
+        const data = await fetchData(pincode);
+        setProductData(data?.data);
+        // setRefreshCounter((prevCounter) => prevCounter + 1);
+      }
+    };
+
+    fetchProducts();
+  }, [pincode, fetchData]);
+
   const { maincategory, subcategory } = useParams();
   const navigate = useNavigate();
   const [selectedMainCategory, setSelectedMainCategory] = useState(
-    category_product[0]
+    productData[0]
   );
   const [selectedSubCategory, setSelectedSubCategory] = useState();
   const [isVarientModelShow, setIsVarientModelShow] = useState(false);
@@ -179,8 +197,8 @@ const MobBrowserCategoryComponent = () => {
 
   useEffect(() => {
     if (maincategory) {
-      const selectedCategory = category_product?.filter(
-        (value) => value?.redirecturl === maincategory
+      const selectedCategory = productData?.filter(
+        (value) => value?.alies === maincategory
       )[0];
       setSelectedMainCategory(selectedCategory);
     }
@@ -188,8 +206,8 @@ const MobBrowserCategoryComponent = () => {
 
   useEffect(() => {
     if (subcategory) {
-      const selectedCategory = category_product?.filter(
-        (value) => value?.redirecturl === subcategory
+      const selectedCategory = productData?.filter(
+        (value) => value?.alies === subcategory
       )[0];
       setSelectedSubCategory(selectedCategory);
     }
@@ -197,7 +215,7 @@ const MobBrowserCategoryComponent = () => {
 
   useEffect(() => {
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    setSelectedMainCategory(category_product[0]);
+    setSelectedMainCategory(productData[0]);
   }, []);
 
   return (
@@ -222,7 +240,7 @@ const MobBrowserCategoryComponent = () => {
           />
         </div>
         <MobBrowseSubCategoryListComponent
-          categoryProduct={category_product}
+          categoryProduct={productData}
           selectedSubCategory={selectedSubCategory}
           onClick={(subCategory) => {
             console.log("subCategory", subCategory);
@@ -230,9 +248,9 @@ const MobBrowserCategoryComponent = () => {
             navigate(
               ROUTES_NAVIGATION.BROWSE +
                 "/" +
-                (selectedMainCategory?.redirecturl || "") +
+                (selectedMainCategory?.alies || "") +
                 "/" +
-                subCategory?.redirecturl
+                subCategory?.alies
             );
           }}
         />
@@ -259,7 +277,7 @@ const MobBrowserCategoryComponent = () => {
         </div>
 
         <div className="mob-browe-category-proudct-card-container">
-          {COLLECTIONDATA.map((value) => {
+          {/* {COLLECTIONDATA.map((value) => {
             return (
               <div key={value?.id} className="mt-2">
                 <CollectionProductCard
@@ -297,12 +315,12 @@ const MobBrowserCategoryComponent = () => {
                 />
               </div>
             );
-          })}
+          })} */}
         </div>
       </div>
 
       <MobBrowseMainCategoryListComponent
-        categoryProduct={category_product}
+        categoryProduct={productData}
         selectedMainCategory={selectedMainCategory}
         onClick={(mainCategrory) => {
           console.log("mainCategrory", mainCategrory);
@@ -310,7 +328,7 @@ const MobBrowserCategoryComponent = () => {
           navigate(
             ROUTES_NAVIGATION.BROWSE +
               "/" +
-              (mainCategrory?.redirecturl || "") +
+              (mainCategrory?.alies || "") +
               "/all"
           );
         }}

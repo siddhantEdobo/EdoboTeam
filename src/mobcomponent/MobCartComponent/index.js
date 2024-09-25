@@ -34,7 +34,12 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { addCoupon, removeCoupon } from "../../redux/reducers/coupon";
-
+import {
+  applyWalletAmount,
+  removeWalletAmount,
+} from "../../redux/reducers/walletSlice";
+import { removeTip, selectTip } from "../../redux/reducers/tipSlice";
+import { toggleCardSelection } from "../../redux/reducers/deliverySlice";
 // import { faUserSecret, faDoorClosed, faPhoneSlash, faCat } from '@fortawesome/free-solid-svg-icons';
 
 const OFFERSCODE = [
@@ -141,6 +146,47 @@ const EDITIBLE = [
 ];
 
 const MobCartComponent = () => {
+  const [showInput, setShowInput] = useState(false);
+  const [walletAmount, setWalletAmount] = useState(0); // Local state to track wallet amount input
+  // const dispatchh = useDispatch();
+  // const [appliedWalletAmount, setAppliedWalletAmount] = useState(0);
+  // const availableBalance = 260; // This should ideally come from your state management (Redux, Context, etc.)
+  const appliedWalletAmount = useSelector(
+    (state) => state.wallet.appliedWalletAmount
+  );
+  const availableBalance = useSelector(
+    (state) => state.wallet.availableBalance
+  );
+  const selectedTip = useSelector((state) => state.tip.selectedTip);
+  const selectedCards = useSelector((state) => state.delivery.selectedCards); // Adjust state path if necessary
+
+  const handleUseClick = () => {
+    setShowInput(!showInput); // Toggle the input box
+  };
+  const handleApplyClick = () => {
+    dispatch(applyWalletAmount(walletAmount)); // Dispatch to Redux
+    setShowInput(false); // Hide input after applying
+    setWalletAmount(0); // Reset input field
+  };
+
+  const handleRemoveClick = () => {
+    // setAppliedWalletAmount(0);
+    dispatch(removeWalletAmount()); // Remove the applied wallet amount
+  };
+  const handleInputChange = (e) => {
+    const value = Math.max(
+      0,
+      Math.min(availableBalance, Number(e.target.value))
+    ); // Limit input to available balance
+    setWalletAmount(value);
+  };
+
+  // const handleApplyClick = () => {
+  //   // onWalletAmountChange(walletAmount); // Call the function passed from parent to update wallet amount in billing
+  //   setAppliedWalletAmount(walletAmount);
+  //   setShowInput(false); // Hide input after applying
+  // };
+
   const [startDate, setStartDate] = useState(new Date());
   const [selectedSlot, setSelectedSlot] = useState(null);
   const navigate = useNavigate();
@@ -148,8 +194,9 @@ const MobCartComponent = () => {
   const [selectedInstructions, setSelectedInstructions] = useState([]);
   const [showCouponComponent, setShowCouponComponent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedCards, setSelectedCards] = useState([]);
-  const [selectedTips, setSelectedTips] = useState([]);
+  // const [selectedCards, setSelectedCards] = useState([]);
+  // const [selectedTips, setSelectedTips] = useState([]);
+  const [selectedTips, setSelectedTips] = useState(null);
   // const [selectedTip, setSelectedTip] = useState([]);
 
   // const tipCardSelection = (index) => {
@@ -162,12 +209,15 @@ const MobCartComponent = () => {
   // };
 
   const tipCardSelection = (index) => {
-    if (selectedTips === index) {
-      // If the clicked option is already selected, deselect it
-      setSelectedTips(null);
+    const tipAmount = 10 * (index + 1);
+    // dispatch(selectTip(tipAmount)); // Calculate the tip amount based on the index
+
+    if (selectedTip === tipAmount) {
+      // If the clicked tip is already selected, deselect it
+      dispatch(removeTip()); // Deselect the tip
     } else {
-      // Otherwise, select the clicked option
-      setSelectedTips(index);
+      // Otherwise, select the new tip
+      dispatch(selectTip(tipAmount)); // Dispatch the selected tip to Redux
     }
   };
 
@@ -175,13 +225,16 @@ const MobCartComponent = () => {
   //   setSelectedTip(selectedTip.filter((i) => i !== index));
   // };
 
-  const toggleCardSelection = (index) => {
-    const isSelected = selectedCards.includes(index);
-    if (isSelected) {
-      setSelectedCards(selectedCards.filter((i) => i !== index));
-    } else {
-      setSelectedCards([...selectedCards, index]);
-    }
+  const handleToggleCardSelection = (index) => {
+    dispatch(toggleCardSelection(index)); // Dispatch the action to update Redux state
+
+    // const isSelected = selectedCards.includes(index);
+    // if (isSelected) {
+
+    //   setSelectedCards(selectedCards.filter((i) => i !== index));
+    // } else {
+    //   setSelectedCards([...selectedCards, index]);
+    // }
   };
 
   //
@@ -225,12 +278,14 @@ const MobCartComponent = () => {
   const token = cookies.get("auth_token");
   // const coupon = useSelector((state) => [...state.coupons.appliedCoupons]);
   const coupon = useSelector((state) => state.coupons.appliedCoupon);
-  console.log(coupon);
+  console.log("couponsss  ", coupon);
 
   const dispatch = useDispatch();
   const [code, setCode] = useState(null);
   // const [couponCode, setCouponCode] = useState(coupon.map((item) => item.code));
   const [couponCode, setCouponCode] = useState(coupon ? coupon.code : "");
+  const [slotshow, setSlotShow] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
   console.log(couponCode);
   // const couponCode = coupon.map((item) => item.code);
   // setCode(couponCode);
@@ -264,6 +319,23 @@ const MobCartComponent = () => {
     } catch (error) {
       console.error(error.message);
     }
+  };
+
+  const handleShowSlot = () => {
+    setSlotShow(!slotshow);
+    setIsClicked(2);
+  };
+
+  const handleSelect1 = () => {
+    setSlotShow(false);
+
+    setIsClicked(1);
+  };
+
+  const handleSelect2 = () => {
+    setSlotShow(false);
+
+    setIsClicked(3);
   };
 
   return (
@@ -333,92 +405,112 @@ const MobCartComponent = () => {
             <div className="">Pickup and Delivery Options</div>
           </div>
           <div className="conatiner d-flex justify-content-between mb-4 gap-3 ps-2 pe-2">
-            <div className="card w-75 cart-delivery-type-card shadow-sm  cursor-pointer">
+            <div
+              className={`card w-75 cart-delivery-type-card shadow-sm cursor-pointer ${
+                isClicked === 1 ? "red-border" : ""
+              }`}
+              onClick={handleSelect1}
+            >
               <FontAwesomeIcon icon={faBus} className="faicons-size" />
               <div>Shoping</div>
               <div>Express Delivery</div>
             </div>
-            <div className="card w-75 cart-delivery-type-card shadow-sm cursor-pointer">
-              <FontAwesomeIcon icon={faCar} className="faicons-size" />
+            <div
+              className={`card w-75 cart-delivery-type-card shadow-sm cursor-pointer ${
+                isClicked === 2 ? "red-border" : ""
+              }`}
+            >
+              <FontAwesomeIcon
+                icon={faCar}
+                className="faicons-size"
+                onClick={handleShowSlot}
+              />
               <div>Shoping</div>
               <div>Slot Delivery</div>
             </div>
-            <div className="card w-75 cart-delivery-type-card shadow-sm cursor-pointer">
+            <div
+              className={`card w-75 cart-delivery-type-card shadow-sm cursor-pointer ${
+                isClicked === 3 ? "red-border" : ""
+              }`}
+              onClick={handleSelect2}
+            >
               <FontAwesomeIcon icon={faBagShopping} className="faicons-size" />
               <div>Shoping</div>
               <div>Pickup</div>
             </div>
           </div>
         </div>
-        <div className="mt-2 border border-danger rounded-3">
-          <div className=" row  ">
-            <div className="col-7">
-              <div className=" fw-bold p-2">How do you want your item ?</div>
+        {slotshow && (
+          <div className="mt-2 border border-danger rounded-3">
+            <div className=" row  ">
+              <div className="col-7">
+                <div className=" fw-bold p-2">How do you want your item ?</div>
 
-              <div className="m-2 card w-50 cart-delivery-type-card shadow-sm border-danger cursor-pointer">
-                <FontAwesomeIcon
-                  icon={faCalendarDays}
-                  className="faicons-size text-danger"
-                />
-                <div className="p-2 pt-2 ">
-                  {/* <DatePicker
+                <div className="m-2 card w-50 cart-delivery-type-card shadow-sm border-danger cursor-pointer">
+                  <FontAwesomeIcon
+                    icon={faCalendarDays}
+                    className="faicons-size text-danger"
+                  />
+                  <div className="p-2 pt-2 ">
+                    {/* <DatePicker
                     className="w-100  h-25 justify-content-center text-danger p-1"
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
                   /> */}
-                  <DatePicker
-                    className="w-100  h-25 justify-content-center text-danger p-1"
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    minDate={new Date()} // Disable previous dates
-                  />
+                    <DatePicker
+                      className="w-100  h-25 justify-content-center text-danger p-1"
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      minDate={new Date()} // Disable previous dates
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="col-5 border-danger">
-              <div className=" mt-2 fw-bold">AVAILABLE SLOT</div>
+              <div className="col-5 border-danger">
+                <div className=" mt-2 fw-bold">AVAILABLE SLOT</div>
 
-              <div className="mt-3 me-2">
-                <div
-                  className={`${
-                    selectedSlot === "7-10"
-                      ? "mob-cart-component-selected-slot"
-                      : "mob-cart-component-normal-slot"
-                  }`}
-                  onClick={() => handleSlotSelection("7-10")}
-                >
-                  7:00 AM - 10:00 AM
-                </div>
-                <div
-                  className={`${
-                    selectedSlot === "10-1"
-                      ? "mob-cart-component-selected-slot"
-                      : "mob-cart-component-normal-slot"
-                  } mt-2`}
-                  onClick={() => handleSlotSelection("10-1")}
-                >
-                  10:00 AM - 01:00 PM
-                </div>
+                <div className="mt-3 me-2">
+                  <div
+                    className={`${
+                      selectedSlot === "7-10"
+                        ? "mob-cart-component-selected-slot"
+                        : "mob-cart-component-normal-slot"
+                    }`}
+                    onClick={() => handleSlotSelection("7-10")}
+                  >
+                    7:00 AM - 10:00 AM
+                  </div>
+                  <div
+                    className={`${
+                      selectedSlot === "10-1"
+                        ? "mob-cart-component-selected-slot"
+                        : "mob-cart-component-normal-slot"
+                    } mt-2`}
+                    onClick={() => handleSlotSelection("10-1")}
+                  >
+                    10:00 AM - 01:00 PM
+                  </div>
 
-                <div
-                  className={`${
-                    selectedSlot === "1-3"
-                      ? "mob-cart-component-selected-slot"
-                      : "mob-cart-component-normal-slot"
-                  } mt-2`}
-                  onClick={() => handleSlotSelection("1-3")}
-                >
-                  10:00 AM - 01:00 PM
+                  <div
+                    className={`${
+                      selectedSlot === "1-3"
+                        ? "mob-cart-component-selected-slot"
+                        : "mob-cart-component-normal-slot"
+                    } mt-2`}
+                    onClick={() => handleSlotSelection("1-3")}
+                  >
+                    10:00 AM - 01:00 PM
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
         <div className="mt-2 text-secondary">
           Any instructions? eg Delivery before 9 am
         </div>
-        <div className="mt-3 d-flex gap-2">
+        {/* <div className="mt-3 d-flex gap-2">
           <FontAwesomeIcon icon={faTags} className="faicons-size text-danger" />
           <div className=" fw-bold">Unlock New Offers</div>
         </div>
@@ -432,18 +524,20 @@ const MobCartComponent = () => {
               );
             })}
           </div>
-        </div>
-        <div
-          className="border border-danger rounded-3 mt-3 p-2 d-flex justify-content-around cursor-pointer"
-          onClick={() => {
-            navigate(ROUTES_NAVIGATION.USER_WISHLIST);
-          }}
-        >
+        </div> */}
+        <div className="border border-danger rounded-3 mt-3 p-2 d-flex justify-content-around cursor-pointer">
           <FontAwesomeIcon icon={faHeart} className="faicon-size mt-1 " />
-          <div className="fw-bold ">View your wishlist</div>
+          <div
+            className="fw-bold "
+            onClick={() => {
+              navigate(ROUTES_NAVIGATION.USER_WISHLIST);
+            }}
+          >
+            View your wishlist
+          </div>
           <FontAwesomeIcon icon={faChevronRight} className="faicon-size   " />
         </div>
-        <div className="pt-2">
+        {/* <div className="pt-2">
           <div className="fw-bold">You might have missed !</div>
 
           <div className="d-flex hide-scrollbar pt-2 mob-editable-productcard-container gap-2">
@@ -464,7 +558,7 @@ const MobCartComponent = () => {
               );
             })}
           </div>
-        </div>
+        </div> */}
 
         <div className="">
           {couponCode.length <= 0 ? (
@@ -544,8 +638,8 @@ const MobCartComponent = () => {
               <div
                 key={index}
                 className={`mob-cart-component-tip-selection-bg-white ${
-                  selectedTips === index
-                    ? "mob-cart-component-tip-selected-bg-blue"
+                  selectedTip === 10 * (index + 1) // Compare with the calculated tipAmount
+                    ? "mob-cart-component-tip-selected-bg-blue selected-tip"
                     : ""
                 }`}
                 onClick={() => tipCardSelection(index)}
@@ -680,69 +774,66 @@ const MobCartComponent = () => {
             <div className="card mob-cart-component-tip-style">₹40</div>
           </div>
         </div> */}
-        <div className="mt-3">
-          <div>
-            <div className="row pt-1 mob-cart-component-view-more-coupon">
-              <div className="col-3 p-0 ps-3 ">
-                <FontAwesomeIcon
-                  icon={faWallet}
-                  className="faicons-size pt-1 "
-                />
-                <span className="ps-2">Wallet</span>
-              </div>
-              <div className=" col-7">
-                <div>Available Balance ₹260</div>
-              </div>
-              <div className="col-2 fw-bold text-danger">Use</div>
-            </div>
-          </div>
-          {/* <div className="row mt-3 p-1">
-            <div className="col-3  pt-3">
-              <div className="d-flex ">
-                <FontAwesomeIcon icon={faWallet} className="faicons-size" />
-                <div className="ps-2">Wallet</div>
-              </div>
-            </div>
-
-            <div className="col-6 mt-3 ">
-              <div className="d-flex gap-2">
-                <div className="fw-bold cursor-pointer">Available Balance</div>
-                <div className="text-body-secondary fw-bold">₹260</div>
-              </div>
-            </div>
-
-            <div className="col-3  pt-3 ">
-              <div className="fw-bold text-danger cursor-pointer">Use</div>
-            
-            </div>
-          </div> */}
-
+        <div className="mt-3 ">
           <div className="row pt-1 mob-cart-component-view-more-coupon">
-            <div className="col-3 p-0 ps-3">Loyality Points</div>
-            <div className=" col-7">
-              <div>200 Reward Points worth ₹20</div>
+            <div className="col-3 p-0 ps-3 ">
+              <FontAwesomeIcon icon={faWallet} className="faicons-size pt-1" />
+              <span className="ps-2">Wallet</span>
             </div>
-            <div className="col-2 fw-bold text-danger">Apply</div>
+            <div className="col-6">
+              <div>Available Balance ₹{availableBalance}</div>
+            </div>
+            <div
+              className="col-2 fw-bold text-danger cursor-pointer"
+              onClick={
+                appliedWalletAmount > 0 ? handleRemoveClick : handleUseClick
+              }
+            >
+              {appliedWalletAmount > 0 ? "Remove" : "Use"}
+            </div>
           </div>
+
+          {showInput && (
+            <div className="mt-2 border border-danger rounded-3 p-3 d-flex align-items-center justify-content-center">
+              <input
+                type="" // Assuming the input is for a numeric value
+                value={walletAmount}
+                onChange={handleInputChange}
+                placeholder="Enter amount"
+                className="wallet-input form-control"
+                max={availableBalance}
+              />
+              <button
+                onClick={handleApplyClick}
+                className="btn btn-danger ms-2 btn-wallet" // Margin added to the left of the button
+              >
+                Apply
+              </button>
+            </div>
+          )}
         </div>
-        <MobCartBillingComponent />
-        <div className="d-flex mt-3 p-2 border border-danger rounded-2 gap-2">
+        <MobCartBillingComponent
+          selectedTip={selectedTips}
+          coupon={coupon?.amount}
+          walletAmount={appliedWalletAmount}
+        />
+        {/* <div className="d-flex mt-3 p-2 border border-danger rounded-2 gap-2">
           <div className="mob-cart-component-paynow-container-img">
             <img src={Images.paynow} alt="paynow" className="w-100 h-100" />
           </div>
 
           <div>You will earn 2974 edobo credito worth ₹29.74</div>
-        </div>
+        </div> */}
         <div className="mt-3">
           <div className="fw-bold">Delivery Instructions</div>
           <div className="d-flex mt-2">
             <div
               className={`card ms-0 mob-cart-component-delivery-instruction ${
-                selectedCards.includes(0)
+                selectedCards?.includes(0)
                   ? "mob-cart-component-selected-delivery-instraction"
                   : ""
               }`}
-              onClick={() => toggleCardSelection(0)}
+              onClick={() => handleToggleCardSelection(0)}
             >
               <FontAwesomeIcon
                 icon={faUserSecret}
@@ -754,11 +845,11 @@ const MobCartComponent = () => {
 
             <div
               className={`card mob-cart-component-delivery-instruction ${
-                selectedCards.includes(1)
+                selectedCards?.includes(1)
                   ? "mob-cart-component-selected-delivery-instraction"
                   : ""
               }`}
-              onClick={() => toggleCardSelection(1)}
+              onClick={() => handleToggleCardSelection(1)}
             >
               <FontAwesomeIcon
                 icon={faDoorClosed}
@@ -770,11 +861,11 @@ const MobCartComponent = () => {
 
             <div
               className={`card mob-cart-component-delivery-instruction ${
-                selectedCards.includes(2)
+                selectedCards?.includes(2)
                   ? "mob-cart-component-selected-delivery-instraction"
                   : ""
               }`}
-              onClick={() => toggleCardSelection(2)}
+              onClick={() => handleToggleCardSelection(2)}
             >
               <FontAwesomeIcon
                 icon={faPhoneSlash}
@@ -786,11 +877,11 @@ const MobCartComponent = () => {
 
             <div
               className={`card mob-cart-component-delivery-instruction ${
-                selectedCards.includes(3)
+                selectedCards?.includes(3)
                   ? "mob-cart-component-selected-delivery-instraction"
                   : ""
               }`}
-              onClick={() => toggleCardSelection(3)}
+              onClick={() => handleToggleCardSelection(3)}
             >
               <FontAwesomeIcon icon={faCat} className="faicons-size pb-1" />
               <div>Beware </div>

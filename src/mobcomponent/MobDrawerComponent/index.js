@@ -86,7 +86,8 @@ const MobDrawerComponent = () => {
       text: "Wish List",
       onClick: () => {
         navigate(
-          ROUTES_NAVIGATION.PROFILE + "/" + ROUTES_NAVIGATION.USER_WISHLIST
+          // ROUTES_NAVIGATION.PROFILE + "/" + ROUTES_NAVIGATION.USER_WISHLIST
+          
         );
         DrawerCloseHandler();
       },

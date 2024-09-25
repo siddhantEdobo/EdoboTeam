@@ -6,8 +6,12 @@ import { faBuilding } from "@fortawesome/free-solid-svg-icons";
 import MobAddAddressComponent from "../MobAddAddressCompoent";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import MobEnableLocationComponent from "../MobLocationComponent/MobEnableLocationComponent";
 
-const MobCartChooseChangeLocationComponent = () => {
+const MobCartChooseChangeLocationComponent = ({
+  onClose = () => {},
+  onConfirmLocation = () => {},
+}) => {
   const [isAddressShow, setIsAddressShow] = useState(false);
   const [data, setData] = useState([]);
   const cookies = new Cookies();
@@ -156,30 +160,63 @@ const MobCartChooseChangeLocationComponent = () => {
       </div>
 
       {isAddressShow && (
+        // <>
+        //   <div className="overlay"></div>
+        //   <div
+        //     className="offcanvas offcanvas-bottom show h-75 rounded-top-5"
+        //     tabIndex="-2"
+        //     data-bs-backdrop="static"
+        //     data-bs-scroll="false"
+        //   >
+        //     <div className="offcanvas-header">
+        //       <h5 className="offcanvas-title w-100 fs-14 fw-bold">
+        //         Fill your address
+        //         <div className="fs-10">Where you want to deliver</div>
+        //       </h5>
+        //       <button
+        //         type="button"
+        //         className="btn-close"
+        //         onClick={() => {
+        //           handleAddressClose();
+        //         }}
+        //       ></button>
+        //     </div>
+        //     <div className="offcanvas-body small">
+        //       {/* <MobFilterComponent /> */}
+        //       <MobAddAddressComponent />
+        //     </div>
+        //   </div>
+        // </>
+
         <>
           <div className="overlay"></div>
           <div
-            className="offcanvas offcanvas-bottom show h-75 rounded-top-5"
-            tabIndex="-2"
-            data-bs-backdrop="static"
+            className="offcanvas offcanvas-bottom show h-100 "
+            tabIndex="-1"
+            data-bs-backdrop="fixed"
             data-bs-scroll="false"
           >
-            <div className="offcanvas-header">
-              <h5 className="offcanvas-title w-100 fs-14 fw-bold">
-                Fill your address
-                <div className="fs-10">Where you want to deliver</div>
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={() => {
-                  handleAddressClose();
+            <div className="offcanvas-body  m-0 p-0">
+              <div className="d-flex justify-content-end ">
+                <button
+                  type="button"
+                  className="btn-close faicons-size "
+                  onClick={() => {
+                    // onShortOrderOpenCloseHandler(false);
+                    onClose();
+                  }}
+                ></button>
+              </div>
+              {/* <MobHeaderComponent pinCode={pinCode} /> */}
+              <MobEnableLocationComponent
+                onClose={() => {
+                  // setIisEnableLocationShow(false);
+                  onClose();
                 }}
-              ></button>
-            </div>
-            <div className="offcanvas-body small">
-              {/* <MobFilterComponent /> */}
-              <MobAddAddressComponent />
+                onConfirm={(pinCode) => {
+                  onConfirmLocation(pinCode);
+                }}
+              />
             </div>
           </div>
         </>

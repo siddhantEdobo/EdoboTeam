@@ -46,6 +46,28 @@
 .mob-cart-component-wishlist {
   margin-right: 20px;
 }
+.wallet-input {
+  width: 50%; /* Set width to 50% */
+  padding: 10px; /* Add padding for better appearance */
+  box-sizing: border-box;
+  height: 20%; /* Ensure padding doesn't affect total width */
+}
+
+.d-flex {
+  display: flex; /* Flexbox layout for horizontal alignment */
+}
+
+.align-items-center {
+  align-items: center; /* Vertically align input and button */
+}
+
+.justify-content-center {
+  justify-content: center; /* Center the flex items (input + button) horizontally */
+}
+
+.ms-2 {
+  margin-left: 0.5rem; /* Add spacing between input and button */
+}
 
 .mob-cart-component-view-more-coupon {
   display: flex;
@@ -53,6 +75,10 @@
   align-items: center;
   height: 100%;
   border-top: 1px solid grey;
+}
+
+.btn-wallet {
+  background-color: red;
 }
 /* .mob-cart-component-tip-style {
   width: 50px;
@@ -214,6 +240,14 @@
   color: white; 
   border: 1px solid darkblue;
 } */
+.mob-cart-component-tip-selected-bold {
+  font-weight: bold; /* Makes the text bold */
+}
+.selected-tip {
+  font-weight: bold;
+
+  background-color: #4e974e;
+}
 
 .mob-cart-component-tip-selection-bg-white {
   width: 60px;

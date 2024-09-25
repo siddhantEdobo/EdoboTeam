@@ -593,6 +593,9 @@ ul li::before {
   align-items: center;
   cursor: pointer;
 }
+.red-border {
+  border: 1px solid #d41a25;
+}
 
 .cart-product-img-container {
   height: 120px;

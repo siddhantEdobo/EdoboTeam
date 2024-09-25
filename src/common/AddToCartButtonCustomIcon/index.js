@@ -41,12 +41,12 @@ const AddToCartButtonCustomIcon = ({ product }, props) => {
       }
       try {
         // Get the current quantity or default to 1 if not set
-        const quantity = productQuantities[product.id] || 1;
+        const quantity = productQuantities[product?.id] || 1;
         console.log(quantity);
         const response = await axios.post(
           "http://127.0.0.1:8000/api/v2/add-to-cart",
           {
-            product_id: product.id,
+            product_id: product?.id,
             qty: 1,
           },
           {
@@ -62,7 +62,7 @@ const AddToCartButtonCustomIcon = ({ product }, props) => {
         // Update the quantity in state after adding to cart
         setProductQuantities((prevQuantities) => ({
           ...prevQuantities,
-          [product.id]: (prevQuantities[product.id] || 0) + 1, // Ensure increment continues properly
+          [product?.id]: (prevQuantities[product?.id] || 0) + 1, // Ensure increment continues properly
         }));
       } catch (error) {
         console.error("Error adding to cart", error.response?.data || error);
@@ -80,7 +80,7 @@ const AddToCartButtonCustomIcon = ({ product }, props) => {
           "http://127.0.0.1:8000/api/v2/cart/product",
           {
             pincode: pincode,
-            product_id: product.id,
+            product_id: product?.id,
             action: "add",
           },
           {
@@ -110,7 +110,7 @@ const AddToCartButtonCustomIcon = ({ product }, props) => {
           "http://127.0.0.1:8000/api/v2/cart/product",
           {
             pincode: pincode,
-            product_id: product.id,
+            product_id: product?.id,
             action: "minus",
           },
           {
@@ -119,7 +119,7 @@ const AddToCartButtonCustomIcon = ({ product }, props) => {
             },
           }
         );
-        dispatch(decrementQuantity(product.id)); // Update Redux store
+        dispatch(decrementQuantity(product?.id)); // Update Redux store
         console.log("Product decremented successfully", response.data);
       } catch (error) {
         console.error(

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import useWindowDimensions from "../../utils/dimensionsHelpers";
 import AddToCartButtonCustomIcon from "../AddToCartButtonCustomIcon";
+import MobWishList from "../WishList/MobWishList";
 
 const MobProductCard = ({
   product,
@@ -45,15 +46,7 @@ const MobProductCard = ({
           <div className="mob-product-discount-container">14% Off</div>
         )}
         <div className="position-absolute bottom-0 start-0">
-          {!hideWishlist && (
-            <FontAwesomeIcon
-              icon={faHeart}
-              className="fa-2xl"
-              onClick={() => {
-                onClickWishlist();
-              }}
-            />
-          )}
+          {!hideWishlist && <MobWishList id={product?.id} />}
         </div>
       </div>
       <div className="mob-card-body position-relative">

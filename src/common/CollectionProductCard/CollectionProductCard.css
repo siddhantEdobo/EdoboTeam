@@ -3,8 +3,6 @@
   min-height: 130px;
 }
 
-
-
 .collection-product-card-align-end-cart-button {
   justify-content: flex-end;
 }
@@ -12,6 +10,13 @@
 .collection-product-card-img-container {
   width: 100px;
   height: 125px;
+}
+.remove {
+  padding-left: 200px;
+  height: 200px;
+  /* padding-top: -100px; */
+  padding-bottom: 30px;
+  position: absolute;
 }
 
 .collection-product-card-new-container {

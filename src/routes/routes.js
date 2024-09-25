@@ -6,7 +6,7 @@ const ROUTES_NAVIGATION = {
   PROFILE: "/profile",
   USER_ACCOUNT: "useraccount",
   USER_ORDER: "order",
-  USER_WISHLIST: "wishlist",
+  USER_WISHLIST: "/profile/wishlist",
   USER_ADDRESS: "address",
   USER_PAYMENT: "payment",
   USER_SETTING: "setting",

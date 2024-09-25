@@ -6,6 +6,7 @@ import AddToCartButtonCustomIcon from "../../../common/AddToCartButtonCustomIcon
 import { useNavigate } from "react-router-dom";
 import { addToCart } from "../../../redux/reducers/addCart";
 import { useDispatch } from "react-redux";
+import MobWishList from "../../../common/WishList/MobWishList";
 
 const VEGI_TYPE = [
   { id: 1, label: "Combo" },
@@ -104,15 +105,7 @@ const MobTabbingCollection = ({ data }) => {
                         </div>
                       )}
                       <div className="position-absolute bottom-0 start-0 ps-3">
-                        {true && (
-                          <FontAwesomeIcon
-                            icon={faHeart}
-                            className="fa-2xl"
-                            onClick={() => {
-                              // onClickWishlist();
-                            }}
-                          />
-                        )}
+                        {true && <MobWishList id={value.id} />}
                       </div>
                     </div>
                     <div className="card-body">

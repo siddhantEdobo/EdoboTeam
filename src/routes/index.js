@@ -184,6 +184,8 @@ const UserProfileAccount = Loadable(
 const UserWishlistComponent = Loadable(
   lazy(() => import("../component/UserWishlistComponent"))
 );
+
+
 const MobWishListComponent = Loadable(
   lazy(() => import("../mobcomponent/MobWishListComponent"))
 );

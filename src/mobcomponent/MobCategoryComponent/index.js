@@ -246,13 +246,13 @@ const MobCategoryComponent = () => {
     },
   ];
 
-  const onCategoryClickHandler = (item) => {
+  const onCategoryClickHandler = (item, value) => {
     console.log(
       "  ROUTES_NAVIGATION.BROWSE",
-      ROUTES_NAVIGATION.BROWSE + item?.redirecturl
-      // ROUTES_NAVIGATION.BROWSE + item?.redirecturl + "/" + item?.name
+      // ROUTES_NAVIGATION.BROWSE + item?.redirecturl
+      ROUTES_NAVIGATION.BROWSE + "/" + value?.alies + "/" + item?.name
     );
-    navigate(ROUTES_NAVIGATION.BROWSE + item?.redirecturl + "/all");
+    navigate(ROUTES_NAVIGATION.BROWSE + "/" + value?.alies + "/all");
     // navigate(ROUTES_NAVIGATION.BROWSE + item?.redirecturl + "/" + item?.name);
   };
 
@@ -267,7 +267,7 @@ const MobCategoryComponent = () => {
       />
 
       {/* <CategorySkeleton /> */}
-
+      {/* {categoryData.map((value) => { */}
       {productData?.data?.map((value) => {
         return (
           <div key={value?.id}>
@@ -278,7 +278,7 @@ const MobCategoryComponent = () => {
                   key={item.id}
                   className="mob-category-card mob-category-card-container"
                   onClick={() => {
-                    onCategoryClickHandler(item);
+                    onCategoryClickHandler(item, value);
                   }}
                 >
                   <div className="mob-category-card-img-container">

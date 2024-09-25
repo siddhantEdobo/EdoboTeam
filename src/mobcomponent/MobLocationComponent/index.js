@@ -604,7 +604,7 @@ const MobLocationComponent = ({
                   setIisEnableLocationShow(false);
                   onClose();
                 }}
-                onConfirm={(pinCode) => {
+                onConfirm={(pinCode) => { 
                   onConfirmLocation(pinCode);
                 }}
               />

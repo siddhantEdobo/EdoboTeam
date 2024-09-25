@@ -15,6 +15,8 @@ const MobBrowseMainCategoryListComponent = (props) => {
   // );
   console.log("MobBrowseMainCategoryListComponent render");
 
+  console.log("12121", categoryProduct);
+
   return (
     <div
       className="offcanvas offcanvas-end show offcanvas.show mob-browse-category-right-offcanvas p-0 m-0 shadow"
@@ -54,7 +56,7 @@ const MobBrowseMainCategoryListComponent = (props) => {
             <div className="mob-browse-category-offcanvas-img-container">
               <img
                 loading="lazy"
-                src={item?.imageSrc}
+                src={item?.icon}
                 alt=""
                 className="h-100 w-100"
               />
