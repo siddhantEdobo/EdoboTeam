@@ -30,3 +30,13 @@
 .active-nav-link {
   color: red;
 }
+
+.footer-icon{
+  width: 44px;
+  height: 49px;
+}
+
+.footer-icon-c{
+  width: 65px;
+  height: 49px;
+}

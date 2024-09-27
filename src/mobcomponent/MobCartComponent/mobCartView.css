@@ -1,0 +1,501 @@
+.cart-view{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  margin-bottom: 210px;
+  
+
+}
+
+.cart-view-header{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.Header-text{
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.button{
+  background-color: transparent;
+  border: none;
+  width: 30px;
+  height: 30px;
+
+  & .backIcon {
+      font-size: 20px;
+  }
+}
+
+.choose-dilevery-header{
+  font-size: 24px;
+
+  font-family: sans-serif;
+  font-weight: 600;
+}
+.dilevery-options {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  
+  width: 300px;
+  height: 65px;
+  border: 2px solid #e4e4e7;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.dilevery-option-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow-x: scroll;
+}
+
+.dilevery-options-header{
+  font-size: 18px;
+  font-weight: 600;
+  font-family: sans-serif;
+}
+
+.dilvery-icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.dilevery-instruction-container{
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+align-items: flex-start;
+  justify-content: space-between;
+  border-top: 2px solid #e4e4e7;
+  border-bottom: 2px solid #e4e4e7;
+  
+  
+
+}
+
+.dilevery-text {
+  display: flex;
+  flex-direction: column;
+
+  & .header {
+      font-size: 18px;
+      color: black;
+      font-weight: 500;
+      font-family: sans-serif;
+  }
+
+ 
+
+}
+
+.header{
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.instruction-card.selected {
+  border: 3px solid red; 
+  border-radius: 20px;
+}
+
+
+.dilevery-instruction {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.down-selection{
+  width: 100%;
+  overflow-x: scroll;
+
+}
+
+.wallet-button {
+  border: none;
+  background-color: #D41A25;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  padding: 5px;
+  font-family: sans-serif;
+  font-weight: 200;
+}
+
+.slot-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 200vh;
+  z-index: 23;
+  background-color: #00000080;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+
+}
+
+.slot-setting-container{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 400px;
+  background-color: white;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  & h2 {
+     color: black;
+     font-weight: 500;
+  }
+
+  & h5 {
+     color: #A4A4A4; 
+     text-align: center;
+  }
+
+}
+
+.date-selection-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  overflow-x: auto; /* Allows scrolling horizontally */
+  padding: 10px;
+  gap: 10px; /* Adds spacing between date items */
+}
+
+.date-container-unselected {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 80px;
+  height: 100px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px dotted #D41A25;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.date-container span {
+  font-size: 14px;
+  color: #000;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.date-container h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  color: #000;
+}
+
+.date-container-unselected:hover {
+  background-color: #f8b1b1;
+  border: solid 1px #D41A25;
+}
+
+.date-container-selected {
+  background-color: #D41A25; /* Highlighted background color for selected date */
+  color: white;
+  transform: scale(1.1); /* Slight zoom for selected date */
+}
+
+.date-container.selected h2, 
+.date-container.selected span {
+  color: white;
+}
+
+.date-container.selected h2 {
+  font-weight: 800; /* Extra bold for selected date number */
+}
+
+.date-container.selected span {
+  font-weight: 600; /* Bold day text */
+}
+
+
+
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.time-options {
+  display: flex;
+  flex-direction: row;
+  overflow: x;
+  
+  justify-content: space-around;
+}
+
+.time-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 50px;
+  font-family: sans-serif;
+  border-radius: 10px;
+  font-size: 14px; /* Smaller font size for non-selected slots */
+  color: #a9a9a9; /* Light grey for non-selected slots */
+  transition: transform 0.3s ease, background-color 0.3s ease, font-size 0.3s ease;
+}
+
+.time-slot.selected {
+  background-color: white;
+  font-family: sans-serif;
+  border: none;
+  font-size: 19px; /* Larger font size for selected slot */
+  font-weight: 600; /* Bold text for selected slot */
+  color: black; /* White text color for selected slot */
+}
+
+.slider-button {
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.slider-button:disabled {
+  color: #ccc; /* Disabled button color */
+  cursor: not-allowed;
+}
+
+.buttons{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.delivery-button {
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #D41A25;
+  color: white;
+  border: none;
+}
+
+.cancel-delivery-button{
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid #D41A25;
+  background-color: #FFF4F4;
+  color: black;
+}
+
+.instruction-card-container {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  overflow-x: scroll; /* Prevents horizontal overflow */
+}
+
+.instruction-card {
+  width: 200px;
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ccc; 
+  padding: 10px;
+
+  box-sizing: border-box; 
+  border-radius: 15px; 
+  margin: 10px;
+
+  & img{
+      width: 50px;
+      height: 50px;
+  }
+  & h3 {
+      font-size: 16px;
+      margin-left: 10px;
+  }
+
+
+}
+
+.wallet{
+  width: 100%;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid #c6c6c6;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #eeeeee;
+
+
+  & input{
+      width: 250px;
+      background-color: transparent;
+      border: none;
+      height: 25px;
+      font-size: 14px;
+      margin-right: 10px;
+      margin-left: 10px;
+  }
+
+  
+}
+.apply-cerdit{
+  font-size: 15px;
+  width: 50px;
+  height: 30px;
+  border-radius: 8px;
+  border: 2px solid #D41A25;
+  background-color: #FFF4F4;
+  color: black;
+}
+
+.payment-container{
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+ 
+  background-color: white;
+  position: fixed;
+  bottom: 0;
+
+  justify-content: center;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.bill-summary-container{
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid grey;
+
+}
+
+.Promo-ciode-code , .Bill-summary , .payment-mode-container{
+  padding: 20px;
+  width: 100%;
+  
+  border-bottom: 1px solid grey;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+
+  & span {
+      font-size: 16px;
+      margin-bottom: 2px;
+      font-family: sans-serif;
+    
+  }
+
+  & .right-icon{
+      font-size: 14px;
+  }
+
+ }
+
+ .mob-cart-component-payment-button{
+  width: 100%;
+  height: 60px;
+  background-color: #D41A25;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: white;
+  font-size: 20px;
+
+ }
+
+
+
+ .payment-modes-container {
+  display: flex;
+  height: 100px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  overflow-x: scroll;
+}
+
+.payment-mode-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin-left: 10px;
+  width: 110px;
+  height: 70px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.payment-mode-card:hover {
+  transform: scale(1.05);
+  border-color: #47c480; /* Hover effect color */
+}
+
+.payment-mode-icon {
+  width: 45px;
+  height: 45px;
+ 
+}
+
+.payment-mode-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.toggle-icon {
+  transition: transform 0.3s ease;
+}
+
+.toggle-icon.rotated {
+  transform: rotate(180deg);
+}

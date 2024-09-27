@@ -23,6 +23,7 @@ import ProductDetailsComponent from "../../component/ProductDetailsComponent";
 import MobSlideCollectionComponent from "./MobSlideCollectionComponent";
 import MobMultiBannerComponent from "./MobMultiBannerComponent/MobMultiBannerComponent";
 import MobTabbingCollection from "./MobTabbingCollectionComponent";
+import MobViewCart from './MobViewCart/index'
 import { setCartItems } from "../../redux/reducers/addCart";
 
 const MobHomeComponent = () => {
@@ -88,7 +89,7 @@ const MobHomeComponent = () => {
   console.log("data is ", productData);
 
   return (
-    <div className="home-container">
+    <div className="home-container" style={{marginTop: '60px'}}>
       <MobHeaderComponent />
       <MobSpecialEventComponent data={productData} />
       <MobBannerComponent data={productData} />
@@ -130,6 +131,7 @@ const MobHomeComponent = () => {
           </div>
         </>
       )}
+      <MobViewCart/>
     </div>
   );
 };

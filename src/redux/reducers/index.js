@@ -12,9 +12,10 @@ import couponReducer from "./coupon";
 import addDataReducer from "./gpsAdd";
 import walletReducer from "./walletSlice";
 import tipReducer from "./tipSlice";
-import deliveryReducer from "./walletSlice";
+import deliveryReducer from "./deliverySlice";
+import slotReducer from "./slot";
 // import addorderitemsmenu from "./addorderitemsmenu";
-
+import amountReducer from "./totalAmountPay";
 // ==============================|| COMBINE REDUCERS ||============================== //
 
 const reducers = combineReducers({
@@ -29,6 +30,8 @@ const reducers = combineReducers({
   wallet: walletReducer,
   tip: tipReducer,
   delivery: deliveryReducer,
+  slot: slotReducer,
+  totalAmount: amountReducer,
 });
 
 export default reducers;

@@ -1,4 +1,4 @@
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan , faTimes} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import axios from "axios";
@@ -182,9 +182,10 @@ const MobCartProductSelectedList = () => {
             <div className="border-bottom d-flex">
               <div className="bg-danger mob-cart-product-img-container">
                 <img
-                  className="w-100 h-100"
+                  
                   src={`http://103.165.118.218/edobo/${item.thumb_image_url}`}
                   alt="productimage"
+                  width={'80px'}
                 />
               </div>
               <div className="d-flex justify-content-between flex-fill">
@@ -197,7 +198,7 @@ const MobCartProductSelectedList = () => {
                     <div className="fw-bold text-nowrap">
                       ₹ {item.compare_price}
                     </div>
-                    <div className="text-decoration-line-through text-nowrap text-danger">
+                    <div className="text-decoration-line-through text-nowrap text-grey">
                       ₹ {item.price}
                     </div>
                   </div>
@@ -205,7 +206,7 @@ const MobCartProductSelectedList = () => {
                 <div className="d-flex flex-column gap-1 align-items-end justify-content-around">
                   <div>
                     <FontAwesomeIcon
-                      icon={faTrashCan}
+                      icon={faTimes}
                       className="text-danger faicons-size"
                       onClick={() => handleRemove(item)}
                     />
@@ -225,7 +226,7 @@ const MobCartProductSelectedList = () => {
           </div>
         ))
       ) : (
-        <div className="p-3">No items in the cart</div>
+        <div></div>
       )}
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import MobHeaderComponent from "../MobHeaderComponent";
-import "./MobCartComponent.css";
+import MobHeaderComponent from "../MobHeaderNavigation";
+import "./mobCartView.css";
 import Slider from "react-slick";
 import AddToCartButton from "../../common/AddToCartButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,6 +17,7 @@ import {
   faPhoneSlash,
   faUserSecret,
   faDoorClosed,
+  faChevronDown,
   faLocationPin,
   faCircle,
 } from "@fortawesome/free-solid-svg-icons";
@@ -30,9 +31,22 @@ import MobCartProductSelectedList from "./MobCartProductSelectedList";
 import MobCartBillingComponent from "./MobCartBillingComponent";
 import MobProductCard from "../../common/MobProductCard";
 import { Images } from "../../assets";
+import express from '../../assets/Icon/expressDilev.png'
+import slot from '../../assets/Icon/slotDilv.png'
+import pickup from '../../assets/Icon/pickup.png'
+import location from '../../assets/Icon/location.png'
+import delivery from '../../assets/Icon/delivery.png'
+import wishlist from '../../assets/Icon/wishlist.png'
+import wallet from '../../assets/Icon/wallet.png'
+import leaveWithGuard from '../../assets/Icon/leaveWithGuard.png'
+import leaveWithDoor from '../../assets/Icon/leaveWithHome.png'
+import avoidcall from '../../assets/Icon/avoidCall.png'
+import dogs from '../../assets/Icon/bewareOfDog.png'
+import coins from '../../assets/Icon/coins.png'
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { useDispatch, useSelector } from "react-redux";
+import EmptyCart from './EmptyCart'
 import { addCoupon, removeCoupon } from "../../redux/reducers/coupon";
 import {
   applyWalletAmount,
@@ -40,6 +54,12 @@ import {
 } from "../../redux/reducers/walletSlice";
 import { removeTip, selectTip } from "../../redux/reducers/tipSlice";
 import { toggleCardSelection } from "../../redux/reducers/deliverySlice";
+import {
+  setDeliveryType,
+  setSelectSlot,
+  setSelectedDate,
+} from "../../redux/reducers/slot";
+import MobHeaderNavigation from "../MobHeaderNavigation";
 // import { faUserSecret, faDoorClosed, faPhoneSlash, faCat } from '@fortawesome/free-solid-svg-icons';
 
 const OFFERSCODE = [
@@ -145,6 +165,27 @@ const EDITIBLE = [
   },
 ];
 
+
+const instruction = [
+  {
+    instructionIcons: leaveWithGuard,
+    title : 'Leave with guard'
+  },
+  {
+    instructionIcons: leaveWithDoor,
+    title : 'Leave with door'
+  },
+  {
+    instructionIcons: avoidcall,
+    title : 'Avoid calls'
+  },
+  {
+    instructionIcons: dogs,
+    title : 'Beware of pets'
+  },
+  
+]
+
 const MobCartComponent = () => {
   const [showInput, setShowInput] = useState(false);
   const [walletAmount, setWalletAmount] = useState(0); // Local state to track wallet amount input
@@ -157,8 +198,13 @@ const MobCartComponent = () => {
   const availableBalance = useSelector(
     (state) => state.wallet.availableBalance
   );
+  const coupon = useSelector((state) => state.coupons.appliedCoupon);
   const selectedTip = useSelector((state) => state.tip.selectedTip);
+  const amount = useSelector((state) => state.totalAmount.amount);
+  console.log("amount to pay ", amount);
   const selectedCards = useSelector((state) => state.delivery.selectedCards); // Adjust state path if necessary
+  const { deliveryType, selectSlot } = useSelector((state) => state.delivery);
+  console.log("cards select", selectedCards);
 
   const handleUseClick = () => {
     setShowInput(!showInput); // Toggle the input box
@@ -186,14 +232,16 @@ const MobCartComponent = () => {
   //   setAppliedWalletAmount(walletAmount);
   //   setShowInput(false); // Hide input after applying
   // };
-
+  const [DeliveryOption , SetDeliveryOption] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [selectedSlot, setSelectedSlot] = useState(null);
   const navigate = useNavigate();
-
+  const [instructionCon , setInstruction] = useState(false)
   const [selectedInstructions, setSelectedInstructions] = useState([]);
   const [showCouponComponent, setShowCouponComponent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [walletDownMenu , setWalletDownMenu] = useState(false)
+  const [userInstruction, setUserInstruction] = useState([]);
   // const [selectedCards, setSelectedCards] = useState([]);
   // const [selectedTips, setSelectedTips] = useState([]);
   const [selectedTips, setSelectedTips] = useState(null);
@@ -226,7 +274,9 @@ const MobCartComponent = () => {
   // };
 
   const handleToggleCardSelection = (index) => {
-    dispatch(toggleCardSelection(index)); // Dispatch the action to update Redux state
+    dispatch(toggleCardSelection(index));
+    console.log(selectedCards);
+    // Dispatch the action to update Redux state
 
     // const isSelected = selectedCards.includes(index);
     // if (isSelected) {
@@ -239,21 +289,24 @@ const MobCartComponent = () => {
 
   //
 
-  const handleInstructionToggle = (instruction) => {
-    // Check if the instruction is already selected
-    if (selectedInstructions.includes(instruction)) {
-      // If selected, remove it from the selected instructions
-      setSelectedInstructions(
-        selectedInstructions.filter((item) => item !== instruction)
-      );
+
+  
+  const handleAddInstruction = (data) => {
+  
+    if (!userInstruction.includes(data)) {
+      setUserInstruction([...userInstruction, data]); 
     } else {
-      // If not selected, add it to the selected instructions
-      setSelectedInstructions([...selectedInstructions, instruction]);
+      setUserInstruction(userInstruction.filter(item => item !== data)); 
     }
+
+    console.log(userInstruction);
+    
   };
 
+  
+
   const handleSlotSelection = (slot) => {
-    setSelectedSlot(slot);
+    dispatch(setSelectSlot(slot));
   };
 
   const handleProceedToPayment = () => {
@@ -277,13 +330,14 @@ const MobCartComponent = () => {
 
   const token = cookies.get("auth_token");
   // const coupon = useSelector((state) => [...state.coupons.appliedCoupons]);
-  const coupon = useSelector((state) => state.coupons.appliedCoupon);
   console.log("couponsss  ", coupon);
 
   const dispatch = useDispatch();
   const [code, setCode] = useState(null);
   // const [couponCode, setCouponCode] = useState(coupon.map((item) => item.code));
   const [couponCode, setCouponCode] = useState(coupon ? coupon.code : "");
+  const cartItems = useSelector((state) => state.cart.items);
+  const [billSummary , setBillSummary] = useState(false)
   const [slotshow, setSlotShow] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   console.log(couponCode);
@@ -321,32 +375,117 @@ const MobCartComponent = () => {
     }
   };
 
+
+// Slot delivery - Anirudh Bhardwaj
+
+  const date = [
+    {
+      date: '20',
+      day: 'MON'
+    },
+    {
+      date: '21',
+      day: 'TUE'
+    },
+    {
+      date: '22',
+      day: 'WED'
+    },
+    {
+      date: '23',
+      day: 'THUR'
+    },
+   
+    
+  ]
+
+  const timeSlots = ['','10AM-12PM','12PM-2PM','2PM-4PM','4PM-6PM','6PM-8PM']
+
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedTime, setSelectedTime] = useState('');
+  const [selectedIndex, setSelectedIndex] = useState(2);
+
+  const handleDateClick = (clickedDate) => {
+
+    setSelectedDate(clickedDate);
+  };
+
+  
+  const handleTimeSlotClick = (time) => {
+    console.log(time)
+    setSelectedTime(time);
+  };
+
+  const handleConfirmDelivery = () => {
+    console.log('clicked')
+    console.log('Selected Date:', selectedDate);
+    console.log('Selected Time:', selectedTime);
+    SetDeliveryOption('')
+    alert('Slot booked sucessfully')
+  };
+  // Swipe Feature
+
+  
+  let touchStartX = 0;
+
+  // Handle touch start
+  const handleTouchStart = (e) => {
+    touchStartX = e.touches[0].clientX; // Record the touch starting point
+  };
+
+  // Handle touch end
+  const handleTouchEnd = (e) => {
+    const touchEndX = e.changedTouches[0].clientX; // Record where the touch ended
+    const touchDifference = touchStartX - touchEndX;
+
+    if (touchDifference > 50 && selectedIndex < timeSlots.length - 1) {
+      // Swipe left (move to the next time slot)
+      setSelectedIndex(selectedIndex + 1);
+    } else if (touchDifference < -50 && selectedIndex > 0) {
+      // Swipe right (move to the previous time slot)
+      setSelectedIndex(selectedIndex - 1);
+    }
+  };
+
+
+  // Slot Delivery - Anirudh -----End
+
+
+
+
+
+
   const handleShowSlot = () => {
     setSlotShow(!slotshow);
     setIsClicked(2);
+    dispatch(setDeliveryType(2));
   };
 
   const handleSelect1 = () => {
     setSlotShow(false);
 
     setIsClicked(1);
+    dispatch(setDeliveryType(1));
   };
 
   const handleSelect2 = () => {
     setSlotShow(false);
 
     setIsClicked(3);
+    dispatch(setDeliveryType(3));
   };
 
-  return (
-    <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={" Cart"}
-        isCartShow={false}
-        isEdoboLogo={true}
-        isBottomTab={false}
-      />
+  const handleDateChange = (date) => {
+    setStartDate(date);
+
+    // Dispatch the action to store the selected date in Redux
+    // dispatch(setSelectedDate(date));
+    dispatch(setSelectedDate(date.toISOString()));
+  };
+
+ if(amount <=0){ return (
+    <div className="cart-view">
+      <MobHeaderNavigation text={`Your Cart  (items)`}/>
       <div className="container-lg home-container">
         <div
           id="carouselExampleInterval"
@@ -399,117 +538,237 @@ const MobCartComponent = () => {
           </div>
           <div className="btn">Empty Cart</div>
         </div> */}
-        <div className=" mt-3 border border-danger rounded-3">
+    <div className=" mt-3 mb-10 border border-danger rounded-3">
           <div className="d-flex align-items-center gap-2 mb-2 ps-2 mt-1">
-            <FontAwesomeIcon icon={faWallet} className="faicons-size" />
-            <div className="">Pickup and Delivery Options</div>
+  
+            <div className="choose-dilevery-header">Choose a dilevery type</div>
           </div>
-          <div className="conatiner d-flex justify-content-between mb-4 gap-3 ps-2 pe-2">
-            <div
-              className={`card w-75 cart-delivery-type-card shadow-sm cursor-pointer ${
-                isClicked === 1 ? "red-border" : ""
-              }`}
-              onClick={handleSelect1}
+          <div className="dilevery-option-container">
+            <div className="dilevery-options "
+            style={{ borderColor: DeliveryOption === 'Express' ? 'red' : '#e4e4e7', borderWidth: '2px', borderStyle: 'solid' }}
+             onClick={()=>{
+              SetDeliveryOption('Express')
+              
+            }}
             >
-              <FontAwesomeIcon icon={faBus} className="faicons-size" />
-              <div>Shoping</div>
-              <div>Express Delivery</div>
+             <img src={express} className="dilvery-icon"/>
+              <div style={{display: 'flex' , flexDirection: 'column-reverse' , alignItems: 'center'}}>
+                <span>Available</span>
+                <span className="dilevery-options-header">Express</span>
+
+              </div>
             </div>
-            <div
-              className={`card w-75 cart-delivery-type-card shadow-sm cursor-pointer ${
-                isClicked === 2 ? "red-border" : ""
-              }`}
+            <div className="dilevery-options"
+             style={{ borderColor: DeliveryOption ===  'Slot' ? 'red' : '#e4e4e7', borderWidth: '2px', borderStyle: 'solid' }}
+            onClick={()=>SetDeliveryOption('Slot')}
             >
-              <FontAwesomeIcon
-                icon={faCar}
-                className="faicons-size"
-                onClick={handleShowSlot}
-              />
-              <div>Shoping</div>
-              <div>Slot Delivery</div>
+            <img src={slot} className="dilvery-icon"/>
+              <div
+             
+              style={{display: 'flex' , flexDirection: 'column-reverse' , alignItems: 'center' }}>
+                <span>Available</span>
+                <span className="dilevery-options-header">Slot</span>
+
+              </div>
             </div>
-            <div
-              className={`card w-75 cart-delivery-type-card shadow-sm cursor-pointer ${
-                isClicked === 3 ? "red-border" : ""
-              }`}
-              onClick={handleSelect2}
+            <div className="dilevery-options"
+             style={{ borderColor: DeliveryOption === 'Pick_up' ? 'red' : '#e4e4e7', borderWidth: '2px', borderStyle: 'solid' }}
+             onClick={()=>SetDeliveryOption('Pick_up')}
             >
-              <FontAwesomeIcon icon={faBagShopping} className="faicons-size" />
-              <div>Shoping</div>
-              <div>Pickup</div>
+            <img src={pickup} className="dilvery-icon"/>
+              <div style={{display: 'flex' , flexDirection: 'column-reverse' , alignItems: 'center'}}>
+                <span>Available</span>
+                <span className="dilevery-options-header" >Pickup</span>
+
+              </div>
+            
             </div>
           </div>
         </div>
-        {slotshow && (
-          <div className="mt-2 border border-danger rounded-3">
-            <div className=" row  ">
-              <div className="col-7">
-                <div className=" fw-bold p-2">How do you want your item ?</div>
 
-                <div className="m-2 card w-50 cart-delivery-type-card shadow-sm border-danger cursor-pointer">
-                  <FontAwesomeIcon
-                    icon={faCalendarDays}
-                    className="faicons-size text-danger"
-                  />
-                  <div className="p-2 pt-2 ">
-                    {/* <DatePicker
-                    className="w-100  h-25 justify-content-center text-danger p-1"
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                  /> */}
-                    <DatePicker
-                      className="w-100  h-25 justify-content-center text-danger p-1"
-                      selected={startDate}
-                      onChange={(date) => setStartDate(date)}
-                      minDate={new Date()} // Disable previous dates
-                    />
-                  </div>
-                </div>
-              </div>
+        {/* Slot Menu */}
+        {
+        DeliveryOption == 'Slot' && (
+        <div className="slot-container">
 
-              <div className="col-5 border-danger">
-                <div className=" mt-2 fw-bold">AVAILABLE SLOT</div>
-
-                <div className="mt-3 me-2">
-                  <div
-                    className={`${
-                      selectedSlot === "7-10"
-                        ? "mob-cart-component-selected-slot"
-                        : "mob-cart-component-normal-slot"
-                    }`}
-                    onClick={() => handleSlotSelection("7-10")}
-                  >
-                    7:00 AM - 10:00 AM
-                  </div>
-                  <div
-                    className={`${
-                      selectedSlot === "10-1"
-                        ? "mob-cart-component-selected-slot"
-                        : "mob-cart-component-normal-slot"
-                    } mt-2`}
-                    onClick={() => handleSlotSelection("10-1")}
-                  >
-                    10:00 AM - 01:00 PM
-                  </div>
-
-                  <div
-                    className={`${
-                      selectedSlot === "1-3"
-                        ? "mob-cart-component-selected-slot"
-                        : "mob-cart-component-normal-slot"
-                    } mt-2`}
-                    onClick={() => handleSlotSelection("1-3")}
-                  >
-                    10:00 AM - 01:00 PM
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="slot-setting-container">
+          <h2>Select delivery's date & time</h2>
+      <div>
+        <h5>Select available dates</h5>
+        <div className="date-selection-container">
+      {date.map((date, index) => (
+        <div
+          key={index}
+          className={`date-container-${selectedDate === date ? 'selected' : 'unselected'}`}
+          onClick={() => handleDateClick(date)} // Handle date click
+        >
+          <span>{date.day}</span>
+          <h2>{date.date}</h2>
+          <span>MAY</span>
+        </div>
+      ))}
+    </div>
+      </div>
+      <div>
+        <h5>Choose time slots</h5>
+        <div
+      className="slider-container"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div className="time-options">
+      {timeSlots.slice(selectedIndex - 1, selectedIndex + 2).map((time, index) => (
+    <div
+      key={index}
+      className={`time-slot ${index === 1 ? 'selected' : ''}`}
+      onClick={() => handleTimeSlotClick(time)} 
+    >
+      {time}
+    </div>
+  ))}
+      </div>
+    </div>
+      </div>
+      <div className="buttons">
+        <button className="cancel-delivery-button" onClick={() => SetDeliveryOption('')}>Cancel Delivery</button>
+        <button className="delivery-button" onClick={handleConfirmDelivery}>
+          Confirm Delivery
+        </button>
+      </div>
           </div>
-        )}
-        <div className="mt-2 text-secondary">
+                 
+        </div>)
+      }
+        
+        <div className="dilevery-instruction-container">
+        <div className="dilevery-instruction">
+            <div>
+                 <img src={location} width={'20px'} height={'20px'}  style={{marginBottom: '5px' , marginRight:'10px'}}/>
+                 <span className="header">Delivery address</span>
+            </div>
+
+            <div  onClick={()=>{ navigate(ROUTES_NAVIGATION.CHANGE_LOCATION)}}>
+                       <FontAwesomeIcon icon={faChevronRight} />
+            </div>
+        </div>
+        <div className="down-selection">
+              {
+                // add
+              }
+  
+  
+</div>
+
+       
+      </div>
+      <div className="dilevery-instruction-container">
+      <div className="dilevery-instruction">
+        <div>
+          <img src={delivery} width={'20px'} height={'20px'} style={{ marginBottom: '5px' , marginRight:'10px'}} alt="Delivery" />
+          <span className="header">Delivery instruction</span>
+        </div>
+
+        <div onClick={() => setInstruction(!instructionCon)}>
+          <FontAwesomeIcon
+            icon={instructionCon ? faChevronDown : faChevronRight}
+            className={`toggle-icon ${instructionCon ? 'rotated' : ''}`}
+          />
+        </div>
+      </div>
+      <div className="down-selection">
+        {
+          instructionCon ? (
+            <div className="instruction-card-container">
+              {
+                instruction.map((items) => (
+                  <div
+                    key={items.title} 
+                    className={`instruction-card ${userInstruction.includes(items) ? 'selected' : ''}`}
+                    onClick={() => handleAddInstruction(items)}
+                  >
+                    <img src={items.instructionIcons} alt={items.title} />
+                    <h3>{items.title}</h3>
+                  </div>
+                ))
+              }
+            </div>
+          ) :
+          (<span></span>)
+        }
+      </div>
+    </div>
+
+    <div className="dilevery-instruction-container">
+        <div className="dilevery-instruction">
+            <div>
+                 <img src={wishlist} width={'20px'} height={'20px'}  style={{marginBottom: '5px' , marginRight:'10px'}}/>
+                 <span className="header">Expore wish list</span>
+            </div>
+
+            <div >
+                       <FontAwesomeIcon icon={faChevronRight} />
+            </div>
+        </div>
+        <div className="down-selection">
+              {
+                // add
+              }
+</div>
+ </div>
+
+ <div className="dilevery-instruction-container">
+        <div className="dilevery-instruction">
+            <div>
+                 <img src={wallet} width={'20px'} height={'20px'}  style={{marginBottom: '5px' , marginRight:'10px'}}/>
+                 <span className="header">Wallet</span>
+            </div>
+
+            <div onClick={
+              ()=>setWalletDownMenu(!walletDownMenu)
+              
+              }>
+                       <FontAwesomeIcon icon={faChevronRight} />
+            </div>
+        </div>
+        <div className="down-selection">
+              {  
+                 walletDownMenu ? 
+                 (
+                 <div className="wallet">
+                     <img src={coins} width={'30px'} height={'30px'}/>
+                      <input className="walletInput" type="text" placeholder="Add the amount which you want to use "/>
+                      <button className="apply-cerdit">Apply</button>
+                 </div>
+                 ): 
+                 (
+                 <span>
+                   ₹234
+                 </span>)
+
+                 
+              }
+</div>
+</div>
+
+{/* <div className="mt-3 d-flex gap-2">
+          <FontAwesomeIcon icon={faTags} className="faicons-size text-danger" />
+          <div className=" fw-bold">Unlock New Offers</div>
+        </div>
+        <div className="mt-2 mob-cartcomponent-scroll-view-container">
+          <div className="justify-content-center">
+            {NEWOFFERS.map((item) => {
+              return (
+                <div className="mb-2" key={item.id}>
+                  <CartUnlockCardComponent {...item} />
+                </div>
+              );
+            })}
+          </div>
+        </div> */}
+       
+        {/* <div className="mt-2 text-secondary">
           Any instructions? eg Delivery before 9 am
-        </div>
+        </div> */}
         {/* <div className="mt-3 d-flex gap-2">
           <FontAwesomeIcon icon={faTags} className="faicons-size text-danger" />
           <div className=" fw-bold">Unlock New Offers</div>
@@ -627,28 +886,7 @@ const MobCartComponent = () => {
           )}
         </div>
 
-        <div className="mt-3 card p-2">
-          <div className="fw-bold">Tip Your Delivery Partner</div>
-          <div className="fs-10 text-secondary">
-            The entire amount will be sent to your delivery partner
-          </div>
-
-          <div className="ps-0 mt-2 d-flex">
-            {[0, 1, 2, 3].map((index) => (
-              <div
-                key={index}
-                className={`mob-cart-component-tip-selection-bg-white ${
-                  selectedTip === 10 * (index + 1) // Compare with the calculated tipAmount
-                    ? "mob-cart-component-tip-selected-bg-blue selected-tip"
-                    : ""
-                }`}
-                onClick={() => tipCardSelection(index)}
-              >
-                ₹{10 * (index + 1)}
-              </div>
-            ))}
-          </div>
-        </div>
+       
 
         {/* <div className="mt-3 card p-2">
           <div className="fw-bold">Tip Your Delivery Partner</div>
@@ -774,7 +1012,7 @@ const MobCartComponent = () => {
             <div className="card mob-cart-component-tip-style">₹40</div>
           </div>
         </div> */}
-        <div className="mt-3 ">
+        {/* <div className="mt-3 ">
           <div className="row pt-1 mob-cart-component-view-more-coupon">
             <div className="col-3 p-0 ps-3 ">
               <FontAwesomeIcon icon={faWallet} className="faicons-size pt-1" />
@@ -811,12 +1049,12 @@ const MobCartComponent = () => {
               </button>
             </div>
           )}
-        </div>
-        <MobCartBillingComponent
+        </div> */}
+        {/* <MobCartBillingComponent
           selectedTip={selectedTips}
           coupon={coupon?.amount}
           walletAmount={appliedWalletAmount}
-        />
+        /> */}
         {/* <div className="d-flex mt-3 p-2 border border-danger rounded-2 gap-2">
           <div className="mob-cart-component-paynow-container-img">
             <img src={Images.paynow} alt="paynow" className="w-100 h-100" />
@@ -824,104 +1062,8 @@ const MobCartComponent = () => {
 
           <div>You will earn 2974 edobo credito worth ₹29.74</div>
         </div> */}
-        <div className="mt-3">
-          <div className="fw-bold">Delivery Instructions</div>
-          <div className="d-flex mt-2">
-            <div
-              className={`card ms-0 mob-cart-component-delivery-instruction ${
-                selectedCards?.includes(0)
-                  ? "mob-cart-component-selected-delivery-instraction"
-                  : ""
-              }`}
-              onClick={() => handleToggleCardSelection(0)}
-            >
-              <FontAwesomeIcon
-                icon={faUserSecret}
-                className="faicons-size pb-1"
-              />
-              <div>Leave with</div>
-              <div>guard</div>
-            </div>
+      
 
-            <div
-              className={`card mob-cart-component-delivery-instruction ${
-                selectedCards?.includes(1)
-                  ? "mob-cart-component-selected-delivery-instraction"
-                  : ""
-              }`}
-              onClick={() => handleToggleCardSelection(1)}
-            >
-              <FontAwesomeIcon
-                icon={faDoorClosed}
-                className="faicons-size pb-1"
-              />
-              <div>Leave at</div>
-              <div>door</div>
-            </div>
-
-            <div
-              className={`card mob-cart-component-delivery-instruction ${
-                selectedCards?.includes(2)
-                  ? "mob-cart-component-selected-delivery-instraction"
-                  : ""
-              }`}
-              onClick={() => handleToggleCardSelection(2)}
-            >
-              <FontAwesomeIcon
-                icon={faPhoneSlash}
-                className="faicons-size pb-1"
-              />
-              <div>Avoid </div>
-              <div>calling</div>
-            </div>
-
-            <div
-              className={`card mob-cart-component-delivery-instruction ${
-                selectedCards?.includes(3)
-                  ? "mob-cart-component-selected-delivery-instraction"
-                  : ""
-              }`}
-              onClick={() => handleToggleCardSelection(3)}
-            >
-              <FontAwesomeIcon icon={faCat} className="faicons-size pb-1" />
-              <div>Beware </div>
-              <div>of pets</div>
-            </div>
-          </div>
-
-          {/* <div className="d-flex mt-2">
-            <div className="card ms-0 mob-cart-component-delivery-instruction">
-              <FontAwesomeIcon
-                icon={faUserSecret}
-                className="faicons-size pb-1"
-              />
-              <div>Leave with</div>
-              <div>guard</div>
-            </div>
-
-            <div className="card mob-cart-component-delivery-instruction">
-              <FontAwesomeIcon
-                icon={faDoorClosed}
-                className="faicons-size pb-1"
-              />
-              <div>Leave at</div>
-              <div>door</div>
-            </div>
-            <div className="card mob-cart-component-delivery-instruction">
-              <FontAwesomeIcon
-                icon={faPhoneSlash}
-                className="faicons-size pb-1"
-              />
-              <div>Avoid </div>
-              <div>calling</div>
-            </div>
-            <div className="card mob-cart-component-delivery-instruction">
-              <FontAwesomeIcon icon={faCat} className="faicons-size pb-1" />
-              <div>Bewear </div>
-              <div>of pets</div>
-            </div>
-          </div> */}
-        </div>
         <div className=" mt-3 fw-bold">
           <div>
             Please review your order and address details to avoid cancellations
@@ -935,33 +1077,124 @@ const MobCartComponent = () => {
           </div>
         </div>
       </div>
-      <div className="card position-fixed bottom-0 w-100 shadow-lg">
-        <div className="d-flex justify-content-between">
-          <div className="mt-1 mob-cart-component-delivery-payment">
-            Deliver to - 400074, Chembur Colony, 123...
+      {cartItems.length > 0 && (
+        <div className="card position-fixed bottom-0 w-100 shadow-lg">
+          <div className="d-flex justify-content-between">
+            <div className="mt-1 mob-cart-component-delivery-payment">
+              Deliver to - 400074, Chembur Colony, 123...
+            </div>
+            <div
+              className="text-center cursor-pointer mt-1 pe-2 text-danger"
+              onClick={() => {
+                // navigate(ROUTES_NAVIGATION.CHANGE_LOCATION);
+                navigate(ROUTES_NAVIGATION.ORDER_CONFIRM);
+                // need to ask where will be order confirm redirection.
+              }}
+            >
+              <FontAwesomeIcon icon={faLocationPin} className=" pe-1" />
+              CHANGE
+            </div>
           </div>
-          <div
-            className="text-center cursor-pointer mt-1 pe-2 text-danger"
+
+          <div className=" mt-1 d-flex justify-content-between">
+            <div className=" ps-2 mt-2 ">
+              <div className="fs-10">Amount to pay</div>
+              <div className="fw-bold">₹{amount}</div>
+            </div>
+
+            <div
+              className="mob-cart-component-payment-button cursor-pointer"
+              onClick={handleProceedToPayment}
+            >
+              {isLoading ? "Loading..." : "Proceed To Payment"}
+            </div>
+
+            {/* <div
+            className="mob-cart-component-payment-button cursor-pointer" 
             onClick={() => {
-              // navigate(ROUTES_NAVIGATION.CHANGE_LOCATION);
-              navigate(ROUTES_NAVIGATION.ORDER_CONFIRM);
-              // need to ask where will be order confirm redirection.
+              // navigate(ROUTES_NAVIGATION.ORDER_CONFIRM);
+              navigate(ROUTES_NAVIGATION.CHANGE_LOCATION);
             }}
           >
-            <FontAwesomeIcon icon={faLocationPin} className=" pe-1" />
-            CHANGE
+            Proceed To Payment
+          </div> */}
           </div>
         </div>
+      )}
+
+
+       <div className="payment-container">
+       
+       {/* <div className="Promo-ciode-code">
+        <span>Apply promo code</span>
+        <div
+         onClick={() => {
+          navigate(ROUTES_NAVIGATION.ALL_COUPONS_LIST);
+        }}
+         style={{ display: 'flex',flexDirection: 'row',alignItems: 'center'}}>
+          <span>New code</span>
+          <FontAwesomeIcon icon={faChevronRight} className="right-icon"/>
+        </div>
+       </div> */}
+
+     <div className="bill-summary-container">
+     <div className="Bill-summary">
+        <span>Bill summary</span>
+        <div
+           onClick={() => {
+           setBillSummary(!billSummary)
+          }}
+         style={{ display: 'flex',flexDirection: 'row',alignItems: 'center'}}>
+          <span>{EDITIBLE.length} item | <b>₹{amount}</b> </span>
+          <FontAwesomeIcon icon={faChevronRight} className="right-icon"/>
+        </div>
+       
+       </div>
+       {
+          billSummary && (<div style={{padding: '10px'}}>
+            <MobCartBillingComponent
+          selectedTip={selectedTips}
+          coupon={coupon?.amount}
+          walletAmount={appliedWalletAmount}
+        />
+          </div>)
+        }
+     </div>
+
+
+     <div className="bill-summary-container">
+     <div className="Bill-summary">
+        <span>Cash</span>
+        <div
+          
+         style={{ display: 'flex',flexDirection: 'row',alignItems: 'center'}}>
+          <span>Change mode</span>
+          <FontAwesomeIcon icon={faChevronRight} className="right-icon"/>
+        </div>
+       
+       </div>
+    {/*   <div className="payment-modes-container">
+
+       {paymentsModes.map((item, index) => (
+        <div key={index} className="payment-mode-card">
+          <img src={item.icon} alt={item.title} className="payment-mode-icon" />
+          <span className="payment-mode-title">{item.title}</span>
+        </div>
+      ))}
+       </div> */}
+     </div>
 
         <div className=" mt-1 d-flex justify-content-between">
-          <div className=" ps-2 mt-2 ">
-            <div className="fs-10">Amount to pay</div>
-            <div className="fw-bold">₹2,974</div>
-          </div>
+        
+          
 
           <div
             className="mob-cart-component-payment-button cursor-pointer"
-            onClick={handleProceedToPayment}
+            onClick={() => {
+          
+              navigate(ROUTES_NAVIGATION.ORDER_CONFIRM);
+          
+            }}
           >
             {isLoading ? "Loading..." : "Proceed To Payment"}
           </div>
@@ -977,8 +1210,11 @@ const MobCartComponent = () => {
           </div> */}
         </div>
       </div>
-    </>
-  );
+    </div>
+  )}
+  else {
+    return(<EmptyCart/>)
+  }
 };
 
 export default MobCartComponent;

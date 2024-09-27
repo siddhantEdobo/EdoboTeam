@@ -19,7 +19,12 @@ import ModalComponent from "../LoginComponent/ModalComponent";
 import LoginComponent from "../LoginComponent";
 import { Link } from "react-router-dom";
 import SubheaderComponent from "./SubheaderComponent";
+import companyLogo from '../../assets/edobo-logo.jpg'
+import  categoryMenu from '../../assets/Icon/category.png'
 import Edobostorecomponent from "../EdoboStoreComponent";
+import { commonColor } from "../../utils/commonColor";
+import favourite from '../../assets/Icon/favourite.png'
+import cart from '../../assets/Icon/cart.png'
 
 const HeaderComponent = () => {
   const { setShowLoader } = useLoader();
@@ -311,13 +316,14 @@ const HeaderComponent = () => {
   return (
     <>
       <nav className="navbar navbar-expand-lg edobo-red container-fluid fixed-top">
-        <div className="container-fluid">
+        <div className="container-fluid m-10px">
           <img
-            src="https://www.edobo.in/s/60a39f1801d30d79c4caa94b/originals/64de15fc3fb6e72840fe1abf/logo-for-web.svg"
+          
             alt="Bootstrap"
+            src={companyLogo}
             className="bg-light"
             width={"10%"}
-            height={"100%"}
+            height={"55px"}
           />
           <button
             className="navbar-toggler"
@@ -328,150 +334,169 @@ const HeaderComponent = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon">005404</span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto align-items-center flex-grow-1">
-              <li className="nav-item dropdown" ref={dropdownRef}>
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="/"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  All Categories
-                </a>
-                <ul className="dropdown-menu" ref={menuRef}>
-                  <div className="d-flex align-items-start">
-                    <div
-                      className="nav flex-row nav-pills me-3 header-categories-menu"
-                      id="v-pills-tab"
-                      role="tablist"
-                      aria-orientation="horizontal"
+            <li className="nav-item dropdown" ref={dropdownRef}>
+  <a
+    className="nav-link align-items-center d-flex" 
+    href="/"
+    role="button"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+    style={{ display: 'flex', alignItems: 'center' }}
+  >
+    <img
+    onClick={()=>navigate(ROUTES_NAVIGATION.HOME)}
+      src={categoryMenu}
+      width={'15px'}
+      height={'15px'}
+      style={{ marginRight: '5px', marginLeft: '10px' }}
+    />
+    <span>All Categories</span>
+  </a>
+  <ul className="dropdown-menu" ref={menuRef}>
+    <div className="d-flex align-items-start">
+      <div
+        className="nav flex-row nav-pills me-3 header-categories-menu"
+        id="v-pills-tab"
+        role="tablist"
+        aria-orientation="horizontal"
+      >
+        {Categorieslist.categories.map((category) => (
+          <button
+            key={category.id}
+            className={`nav-link header-categories-btn d-flex justify-content-between align-items-center ${
+              category.id === activeCategory ? "active-button" : "inactive-button"
+            }`}
+            id={`v-pills-category-${category.id}-tab`}
+            data-bs-toggle="pill"
+            data-bs-target={`#v-pills-category-${category.id}`}
+            type="button"
+            role="tab"
+            aria-controls={`v-pills-category-${category.id}`}
+            aria-selected={category.id === activeCategory ? "true" : "false"}
+            onClick={(e) => handleCategoryClick(category.id, e)}
+          >
+            {category.name}
+            <FontAwesomeIcon icon={faArrowRight} />
+          </button>
+        ))}
+      </div>
+      <div
+        className="tab-content"
+        id="v-pills-tabContent"
+        style={{
+          width: "300px",
+          overflowX: "hidden",
+          overflowY: "scroll",
+          height: "550px",
+          padding: "5px",
+        }}
+      >
+        {Categorieslist.categories.map((category) => (
+          <div
+            key={category.id}
+            className={`tab-pane fade${
+              category.id === activeCategory ? " show active" : ""
+            }`}
+            id={`v-pills-category-${category.id}`}
+            role="tabpanel"
+            aria-labelledby={`v-pills-category-${category.id}-tab`}
+            tabIndex="0"
+          >
+            {category.subcategories.length > 0 ? (
+              category.subcategories.map((subcategory) => (
+                <div>
+                  <p
+                    key={subcategory.id}
+                    className="p-1 fs-12 fw-semibold cursor-pointer"
+                    onClick={handleSubcategoryClick}
+                  >
+                    <Link
+                      to={subcategory.url}
+                      className="p-1 fs-12 fw-semibold cursor-pointer text-black text-decoration-none "
                     >
-                      {Categorieslist.categories.map((category) => (
-                        <button
-                          key={category.id}
-                          className={`nav-link header-categories-btn d-flex justify-content-between align-items-center ${
-                            category.id === activeCategory
-                              ? "active-button"
-                              : "inactive-button"
-                          }`}
-                          id={`v-pills-category-${category.id}-tab`}
-                          data-bs-toggle="pill"
-                          data-bs-target={`#v-pills-category-${category.id}`}
-                          type="button"
-                          role="tab"
-                          aria-controls={`v-pills-category-${category.id}`}
-                          aria-selected={
-                            category.id === activeCategory ? "true" : "false"
-                          }
-                          onClick={(e) => handleCategoryClick(category.id, e)}
-                        >
-                          {category.name}
-                          <FontAwesomeIcon icon={faArrowRight} />
-                        </button>
-                      ))}
-                    </div>
-                    <div
-                      className="tab-content"
-                      id="v-pills-tabContent"
-                      style={{
-                        width: "300px",
-                        overflowX: "hidden",
-                        overflowY: "scroll",
-                        height: "550px",
-                        padding: "5px",
-                      }}
-                    >
-                      {Categorieslist.categories.map((category) => (
-                        <div
-                          key={category.id}
-                          className={`tab-pane fade${
-                            category.id === activeCategory ? " show active" : ""
-                          }`}
-                          id={`v-pills-category-${category.id}`}
-                          role="tabpanel"
-                          aria-labelledby={`v-pills-category-${category.id}-tab`}
-                          tabIndex="0"
-                        >
-                          {category.subcategories.length > 0 ? (
-                            category.subcategories.map((subcategory) => (
-                              <div>
-                                <p
-                                  key={subcategory.id}
-                                  className="p-1 fs-12 fw-semibold cursor-pointer" // Add cursor-pointer to indicate clickable
-                                  onClick={handleSubcategoryClick} // Close dropdown when clicking on subcategory
-                                >
-                                  <Link
-                                    to={subcategory.url}
-                                    className="p-1 fs-12 fw-semibold cursor-pointer text-black text-decoration-none "
-                                  >
-                                    {subcategory.name}
-                                  </Link>
-                                </p>
+                      {subcategory.name}
+                    </Link>
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="mt-5 fs-5 justify-content-center text-capitalize ">
+                No subcategories available. Will be added soon.
+              </p>
+            )}
+            {category.id === activeCategory && (
+              <div className="">
+                <img
+                  src="https://www.edobo.in/s/60a39f1801d30d79c4caa94b/65e6e358b60454dc19f7aa3f/unnamed-320x320.png"
+                  alt="Your"
+                  width={200}
+                />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </ul>
+</li>
 
-                                {/* <div className="">
-                                  <img
-                                    src="https://www.edobo.in/s/60a39f1801d30d79c4caa94b/65e6e358b60454dc19f7aa3f/unnamed-320x320.png"
-                                    alt="demo image"
-                                  />
-                                </div> */}
-                              </div>
-                            ))
-                          ) : (
-                            <p className="mt-5 fs-5 justify-content-center text-capitalize ">
-                              No subcategories available. Will be added soon.
-                            </p>
-                          )}
-                          {category.id === activeCategory && (
-                            <div className="">
-                              <img
-                                src="https://www.edobo.in/s/60a39f1801d30d79c4caa94b/65e6e358b60454dc19f7aa3f/unnamed-320x320.png"
-                                alt="Your"
-                                width={200}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </ul>
-              </li>
 
               <li className="nav-item flex-grow-1 d-flex justify-content-end">
-                <div class="input-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Search everything at edobo online and in-store"
-                    aria-label="Username"
-                    aria-describedby="basic-addon1"
-                  />
-                  <span class="input-group-text" id="basic-addon1">
-                    <FontAwesomeIcon
-                      icon={faSearch}
-                      className="text-black"
-                      width="40"
-                      height="40"
-                    />
-                  </span>
-                </div>
+              <div class="input-group" style={{ position: 'relative' }}>
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Search everything at edobo online and in-store"
+    aria-label="Username"
+    aria-describedby="basic-addon1"
+    style={{ borderRadius: '50px' }} 
+  />
+  <span
+    class="input-group-text"
+    id="basic-addon1"
+    style={{
+      position: 'absolute',
+      backgroundColor: commonColor.edoboRed2,
+      color: 'white',
+      borderRadius: '50%',
+      width: '35px',
+      height: '35px',
+      top: '50%',              
+      right: '1px',            
+      transform: 'translateY(-50%)',  
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      cursor: 'pointer'
+    }}
+  >
+    <FontAwesomeIcon icon={faSearch} className="text-white" />
+  </span>
+</div>
+
               </li>
 
               <li className="nav-item ">
-                <div
-                  className="nav-link text-white cursor-pointer text-white "
-                  // className="nav-link active text-white"
-                  // aria-current="page"
-                  onClick={() => {
-                    navigate(ROUTES_NAVIGATION.OFFERSCOUPON);
-                  }}
-                >
-                  Coupon & Offers
-                </div>
+
+              <div
+                      className="nav-link text-white cursor-pointer text-white "
+                      onClick={() => {
+                        // setIsModalOpen(true);
+                        navigate(
+                          ROUTES_NAVIGATION.PROFILE +
+                            "/" +
+                            ROUTES_NAVIGATION.USER_ORDER
+                        );
+                      }}
+                    >
+                      My Orders
+                    </div>
+
+              
               </li>
               <li className="nav-item dropdown d-flex position-relative">
                 <a
@@ -490,20 +515,22 @@ const HeaderComponent = () => {
                   Profile
                 </a>
                 <ul className="dropdown-menu dropdown-menu-end position-absolute edobo-red">
-                  <li className="header-profile-menu-item">
-                    <div
-                      className="dropdown-item cursor-pointe"
-                      onClick={() => {
-                        navigate(
-                          ROUTES_NAVIGATION.PROFILE +
-                            "/" +
-                            ROUTES_NAVIGATION.USER_ACCOUNT
-                        );
-                      }}
-                    >
-                      My Profile
-                    </div>
-                  </li>
+                <li className="header-profile-menu-item">
+  <div
+    className="dropdown-item cursor-pointer d-flex align-items-center justify-content-center" // Flexbox for centering
+    onClick={() => {
+      navigate(
+        ROUTES_NAVIGATION.PROFILE +
+          "/" +
+          ROUTES_NAVIGATION.USER_ACCOUNT
+      );
+    }}
+    style={{ padding: '10px 15px' }} // Adjust padding as needed
+  >
+    My Profile
+  </div>
+</li>
+
                   <li className="header-profile-menu-item">
                     <div
                       className="dropdown-item cursor-pointer "
@@ -556,6 +583,22 @@ const HeaderComponent = () => {
                     </div>
                   </li>
                 </ul>
+                <div
+                    className="nav-link text-white cursor-pointer text-white "
+                      onClick={() => {
+                        // setIsModalOpen(true);
+                        navigate(
+                          ROUTES_NAVIGATION.PROFILE +
+                            "/" +
+                            ROUTES_NAVIGATION.USER_WISHLIST
+                        );
+                      }}
+                    >
+                      <img
+                      src= {favourite}
+                      style={{height: '30px' , width: '25px'}}
+                      />
+                    </div>
               </li>
 
               <li className="nav-item">
@@ -566,15 +609,22 @@ const HeaderComponent = () => {
                   data-bs-target="#offcanvasRight"
                   aria-controls="offcanvasRight"
                 >
-                  <FontAwesomeIcon icon={faStore} height="100" width="30" />
+                 
                   <div className="position-relative d-inline-block ">
-                    <FontAwesomeIcon
-                      icon={faCartShopping}
-                      width="50"
-                      height="100"
+                 <div>
+                 <img
+                    src={cart}
+                    style={{width: '20px' , height:'20px'}}
                     />
                     <span className="cart-number">0</span>
+                 </div>
+                 <span className="text-sm text-gray-80"
+                 style={{fontSize: '10px'}}
+                 >₹3,597</span>
+                          
+
                   </div>
+                 
                 </div>
               </li>
             </ul>

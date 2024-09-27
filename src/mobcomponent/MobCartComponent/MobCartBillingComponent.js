@@ -1,10 +1,14 @@
 import { faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectTip } from "../../redux/reducers/tipSlice";
+import { setTotalAmount } from "../../redux/reducers/totalAmountPay";
 
 const MobCartBillingComponent = ({ coupon, walletAmount }) => {
+  const dispatch = useDispatch();
+  const amount = useSelector((state) => state.totalAmount.amount);
+
   const cartItems = useSelector((state) => state.cart.items);
   const selectedTip = useSelector((state) => state.tip.selectedTip);
   console.log("tip is", selectedTip);
@@ -24,12 +28,13 @@ const MobCartBillingComponent = ({ coupon, walletAmount }) => {
   );
   console.log("saving amount", savings);
 
-  const deliveryFee = 40; // Example delivery fee, you can modify this based on your logic
+  const deliveryFee = 30; // Example delivery fee, you can modify this based on your logic
   // const walletAmount = 260; // Example wallet usage, modify as needed
   const tipAmount = selectedTip; // Example tip, modify as needed
   const couponAmount = typeof coupon === "number" ? coupon : 0;
   const amountToPay =
     totalItemPrice + deliveryFee + tipAmount - walletAmount - couponAmount;
+  dispatch(setTotalAmount(amountToPay));
   // totalItemPrice + deliveryFee + tipAmount - savings;
 
   return (

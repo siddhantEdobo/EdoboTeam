@@ -158,29 +158,34 @@ const AddToCartButtonCustomIcon = ({ product }, props) => {
   }, [quantity]);
 
   return (
-    <div className="add-to-cart-container-custom-icon">
+    <div className="add-to-cart-container-custom-icon ">
       {!isAddedToCart ? (
         <div
           className="add-to-cart-button-custom-icon"
+          style={{backgroundColor: '#D41A25'}}
           onClick={handleAddToCart}
         >
           <FontAwesomeIcon
             icon={faCartPlus}
-            className="faicons-size text-danger"
+            className="faicons-size text-white"
           />
         </div>
       ) : (
-        <div className="d-flex m-0 p-0 add-to-cart-input-continer-custom-icon">
+        <div className="d-flex m-0 p-0 add-to-cart-input-continer-custom-icon"
+        style={{backgroundColor: '#D41A25'}}
+        >
           <div
-            className="addtocart-inc-dec-btn-custom-icon text-danger"
+            className="addtocart-inc-dec-btn-custom-icon text-white"
+            style={{backgroundColor: '#D41A25'}}
             // type="button"
             onClick={handleDecrement}
           >
             –
           </div>
-          <div className="add-to-cart-qty-custom-icon">{quantity}</div>
+          <div className="add-to-cart-qty-custom-icon text-white" style={{backgroundColor: '#D41A25'}}>{quantity}</div>
           <div
-            className="addtocart-inc-dec-btn-custom-icon text-success"
+            className="addtocart-inc-dec-btn-custom-icon text-white"
+            style={{backgroundColor: '#D41A25'}}
             // type="button"
             onClick={handleIncrement}
           >
