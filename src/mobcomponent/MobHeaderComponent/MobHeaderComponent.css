@@ -1,5 +1,6 @@
 .mob-header-container {
   min-height: 40px;
+ 
   
 
   & button {
@@ -53,7 +54,7 @@
 }
 
 .delivering-to-text {
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 600;
   font-family: sans-serif;
   margin-right: 10px;

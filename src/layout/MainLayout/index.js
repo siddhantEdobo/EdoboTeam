@@ -28,7 +28,7 @@ const MainLayout = () => {
       </div>
       <div className="d-lg-none d-block">
         {/* <MobHeaderComponent /> */}
-        <div className=" edobo-white" style={{marginTop: '10px'}}>
+        <div className=" edobo-white" >
           <Outlet />
         </div>
         {/* <MobBottomNavComponent /> */}

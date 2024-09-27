@@ -8,7 +8,7 @@ function EmptyCart() {
     <div>
         <MobHeaderComponent text={' Your Cart'}/>
     <div className='empty-cart-container'>
-        <img src={emptycartimg} width={'300px'}/>
+        <img src={emptycartimg} width={'200px'}/>
         <span className='header-text'>It's raining discounts !</span>
         <span className='sub-header-text'>just not in your cart</span>
     </div>

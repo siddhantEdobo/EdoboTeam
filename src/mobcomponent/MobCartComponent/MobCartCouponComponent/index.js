@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import MobHeaderComponent from "../../MobHeaderComponent";
+import MobHeaderComponent from "../../MobHeaderNavigation";
 import parse from "html-react-parser";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { addCoupon } from "../../../redux/reducers/coupon";
+import MobHeaderNavigation from "../../MobHeaderNavigation";
 
 const MobCartCouponComponent = () => {
   const [loading, setLoading] = useState(false);
@@ -64,11 +65,7 @@ const MobCartCouponComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={"Discount and Coupons"}
-        isCartShow={false}
-        isEdoboLogo={true}
+      <MobHeaderNavigation text={'Coupon'}
       />
       <div className="container home-container">
         <div className="fs-6 border-bottom pb-1">Available Coupons</div>

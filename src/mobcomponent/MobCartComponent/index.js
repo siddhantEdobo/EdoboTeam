@@ -483,9 +483,9 @@ const MobCartComponent = () => {
     dispatch(setSelectedDate(date.toISOString()));
   };
 
- if(amount <=0){ return (
+ if(cartItems.length > 0){ return (
     <div className="cart-view">
-      <MobHeaderNavigation text={`Your Cart  (items)`}/>
+      <MobHeaderNavigation text={`Your Cart (${cartItems.length} item)`}/>
       <div className="container-lg home-container">
         <div
           id="carouselExampleInterval"
@@ -539,7 +539,7 @@ const MobCartComponent = () => {
           <div className="btn">Empty Cart</div>
         </div> */}
     <div className=" mt-3 mb-10 border border-danger rounded-3">
-          <div className="d-flex align-items-center gap-2 mb-2 ps-2 mt-1">
+          <div className="d-flex align-items-center gap-2 ps-2 mt-1">
   
             <div className="choose-dilevery-header">Choose a dilevery type</div>
           </div>
@@ -716,7 +716,7 @@ const MobCartComponent = () => {
 </div>
  </div>
 
- <div className="dilevery-instruction-container">
+ {/* <div className="dilevery-instruction-container">
         <div className="dilevery-instruction">
             <div>
                  <img src={wallet} width={'20px'} height={'20px'}  style={{marginBottom: '5px' , marginRight:'10px'}}/>
@@ -748,7 +748,7 @@ const MobCartComponent = () => {
                  
               }
 </div>
-</div>
+</div> */}
 
 {/* <div className="mt-3 d-flex gap-2">
           <FontAwesomeIcon icon={faTags} className="faicons-size text-danger" />
@@ -870,6 +870,7 @@ const MobCartComponent = () => {
 
               <div
                 className="p-2 mob-cart-component-view-more-coupon"
+                
                 onClick={() => {
                   navigate(ROUTES_NAVIGATION.ALL_COUPONS_LIST);
                 }}
@@ -1145,7 +1146,7 @@ const MobCartComponent = () => {
            setBillSummary(!billSummary)
           }}
          style={{ display: 'flex',flexDirection: 'row',alignItems: 'center'}}>
-          <span>{EDITIBLE.length} item | <b>₹{amount}</b> </span>
+          <span>{cartItems.length} item | <b>₹{amount}</b> </span>
           <FontAwesomeIcon icon={faChevronRight} className="right-icon"/>
         </div>
        

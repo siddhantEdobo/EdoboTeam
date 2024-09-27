@@ -108,7 +108,7 @@ const MobHeaderComponent = (props) => {
         className={`d-lg-none navbar navbar-expand-lg container-fluid fixed-top ${
           isBack ? "white text-black" : ""
         }`}
-        style={{ backgroundColor: "#FFEDED", height: "75px", display: 'flex' , flexDirection: 'column'}}
+        style={{ backgroundColor: "#FFEDED", height: "65px", display: 'flex' , flexDirection: 'column'}}
       >
         <div className="mob-header-container">
           <img
@@ -132,7 +132,7 @@ const MobHeaderComponent = (props) => {
             <div>
               <span
                 style={{
-                  fontSize: "18px",
+                  fontSize: "14px",
                   fontWeight: "500",
                   fontFamily: "sans-serif",
                 }}

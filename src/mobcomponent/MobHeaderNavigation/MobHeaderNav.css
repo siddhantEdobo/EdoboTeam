@@ -5,10 +5,13 @@
     flex-direction: row;
     align-items: center;
     top: 0;
+    padding: 15px;
+    background-color: #FFEDED;
+    margin: 0;
 }
 
 .Header-text{
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
 }
 
