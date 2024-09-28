@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./MobWishListComponent.css";
-import MobHeaderComponent from "../MobHeaderComponent";
+import MobHeaderComponent from "../MobHeaderNavigation";
 import CollectionProductCard from "../../common/CollectionProductCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
@@ -148,11 +148,11 @@ const MobWishListComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={"Wish List"}
-        isCartShow={false}
-        isEdoboLogo={true}
+      <MobHeaderComponent  text={'Yours Wishlist'}
+        // isBack={true}
+        // headerText={"Wish List"}
+        // isCartShow={false}
+        // isEdoboLogo={true}
       />
       <div className="container-lg home-container">
         {data?.results?.data?.map((value) => {

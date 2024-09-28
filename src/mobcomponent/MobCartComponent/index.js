@@ -667,7 +667,11 @@ const MobCartComponent = () => {
           )}
 
           <div className="dilevery-instruction-container">
-            <div className="dilevery-instruction">
+            <div
+             onClick={() => {
+              navigate(ROUTES_NAVIGATION.CHANGE_LOCATION);
+            }}
+             className="dilevery-instruction">
               <div>
                 <img
                   src={location}
@@ -679,9 +683,7 @@ const MobCartComponent = () => {
               </div>
 
               <div
-                onClick={() => {
-                  navigate(ROUTES_NAVIGATION.CHANGE_LOCATION);
-                }}
+               
               >
                 <FontAwesomeIcon icon={faChevronRight} />
               </div>
@@ -705,7 +707,7 @@ const MobCartComponent = () => {
                 <span
                   className="header"
                   onClick={() => {
-                    navigate(ROUTES_NAVIGATION.CHANGE_LOCATION);
+                   
                     // navigate(ROUTES_NAVIGATION.ORDER_CONFIRM);
                     // need to ask where will be order confirm redirection.
                   }}
@@ -744,7 +746,11 @@ const MobCartComponent = () => {
           </div>
 
           <div className="dilevery-instruction-container">
-            <div className="dilevery-instruction">
+            <div 
+             onClick={() => {
+              navigate(ROUTES_NAVIGATION.USER_WISHLIST);
+            }}
+            className="dilevery-instruction">
               <div>
                 <img
                   src={wishlist}
@@ -834,7 +840,7 @@ const MobCartComponent = () => {
             })}
           </div>
         </div> */}
-          <div className="border border-danger rounded-3 mt-3 p-2 d-flex justify-content-around cursor-pointer">
+          {/* <div className="border border-danger rounded-3 mt-3 p-2 d-flex justify-content-around cursor-pointer">
             <FontAwesomeIcon icon={faHeart} className="faicon-size mt-1 " />
             <div
               className="fw-bold coupon-image "
@@ -845,7 +851,7 @@ const MobCartComponent = () => {
               View your wishlist
             </div>
             <FontAwesomeIcon icon={faChevronRight} className="faicon-size   " />
-          </div>
+          </div> */}
           {/* <div className="pt-2">
           <div className="fw-bold">You might have missed !</div>
 

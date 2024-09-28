@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import MobHeaderComponent from "../MobHeaderComponent";
+import MobHeaderComponent from "../MobHeaderNavigation";
 import "./MobCartChooseChangeLocationComponent.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding } from "@fortawesome/free-solid-svg-icons";
@@ -114,11 +114,7 @@ const MobCartChooseChangeLocationComponent = ({
 
   return (
     <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={"Addresses"}
-        isCartShow={false}
-        isEdoboLogo={true}
+      <MobHeaderComponent text={'Address'}
       />
       <div className="container-fluid m-0 p-0 t">
         <div className="mob-cart-choose-change-location-container-heading">

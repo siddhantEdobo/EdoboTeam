@@ -4,6 +4,7 @@ import Cookies from "universal-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as SolidHeart } from "@fortawesome/free-solid-svg-icons"; // Use solid heart
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import MobHeaderNavigation from "../../mobcomponent/MobHeaderNavigation";
 
 const MobWishList = ({ id }) => {
   const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
@@ -82,6 +83,7 @@ const MobWishList = ({ id }) => {
   }, [id, isAddedToWishlist, token]);
 
   return (
+   
     <FontAwesomeIcon
       icon={isAddedToWishlist ? SolidHeart : faHeart} // Use solid heart if added
       className="fa-2xl"
