@@ -400,9 +400,11 @@ const MobCartComponent = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(2);
+  const [chooseTime, setChooseTime] = useState(false);
 
   const handleDateClick = (clickedDate) => {
     setSelectedDate(clickedDate);
+    setChooseTime(true);
   };
 
   const handleTimeSlotClick = (time) => {
@@ -469,13 +471,12 @@ const MobCartComponent = () => {
     // dispatch(setSelectedDate(date));
     dispatch(setSelectedDate(date.toISOString()));
   };
-
   const generateDates = () => {
     const dates = [];
     const currentDate = new Date();
 
-    for (let i = 0; i < 7; i++) {
-      // For the next 7 days
+    // Generate current date and the next 3 days
+    for (let i = 0; i < 4; i++) {
       const dateObj = new Date(currentDate);
       dateObj.setDate(currentDate.getDate() + i);
 
@@ -486,8 +487,10 @@ const MobCartComponent = () => {
 
       dates.push({ day, date, month, year });
     }
+
     return dates;
   };
+
   const dates = generateDates();
   if (cartItems.length > 0) {
     return (
@@ -627,16 +630,18 @@ const MobCartComponent = () => {
                 <h2>Select delivery's date & time</h2>
                 <div>
                   <h5>Select available dates</h5>
-                  <div className="date-selection-container"
-                  >
+                  <div className="date-selection-container">
                     {dates.map((date, index) => (
                       <div
                         key={index}
                         className={`date-container-${
-                          selectedDate.date === date.date ? "selected" : "unselected"
+                          selectedDate.date === date.date
+                            ? "selected"
+                            : "unselected"
                         }`}
                         onClick={() => {
-                          handleDateClick(date)}} // Handle date click
+                          handleDateClick(date);
+                        }} // Handle date click
                       >
                         <span>{date.day}</span>
                         <h2>{date.date}</h2>
@@ -647,27 +652,30 @@ const MobCartComponent = () => {
                 </div>
                 <div>
                   <h5>Choose time slots</h5>
-                  <div
-                    className="slider-container"
-                    onTouchStart={handleTouchStart}
-                    onTouchEnd={handleTouchEnd}
-                  >
-                    <div className="time-options">
-                      {timeSlots
-                        .slice(selectedIndex - 1, selectedIndex + 2)
-                        .map((time, index) => (
-                          <div
-                            key={index}
-                            className={`time-slot ${
-                              index === 1 ? "selected" : ""
-                            }`}
-                            onClick={() => handleTimeSlotClick(time)}
-                          >
-                            {time}
-                          </div>
-                        ))}
+
+                  {chooseTime && (
+                    <div
+                      className="slider-container"
+                      onTouchStart={handleTouchStart}
+                      onTouchEnd={handleTouchEnd}
+                    >
+                      <div className="time-options">
+                        {timeSlots
+                          .slice(selectedIndex - 1, selectedIndex + 2)
+                          .map((time, index) => (
+                            <div
+                              key={index}
+                              className={`time-slot ${
+                                index === 1 ? "selected" : ""
+                              }`}
+                              onClick={() => handleTimeSlotClick(time)}
+                            >
+                              {time}
+                            </div>
+                          ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
                 <div className="buttons">
                   <button
