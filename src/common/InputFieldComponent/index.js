@@ -1,6 +1,6 @@
-// InputField.js
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import './InputFieldComponent.css'; 
 
 const InputFieldComponent = ({
   placeholder,
@@ -13,32 +13,30 @@ const InputFieldComponent = ({
   errorColor,
 }) => {
   return (
-    <div className="input-group mb-3">
-      <span className="input-group-text">
-        <img
-          src={icon}
-          alt="icon"
-          className="mob-login-component-phone-email-img-container"
-        />
-      </span>
+    <div className="input-group mb-3 position-relative">
+      {/* Input field */}
       <input
         type="text"
-        className="form-control"
+        className={`form-control ${successIcon ? 'has-success-icon' : ''}`}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
         aria-label="Input Field"
       />
+
+      {/* Success icon (green tick) inside input field */}
       {successIcon && (
-        <span className="input-group-text">
+        <span className="input-icon-right">
           <FontAwesomeIcon
             icon={successIcon}
             className={`text-success ${successColor}`}
           />
         </span>
       )}
+
+      {/* Error icon (if needed) */}
       {errorIcon && (
-        <span className="input-group-text">
+        <span className="input-icon-right">
           <FontAwesomeIcon
             icon={errorIcon}
             className={`text-danger ${errorColor}`}
@@ -48,6 +46,5 @@ const InputFieldComponent = ({
     </div>
   );
 };
-
 
 export default InputFieldComponent;
