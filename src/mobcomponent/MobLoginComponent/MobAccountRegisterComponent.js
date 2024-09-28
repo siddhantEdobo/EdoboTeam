@@ -193,7 +193,7 @@ const MobAccountRegisterComponent = () => {
         // isEdoboLogo={true}
         // isBottomTab={false}
       />
-      <div className="mt-5 pt-3 container-fluid">
+      <div className="mt-2 pt-3 container-fluid">
         <div className="card mob-account-register-component-form">
           <div className="p-3">
             <InputFieldComponent
