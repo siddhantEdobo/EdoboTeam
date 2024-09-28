@@ -1,0 +1,27 @@
+/* Style for the input container */
+.input-group {
+    position: relative;
+  }
+  
+  .form-control {
+    
+     background-color: rgb(238, 237, 237);
+    height: 50px;
+    border-radius: 10px;
+    margin: 0;
+  }
+  
+  /* Positioning the success icon inside the input */
+  .input-icon-right {
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Adjust to move closer/further from the edge */
+    transform: translateY(-50%);
+    font-size: 2em; /* Adjust this to increase/decrease the size of the icon */
+  }
+  
+  .has-success-icon {
+    padding-right: 40px; /* Extra padding when success icon is present */
+  }
+  

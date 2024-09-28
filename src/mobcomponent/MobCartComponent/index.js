@@ -633,9 +633,10 @@ const MobCartComponent = () => {
                       <div
                         key={index}
                         className={`date-container-${
-                          selectedDate === date ? "selected" : "unselected"
+                          selectedDate.date === date.date ? "selected" : "unselected"
                         }`}
-                        onClick={() => handleDateClick(date)} // Handle date click
+                        onClick={() => {
+                          handleDateClick(date)}} // Handle date click
                       >
                         <span>{date.day}</span>
                         <h2>{date.date}</h2>

@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import MobHeaderComponent from "../MobHeaderComponent";
+import MobHeaderComponent from "../MobHeaderNavigation";
 // Adjust the path based on your file structure
 
 import { Images } from "../../assets";
@@ -186,20 +186,20 @@ const MobAccountRegisterComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={"Account Register"}
-        isCartShow={false}
-        isEdoboLogo={true}
-        isBottomTab={false}
+      <MobHeaderComponent text={'Profile Update'}
+        // isBack={true}
+        // headerText={"Account Register"}
+        // isCartShow={false}
+        // isEdoboLogo={true}
+        // isBottomTab={false}
       />
-      <div className="mt-5 pt-3 container-fluid">
+      <div className="mt-2 pt-3 container-fluid">
         <div className="card mob-account-register-component-form">
           <div className="p-3">
             <InputFieldComponent
-              placeholder={phone}
+              placeholder='Enter Phone no.'
               value={phone}
-              icon={Images.loginPhoneNoImg}
+              // icon={Images.loginPhoneNoImg}
               readOnly={true}
               successIcon={faCircleCheck}
               successColor="custom-success-color"
@@ -217,7 +217,9 @@ const MobAccountRegisterComponent = () => {
               icon={Images.userName}
             />
           </div>
-          <div className="mb-3 d-flex justify-content-center gap-3">
+          <div
+          style={{marginLeft: '20px'}}
+           className="mb-3 d-flex justify-content-start  gap-3">
             <div className="mob-account-register-component-gender">He</div>
             <div className="mob-account-register-component-gender">She</div>
             <div className="mob-account-register-component-gender">Other</div>
@@ -248,7 +250,7 @@ const MobAccountRegisterComponent = () => {
           }`}
           onClick={handleSubmit}
         >
-          {loading ? "Submitting..." : "Submit"}
+          {loading ? "Submitting..." : "Continue"}
         </div>
         {isLocationSelected && (
           // <CustomModalComponent
