@@ -31,22 +31,22 @@ import MobCartProductSelectedList from "./MobCartProductSelectedList";
 import MobCartBillingComponent from "./MobCartBillingComponent";
 import MobProductCard from "../../common/MobProductCard";
 import { Images } from "../../assets";
-import express from '../../assets/Icon/expressDilev.png'
-import slot from '../../assets/Icon/slotDilv.png'
-import pickup from '../../assets/Icon/pickup.png'
-import location from '../../assets/Icon/location.png'
-import delivery from '../../assets/Icon/delivery.png'
-import wishlist from '../../assets/Icon/wishlist.png'
-import wallet from '../../assets/Icon/wallet.png'
-import leaveWithGuard from '../../assets/Icon/leaveWithGuard.png'
-import leaveWithDoor from '../../assets/Icon/leaveWithHome.png'
-import avoidcall from '../../assets/Icon/avoidCall.png'
-import dogs from '../../assets/Icon/bewareOfDog.png'
-import coins from '../../assets/Icon/coins.png'
+import express from "../../assets/Icon/expressDilev.png";
+import slot from "../../assets/Icon/slotDilv.png";
+import pickup from "../../assets/Icon/pickup.png";
+import location from "../../assets/Icon/location.png";
+import delivery from "../../assets/Icon/delivery.png";
+import wishlist from "../../assets/Icon/wishlist.png";
+import wallet from "../../assets/Icon/wallet.png";
+import leaveWithGuard from "../../assets/Icon/leaveWithGuard.png";
+import leaveWithDoor from "../../assets/Icon/leaveWithHome.png";
+import avoidcall from "../../assets/Icon/avoidCall.png";
+import dogs from "../../assets/Icon/bewareOfDog.png";
+import coins from "../../assets/Icon/coins.png";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import EmptyCart from './EmptyCart'
+import EmptyCart from "./EmptyCart";
 import { addCoupon, removeCoupon } from "../../redux/reducers/coupon";
 import {
   applyWalletAmount,
@@ -165,26 +165,24 @@ const EDITIBLE = [
   },
 ];
 
-
 const instruction = [
   {
     instructionIcons: leaveWithGuard,
-    title : 'Leave with guard'
+    title: "Leave with guard",
   },
   {
     instructionIcons: leaveWithDoor,
-    title : 'Leave with door'
+    title: "Leave with door",
   },
   {
     instructionIcons: avoidcall,
-    title : 'Avoid calls'
+    title: "Avoid calls",
   },
   {
     instructionIcons: dogs,
-    title : 'Beware of pets'
+    title: "Beware of pets",
   },
-  
-]
+];
 
 const MobCartComponent = () => {
   const [showInput, setShowInput] = useState(false);
@@ -232,15 +230,15 @@ const MobCartComponent = () => {
   //   setAppliedWalletAmount(walletAmount);
   //   setShowInput(false); // Hide input after applying
   // };
-  const [DeliveryOption , SetDeliveryOption] = useState('');
+  const [DeliveryOption, SetDeliveryOption] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [selectedSlot, setSelectedSlot] = useState(null);
   const navigate = useNavigate();
-  const [instructionCon , setInstruction] = useState(false)
+  const [instructionCon, setInstruction] = useState(false);
   const [selectedInstructions, setSelectedInstructions] = useState([]);
   const [showCouponComponent, setShowCouponComponent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [walletDownMenu , setWalletDownMenu] = useState(false)
+  const [walletDownMenu, setWalletDownMenu] = useState(false);
   const [userInstruction, setUserInstruction] = useState([]);
   // const [selectedCards, setSelectedCards] = useState([]);
   // const [selectedTips, setSelectedTips] = useState([]);
@@ -289,21 +287,15 @@ const MobCartComponent = () => {
 
   //
 
-
-  
   const handleAddInstruction = (data) => {
-  
     if (!userInstruction.includes(data)) {
-      setUserInstruction([...userInstruction, data]); 
+      setUserInstruction([...userInstruction, data]);
     } else {
-      setUserInstruction(userInstruction.filter(item => item !== data)); 
+      setUserInstruction(userInstruction.filter((item) => item !== data));
     }
 
     console.log(userInstruction);
-    
   };
-
-  
 
   const handleSlotSelection = (slot) => {
     dispatch(setSelectSlot(slot));
@@ -337,7 +329,7 @@ const MobCartComponent = () => {
   // const [couponCode, setCouponCode] = useState(coupon.map((item) => item.code));
   const [couponCode, setCouponCode] = useState(coupon ? coupon.code : "");
   const cartItems = useSelector((state) => state.cart.items);
-  const [billSummary , setBillSummary] = useState(false)
+  const [billSummary, setBillSummary] = useState(false);
   const [slotshow, setSlotShow] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   console.log(couponCode);
@@ -375,57 +367,58 @@ const MobCartComponent = () => {
     }
   };
 
-
-// Slot delivery - Anirudh Bhardwaj
+  // Slot delivery - Anirudh Bhardwaj
 
   const date = [
     {
-      date: '20',
-      day: 'MON'
+      date: "20",
+      day: "MON",
     },
     {
-      date: '21',
-      day: 'TUE'
+      date: "21",
+      day: "TUE",
     },
     {
-      date: '22',
-      day: 'WED'
+      date: "22",
+      day: "WED",
     },
     {
-      date: '23',
-      day: 'THUR'
+      date: "23",
+      day: "THUR",
     },
-   
-    
-  ]
+  ];
 
-  const timeSlots = ['','10AM-12PM','12PM-2PM','2PM-4PM','4PM-6PM','6PM-8PM']
+  const timeSlots = [
+    "",
+    "10AM-12PM",
+    "12PM-2PM",
+    "2PM-4PM",
+    "4PM-6PM",
+    "6PM-8PM",
+  ];
 
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(2);
 
   const handleDateClick = (clickedDate) => {
-
     setSelectedDate(clickedDate);
   };
 
-  
   const handleTimeSlotClick = (time) => {
-    console.log(time)
+    console.log(time);
     setSelectedTime(time);
   };
 
   const handleConfirmDelivery = () => {
-    console.log('clicked')
-    console.log('Selected Date:', selectedDate);
-    console.log('Selected Time:', selectedTime);
-    SetDeliveryOption('')
-    alert('Slot booked sucessfully')
+    console.log("clicked");
+    console.log("Selected Date:", selectedDate);
+    console.log("Selected Time:", selectedTime);
+    SetDeliveryOption("");
+    alert("Slot booked sucessfully");
   };
   // Swipe Feature
 
-  
   let touchStartX = 0;
 
   // Handle touch start
@@ -447,13 +440,7 @@ const MobCartComponent = () => {
     }
   };
 
-
   // Slot Delivery - Anirudh -----End
-
-
-
-
-
 
   const handleShowSlot = () => {
     setSlotShow(!slotshow);
@@ -483,40 +470,41 @@ const MobCartComponent = () => {
     dispatch(setSelectedDate(date.toISOString()));
   };
 
- if(cartItems.length > 0){ return (
-    <div className="cart-view">
-      <MobHeaderNavigation text={`Your Cart (${cartItems.length} item)`}/>
-      <div className="container-lg home-container">
-        <div
-          id="carouselExampleInterval"
-          className="carousel slide mb-3"
-          data-bs-ride="carousel"
-        >
-          <div className="carousel-inner">
-            {OFFERSCODE?.map((value, index) => (
-              <div
-                key={index}
-                className={`carousel-item ${index === 0 ? "active" : ""}`}
-                data-bs-interval="2000"
-              >
-                <div className="card p-2 mob-category-image-container">
-                  <div className="row">
-                    <div className="col-2">
-                      <img
-                        src={Images.offerslide}
-                        alt="offerslide"
-                        height={38}
-                      />
-                    </div>
-                    <div className="col-10 mob-cart-component-coupon-text-container">
-                      {value?.offerCode}
+  if (cartItems.length > 0) {
+    return (
+      <div className="cart-view">
+        <MobHeaderNavigation text={`Your Cart (${cartItems.length} item)`} />
+        <div className="container-lg home-container">
+          <div
+            id="carouselExampleInterval"
+            className="carousel slide mb-3"
+            data-bs-ride="carousel"
+          >
+            <div className="carousel-inner">
+              {OFFERSCODE?.map((value, index) => (
+                <div
+                  key={index}
+                  className={`carousel-item ${index === 0 ? "active" : ""}`}
+                  data-bs-interval="2000"
+                >
+                  <div className="card p-2 mob-category-image-container">
+                    <div className="row">
+                      <div className="col-2">
+                        <img
+                          src={Images.offerslide}
+                          alt="offerslide"
+                          height={38}
+                        />
+                      </div>
+                      <div className="col-10 mob-cart-component-coupon-text-container">
+                        {value?.offerCode}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-          {/* <ol className="carousel-indicators mb-1 p-0">
+              ))}
+            </div>
+            {/* <ol className="carousel-indicators mb-1 p-0">
             {OFFERSCODE?.map((value, index) => (
               <li
                 key={index}
@@ -528,195 +516,257 @@ const MobCartComponent = () => {
               </li>
             ))}
           </ol> */}
-        </div>
+          </div>
 
-        <MobCartProductSelectedList />
-        {/* <div className="d-flex justify-content-between align-items-center">
+          <MobCartProductSelectedList />
+          {/* <div className="d-flex justify-content-between align-items-center">
           <div className="d-flex align-items-center">
             <div className="fw-bold p-4">Cart (16 Items)</div>
             <div className="fw-bold p-4">₹231 saved on this order</div>
           </div>
           <div className="btn">Empty Cart</div>
         </div> */}
-    <div className=" mt-3 mb-10 border border-danger rounded-3">
-          <div className="d-flex align-items-center gap-2 ps-2 mt-1">
-  
-            <div className="choose-dilevery-header">Choose a dilevery type</div>
-          </div>
-          <div className="dilevery-option-container">
-            <div className="dilevery-options "
-            style={{ borderColor: DeliveryOption === 'Express' ? 'red' : '#e4e4e7', borderWidth: '2px', borderStyle: 'solid' }}
-             onClick={()=>{
-              SetDeliveryOption('Express')
-              
-            }}
-            >
-             <img src={express} className="dilvery-icon"/>
-              <div style={{display: 'flex' , flexDirection: 'column-reverse' , alignItems: 'center'}}>
-                <span>Available</span>
-                <span className="dilevery-options-header">Express</span>
-
+          <div className=" mt-3 mb-10 border border-danger rounded-3">
+            <div className="d-flex align-items-center gap-2 ps-2 mt-1">
+              <div className="choose-dilevery-header">
+                Choose a dilevery type
               </div>
             </div>
-            <div className="dilevery-options"
-             style={{ borderColor: DeliveryOption ===  'Slot' ? 'red' : '#e4e4e7', borderWidth: '2px', borderStyle: 'solid' }}
-            onClick={()=>SetDeliveryOption('Slot')}
-            >
-            <img src={slot} className="dilvery-icon"/>
+            <div className="dilevery-option-container">
               <div
-             
-              style={{display: 'flex' , flexDirection: 'column-reverse' , alignItems: 'center' }}>
-                <span>Available</span>
-                <span className="dilevery-options-header">Slot</span>
-
+                className="dilevery-options "
+                style={{
+                  borderColor: DeliveryOption === "Express" ? "red" : "#e4e4e7",
+                  borderWidth: "2px",
+                  borderStyle: "solid",
+                }}
+                onClick={() => {
+                  SetDeliveryOption("Express");
+                }}
+              >
+                <img src={express} className="dilvery-icon" />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column-reverse",
+                    alignItems: "center",
+                  }}
+                >
+                  <span>Available</span>
+                  <span className="dilevery-options-header">Express</span>
+                </div>
+              </div>
+              <div
+                className="dilevery-options"
+                style={{
+                  borderColor: DeliveryOption === "Slot" ? "red" : "#e4e4e7",
+                  borderWidth: "2px",
+                  borderStyle: "solid",
+                }}
+                onClick={() => SetDeliveryOption("Slot")}
+              >
+                <img src={slot} className="dilvery-icon" />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column-reverse",
+                    alignItems: "center",
+                  }}
+                >
+                  <span>Available</span>
+                  <span className="dilevery-options-header">Slot</span>
+                </div>
+              </div>
+              <div
+                className="dilevery-options"
+                style={{
+                  borderColor: DeliveryOption === "Pick_up" ? "red" : "#e4e4e7",
+                  borderWidth: "2px",
+                  borderStyle: "solid",
+                }}
+                onClick={() => SetDeliveryOption("Pick_up")}
+              >
+                <img src={pickup} className="dilvery-icon" />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column-reverse",
+                    alignItems: "center",
+                  }}
+                >
+                  <span>Available</span>
+                  <span className="dilevery-options-header">Pickup</span>
+                </div>
               </div>
             </div>
-            <div className="dilevery-options"
-             style={{ borderColor: DeliveryOption === 'Pick_up' ? 'red' : '#e4e4e7', borderWidth: '2px', borderStyle: 'solid' }}
-             onClick={()=>SetDeliveryOption('Pick_up')}
-            >
-            <img src={pickup} className="dilvery-icon"/>
-              <div style={{display: 'flex' , flexDirection: 'column-reverse' , alignItems: 'center'}}>
-                <span>Available</span>
-                <span className="dilevery-options-header" >Pickup</span>
-
-              </div>
-            
-            </div>
           </div>
-        </div>
 
-        {/* Slot Menu */}
-        {
-        DeliveryOption == 'Slot' && (
-        <div className="slot-container">
-
-          <div className="slot-setting-container">
-          <h2>Select delivery's date & time</h2>
-      <div>
-        <h5>Select available dates</h5>
-        <div className="date-selection-container">
-      {date.map((date, index) => (
-        <div
-          key={index}
-          className={`date-container-${selectedDate === date ? 'selected' : 'unselected'}`}
-          onClick={() => handleDateClick(date)} // Handle date click
-        >
-          <span>{date.day}</span>
-          <h2>{date.date}</h2>
-          <span>MAY</span>
-        </div>
-      ))}
-    </div>
-      </div>
-      <div>
-        <h5>Choose time slots</h5>
-        <div
-      className="slider-container"
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-    >
-      <div className="time-options">
-      {timeSlots.slice(selectedIndex - 1, selectedIndex + 2).map((time, index) => (
-    <div
-      key={index}
-      className={`time-slot ${index === 1 ? 'selected' : ''}`}
-      onClick={() => handleTimeSlotClick(time)} 
-    >
-      {time}
-    </div>
-  ))}
-      </div>
-    </div>
-      </div>
-      <div className="buttons">
-        <button className="cancel-delivery-button" onClick={() => SetDeliveryOption('')}>Cancel Delivery</button>
-        <button className="delivery-button" onClick={handleConfirmDelivery}>
-          Confirm Delivery
-        </button>
-      </div>
-          </div>
-                 
-        </div>)
-      }
-        
-        <div className="dilevery-instruction-container">
-        <div className="dilevery-instruction">
-            <div>
-                 <img src={location} width={'20px'} height={'20px'}  style={{marginBottom: '5px' , marginRight:'10px'}}/>
-                 <span className="header">Delivery address</span>
-            </div>
-
-            <div  onClick={()=>{ navigate(ROUTES_NAVIGATION.CHANGE_LOCATION)}}>
-                       <FontAwesomeIcon icon={faChevronRight} />
-            </div>
-        </div>
-        <div className="down-selection">
-              {
-                // add
-              }
-  
-  
-</div>
-
-       
-      </div>
-      <div className="dilevery-instruction-container">
-      <div className="dilevery-instruction">
-        <div>
-          <img src={delivery} width={'20px'} height={'20px'} style={{ marginBottom: '5px' , marginRight:'10px'}} alt="Delivery" />
-          <span className="header">Delivery instruction</span>
-        </div>
-
-        <div onClick={() => setInstruction(!instructionCon)}>
-          <FontAwesomeIcon
-            icon={instructionCon ? faChevronDown : faChevronRight}
-            className={`toggle-icon ${instructionCon ? 'rotated' : ''}`}
-          />
-        </div>
-      </div>
-      <div className="down-selection">
-        {
-          instructionCon ? (
-            <div className="instruction-card-container">
-              {
-                instruction.map((items) => (
-                  <div
-                    key={items.title} 
-                    className={`instruction-card ${userInstruction.includes(items) ? 'selected' : ''}`}
-                    onClick={() => handleAddInstruction(items)}
-                  >
-                    <img src={items.instructionIcons} alt={items.title} />
-                    <h3>{items.title}</h3>
+          {/* Slot Menu */}
+          {DeliveryOption === "Slot" && (
+            <div className="slot-container">
+              <div className="slot-setting-container">
+                <h2>Select delivery's date & time</h2>
+                <div>
+                  <h5>Select available dates</h5>
+                  <div className="date-selection-container">
+                    {date.map((date, index) => (
+                      <div
+                        key={index}
+                        className={`date-container-${
+                          selectedDate === date ? "selected" : "unselected"
+                        }`}
+                        onClick={() => handleDateClick(date)} // Handle date click
+                      >
+                        <span>{date.day}</span>
+                        <h2>{date.date}</h2>
+                        <span>MAY</span>
+                      </div>
+                    ))}
                   </div>
-                ))
-              }
+                </div>
+                <div>
+                  <h5>Choose time slots</h5>
+                  <div
+                    className="slider-container"
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={handleTouchEnd}
+                  >
+                    <div className="time-options">
+                      {timeSlots
+                        .slice(selectedIndex - 1, selectedIndex + 2)
+                        .map((time, index) => (
+                          <div
+                            key={index}
+                            className={`time-slot ${
+                              index === 1 ? "selected" : ""
+                            }`}
+                            onClick={() => handleTimeSlotClick(time)}
+                          >
+                            {time}
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="buttons">
+                  <button
+                    className="cancel-delivery-button"
+                    onClick={() => SetDeliveryOption("")}
+                  >
+                    Cancel Delivery
+                  </button>
+                  <button
+                    className="delivery-button"
+                    onClick={handleConfirmDelivery}
+                  >
+                    Confirm Delivery
+                  </button>
+                </div>
+              </div>
             </div>
-          ) :
-          (<span></span>)
-        }
-      </div>
-    </div>
+          )}
 
-    <div className="dilevery-instruction-container">
-        <div className="dilevery-instruction">
-            <div>
-                 <img src={wishlist} width={'20px'} height={'20px'}  style={{marginBottom: '5px' , marginRight:'10px'}}/>
-                 <span className="header">Expore wish list</span>
-            </div>
+          <div className="dilevery-instruction-container">
+            <div className="dilevery-instruction">
+              <div>
+                <img
+                  src={location}
+                  width={"20px"}
+                  height={"20px"}
+                  style={{ marginBottom: "5px", marginRight: "10px" }}
+                />
+                <span className="header">Delivery address</span>
+              </div>
 
-            <div >
-                       <FontAwesomeIcon icon={faChevronRight} />
+              <div
+                onClick={() => {
+                  navigate(ROUTES_NAVIGATION.CHANGE_LOCATION);
+                }}
+              >
+                <FontAwesomeIcon icon={faChevronRight} />
+              </div>
             </div>
-        </div>
-        <div className="down-selection">
+            <div className="down-selection">
               {
                 // add
               }
-</div>
- </div>
+            </div>
+          </div>
+          <div className="dilevery-instruction-container">
+            <div className="dilevery-instruction">
+              <div>
+                <img
+                  src={delivery}
+                  width={"20px"}
+                  height={"20px"}
+                  style={{ marginBottom: "5px", marginRight: "10px" }}
+                  alt="Delivery"
+                />
+                <span
+                  className="header"
+                  onClick={() => {
+                    navigate(ROUTES_NAVIGATION.CHANGE_LOCATION);
+                    // navigate(ROUTES_NAVIGATION.ORDER_CONFIRM);
+                    // need to ask where will be order confirm redirection.
+                  }}
+                >
+                  Delivery instruction
+                </span>
+              </div>
 
- {/* <div className="dilevery-instruction-container">
+              <div onClick={() => setInstruction(!instructionCon)}>
+                <FontAwesomeIcon
+                  icon={instructionCon ? faChevronDown : faChevronRight}
+                  className={`toggle-icon ${instructionCon ? "rotated" : ""}`}
+                />
+              </div>
+            </div>
+            <div className="down-selection">
+              {instructionCon ? (
+                <div className="instruction-card-container">
+                  {instruction.map((items) => (
+                    <div
+                      key={items.title}
+                      className={`instruction-card ${
+                        userInstruction.includes(items) ? "selected" : ""
+                      }`}
+                      onClick={() => handleAddInstruction(items)}
+                    >
+                      <img src={items.instructionIcons} alt={items.title} />
+                      <h3>{items.title}</h3>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <span></span>
+              )}
+            </div>
+          </div>
+
+          <div className="dilevery-instruction-container">
+            <div className="dilevery-instruction">
+              <div>
+                <img
+                  src={wishlist}
+                  width={"20px"}
+                  height={"20px"}
+                  style={{ marginBottom: "5px", marginRight: "10px" }}
+                />
+                <span className="header">Expore wish list</span>
+              </div>
+
+              <div>
+                <FontAwesomeIcon icon={faChevronRight} />
+              </div>
+            </div>
+            <div className="down-selection">
+              {
+                // add
+              }
+            </div>
+          </div>
+
+          {/* <div className="dilevery-instruction-container">
         <div className="dilevery-instruction">
             <div>
                  <img src={wallet} width={'20px'} height={'20px'}  style={{marginBottom: '5px' , marginRight:'10px'}}/>
@@ -750,7 +800,7 @@ const MobCartComponent = () => {
 </div>
 </div> */}
 
-{/* <div className="mt-3 d-flex gap-2">
+          {/* <div className="mt-3 d-flex gap-2">
           <FontAwesomeIcon icon={faTags} className="faicons-size text-danger" />
           <div className=" fw-bold">Unlock New Offers</div>
         </div>
@@ -765,11 +815,11 @@ const MobCartComponent = () => {
             })}
           </div>
         </div> */}
-       
-        {/* <div className="mt-2 text-secondary">
+
+          {/* <div className="mt-2 text-secondary">
           Any instructions? eg Delivery before 9 am
         </div> */}
-        {/* <div className="mt-3 d-flex gap-2">
+          {/* <div className="mt-3 d-flex gap-2">
           <FontAwesomeIcon icon={faTags} className="faicons-size text-danger" />
           <div className=" fw-bold">Unlock New Offers</div>
         </div>
@@ -784,19 +834,19 @@ const MobCartComponent = () => {
             })}
           </div>
         </div> */}
-        <div className="border border-danger rounded-3 mt-3 p-2 d-flex justify-content-around cursor-pointer">
-          <FontAwesomeIcon icon={faHeart} className="faicon-size mt-1 " />
-          <div
-            className="fw-bold "
-            onClick={() => {
-              navigate(ROUTES_NAVIGATION.USER_WISHLIST);
-            }}
-          >
-            View your wishlist
+          <div className="border border-danger rounded-3 mt-3 p-2 d-flex justify-content-around cursor-pointer">
+            <FontAwesomeIcon icon={faHeart} className="faicon-size mt-1 " />
+            <div
+              className="fw-bold coupon-image "
+              onClick={() => {
+                navigate(ROUTES_NAVIGATION.USER_WISHLIST);
+              }}
+            >
+              View your wishlist
+            </div>
+            <FontAwesomeIcon icon={faChevronRight} className="faicon-size   " />
           </div>
-          <FontAwesomeIcon icon={faChevronRight} className="faicon-size   " />
-        </div>
-        {/* <div className="pt-2">
+          {/* <div className="pt-2">
           <div className="fw-bold">You might have missed !</div>
 
           <div className="d-flex hide-scrollbar pt-2 mob-editable-productcard-container gap-2">
@@ -819,77 +869,74 @@ const MobCartComponent = () => {
           </div>
         </div> */}
 
-        <div className="">
-          {couponCode.length <= 0 ? (
-            <div
-              className="border border-danger rounded-3 mt-3 p-2 d-flex justify-content-around cursor-pointer"
-              onClick={() => {
-                navigate(ROUTES_NAVIGATION.ALL_COUPONS_LIST);
-              }}
-            >
-              <FontAwesomeIcon icon={faHeart} className="faicon-size mt-1 " />
-              <div className="fw-bold ">Apply coupons </div>
-              <FontAwesomeIcon
-                icon={faChevronRight}
-                className="faicon-size   "
-              />
-            </div>
-          ) : (
-            <div className="mt-3 border border-danger rounded-2">
-              <div className="d-flex justify-content-between">
-                <div className="d-flex">
-                  <div className="p-3">
-                    <FontAwesomeIcon
-                      icon={faTags}
-                      className="faicons-size text-danger"
-                    />
-                  </div>
-                  <div className="mt-2">
-                    <div className="fw-bold fs-5">
-                      {/* Conditionally render "APPLY" or the applied coupon code */}
-                      {couponCode}
-                    </div>
-
-                    <div className="text-body-secondary fw-bold fs-10">
-                      {couponCode.length > 0
-                        ? `Coupon ${couponCode} applied!`
-                        : "Save Flat ₹75 on this order"}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-3">
-                  <div
-                    className="fw-bold text-danger fs-13"
-                    onClick={handleRemove}
-                  >
-                    Remove
-                  </div>
-                </div>
-              </div>
-
+          <div className="">
+            {couponCode.length <= 0 ? (
               <div
-                className="p-2 mob-cart-component-view-more-coupon"
-                
+                className="border border-danger rounded-3 mt-3 p-2 d-flex justify-content-around cursor-pointer"
                 onClick={() => {
                   navigate(ROUTES_NAVIGATION.ALL_COUPONS_LIST);
                 }}
               >
-                <div className="">View more coupons</div>
+                <FontAwesomeIcon icon={faHeart} className="faicon-size mt-1 " />
+                <div className="fw-bold coupon-image ">Apply coupons </div>
                 <FontAwesomeIcon
                   icon={faChevronRight}
-                  className="faicon-size ps-2"
+                  className="faicon-size   "
                 />
               </div>
+            ) : (
+              <div className="mt-3 border border-danger rounded-2">
+                <div className="d-flex justify-content-between">
+                  <div className="d-flex">
+                    <div className="p-3">
+                      <FontAwesomeIcon
+                        icon={faTags}
+                        className="faicons-size text-danger"
+                      />
+                    </div>
+                    <div className="mt-2">
+                      <div className="fw-bold fs-5">
+                        {/* Conditionally render "APPLY" or the applied coupon code */}
+                        {couponCode}
+                      </div>
 
-              {/* {showCouponComponent && <MobCartCouponComponent />} */}
-            </div>
-          )}
-        </div>
+                      <div className="text-body-secondary fw-bold fs-10">
+                        {couponCode.length > 0
+                          ? `Coupon ${couponCode} applied!`
+                          : "Save Flat ₹75 on this order"}
+                      </div>
+                    </div>
+                  </div>
 
-       
+                  <div className="p-3">
+                    <div
+                      className="fw-bold text-danger fs-13"
+                      onClick={handleRemove}
+                    >
+                      Remove
+                    </div>
+                  </div>
+                </div>
 
-        {/* <div className="mt-3 card p-2">
+                <div
+                  className="p-2 mob-cart-component-view-more-coupon"
+                  onClick={() => {
+                    navigate(ROUTES_NAVIGATION.ALL_COUPONS_LIST);
+                  }}
+                >
+                  <div className="">View more coupons</div>
+                  <FontAwesomeIcon
+                    icon={faChevronRight}
+                    className="faicon-size ps-2"
+                  />
+                </div>
+
+                {/* {showCouponComponent && <MobCartCouponComponent />} */}
+              </div>
+            )}
+          </div>
+
+          {/* <div className="mt-3 card p-2">
           <div className="fw-bold">Tip Your Delivery Partner</div>
           <div className="fs-10 text-secondary">
             The entire amount will be sent to your delivery partner
@@ -911,7 +958,7 @@ const MobCartComponent = () => {
             ))}
           </div>
         </div> */}
-        {/* <div className="mt-3 card p-2">
+          {/* <div className="mt-3 card p-2">
           <div className="fw-bold">Tip Your Delivery Partner</div>
           <div className="fs-10 text-secondary">
             The entire amount will be sent to your delivery partner
@@ -933,7 +980,7 @@ const MobCartComponent = () => {
             ))}
           </div>
         </div> */}
-        {/* <div className="mt-3 card p-2">
+          {/* <div className="mt-3 card p-2">
           <div className="fw-bold">Tip Your Delivery Partner</div>
           <div className="fs-10 text-secondary">
             The entire amount will be sent to your delivery partner
@@ -955,7 +1002,7 @@ const MobCartComponent = () => {
             ))}
           </div>
         </div> */}
-        {/* <div className="mt-3 card p-2">
+          {/* <div className="mt-3 card p-2">
           <div className="fw-bold">Tip Your Delivery Partner</div>
           <div className="fs-10 text-secondary">
             The entire amount will be sent to your delivery partner
@@ -1000,7 +1047,7 @@ const MobCartComponent = () => {
             </div>
           </div>
         </div> */}
-        {/* <div className="mt-3 card p-2">
+          {/* <div className="mt-3 card p-2">
           <div className="fw-bold">Tip Your Delivery Partner</div>
           <div className="fs-10 text-secondary ">
             The entire amount will be sent to your delivery partner
@@ -1013,7 +1060,7 @@ const MobCartComponent = () => {
             <div className="card mob-cart-component-tip-style">₹40</div>
           </div>
         </div> */}
-        {/* <div className="mt-3 ">
+          {/* <div className="mt-3 ">
           <div className="row pt-1 mob-cart-component-view-more-coupon">
             <div className="col-3 p-0 ps-3 ">
               <FontAwesomeIcon icon={faWallet} className="faicons-size pt-1" />
@@ -1051,61 +1098,150 @@ const MobCartComponent = () => {
             </div>
           )}
         </div> */}
-        {/* <MobCartBillingComponent
+          {/* <MobCartBillingComponent
           selectedTip={selectedTips}
           coupon={coupon?.amount}
           walletAmount={appliedWalletAmount}
         /> */}
-        {/* <div className="d-flex mt-3 p-2 border border-danger rounded-2 gap-2">
+          {/* <div className="d-flex mt-3 p-2 border border-danger rounded-2 gap-2">
           <div className="mob-cart-component-paynow-container-img">
             <img src={Images.paynow} alt="paynow" className="w-100 h-100" />
           </div>
 
           <div>You will earn 2974 edobo credito worth ₹29.74</div>
         </div> */}
-      
 
-        <div className=" mt-3 fw-bold">
-          <div>
-            Please review your order and address details to avoid cancellations
-          </div>
+          <div className=" mt-2 mb-2 fw-bold">
+            <div>
+              Please review your order and address details to avoid
+              cancellations
+            </div>
 
-          <div className="fs-10 mt-3 text-danger">
-            Note: Something will come here.
-          </div>
-          <div className="fs-10 mt-3 text-danger cursor-pointer">
-            Read Refund & Cancellation Policy
+            <div className="fs-10 mt-3 text-danger">
+              Note: Something will come here.
+            </div>
+            <div className="fs-10 mt-3 text-danger cursor-pointer">
+              Read Refund & Cancellation Policy
+            </div>
           </div>
         </div>
-      </div>
-      {cartItems.length > 0 && (
-        <div className="card position-fixed bottom-0 w-100 shadow-lg">
-          <div className="d-flex justify-content-between">
-            <div className="mt-1 mob-cart-component-delivery-payment">
-              Deliver to - 400074, Chembur Colony, 123...
+        {cartItems.length > 0 && (
+          <div className="card position-fixed bottom-0 w-100 shadow-lg">
+            <div className="d-flex justify-content-between">
+              <div className="mt-1 mob-cart-component-delivery-payment">
+                Deliver to - 400074, Chembur Colony, 123...
+              </div>
+              <div
+                className="text-center cursor-pointer mt-1 pe-2 text-danger"
+                onClick={() => {
+                  // navigate(ROUTES_NAVIGATION.CHANGE_LOCATION);
+                  navigate(ROUTES_NAVIGATION.ORDER_CONFIRM);
+                  // need to ask where will be order confirm redirection.
+                }}
+              >
+                <FontAwesomeIcon icon={faLocationPin} className=" pe-1" />
+                CHANGE
+              </div>
             </div>
-            <div
-              className="text-center cursor-pointer mt-1 pe-2 text-danger"
-              onClick={() => {
-                // navigate(ROUTES_NAVIGATION.CHANGE_LOCATION);
-                navigate(ROUTES_NAVIGATION.ORDER_CONFIRM);
-                // need to ask where will be order confirm redirection.
-              }}
-            >
-              <FontAwesomeIcon icon={faLocationPin} className=" pe-1" />
-              CHANGE
+
+            <div className=" mt-1 d-flex justify-content-between">
+              <div className=" ps-2 mt-2 ">
+                <div className="fs-10">Amount to pay</div>
+                <div className="fw-bold">₹{amount}</div>
+              </div>
+
+              <div
+                className="mob-cart-component-payment-button cursor-pointer"
+                onClick={handleProceedToPayment}
+              >
+                {isLoading ? "Loading..." : "Proceed To Payment"}
+              </div>
+
+              {/* <div
+            className="mob-cart-component-payment-button cursor-pointer" 
+            onClick={() => {
+              // navigate(ROUTES_NAVIGATION.ORDER_CONFIRM);
+              navigate(ROUTES_NAVIGATION.CHANGE_LOCATION);
+            }}
+          >
+            Proceed To Payment
+          </div> */}
             </div>
           </div>
+        )}
 
-          <div className=" mt-1 d-flex justify-content-between">
-            <div className=" ps-2 mt-2 ">
-              <div className="fs-10">Amount to pay</div>
-              <div className="fw-bold">₹{amount}</div>
+        <div className="payment-container">
+          {/* <div className="Promo-ciode-code">
+        <span>Apply promo code</span>
+        <div
+         onClick={() => {
+          navigate(ROUTES_NAVIGATION.ALL_COUPONS_LIST);
+        }}
+         style={{ display: 'flex',flexDirection: 'row',alignItems: 'center'}}>
+          <span>New code</span>
+          <FontAwesomeIcon icon={faChevronRight} className="right-icon"/>
+        </div>
+       </div> */}
+
+          <div className="bill-summary-container">
+            <div className="Bill-summary">
+              <span>Bill summary</span>
+              <div
+                onClick={() => {
+                  setBillSummary(!billSummary);
+                }}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <span>{cartItems.length} item</span>
+                <FontAwesomeIcon icon={faChevronRight} className="right-icon" />
+              </div>
             </div>
+            {billSummary && (
+              <div style={{ padding: "10px" }}>
+                <MobCartBillingComponent
+                  selectedTip={selectedTips}
+                  coupon={coupon?.amount}
+                  walletAmount={appliedWalletAmount}
+                />
+              </div>
+            )}
+          </div>
 
+          <div className="bill-summary-container">
+            <div className="Bill-summary">
+              <span>Cash</span>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <span>Change mode</span>
+                <FontAwesomeIcon icon={faChevronRight} className="right-icon" />
+              </div>
+            </div>
+            {/*   <div className="payment-modes-container">
+
+       {paymentsModes.map((item, index) => (
+        <div key={index} className="payment-mode-card">
+          <img src={item.icon} alt={item.title} className="payment-mode-icon" />
+          <span className="payment-mode-title">{item.title}</span>
+        </div>
+      ))}
+       </div> */}
+          </div>
+
+          <div className=" mt-0 d-flex justify-content-between">
             <div
               className="mob-cart-component-payment-button cursor-pointer"
-              onClick={handleProceedToPayment}
+              onClick={() => {
+                navigate(ROUTES_NAVIGATION.ORDER_CONFIRM);
+              }}
             >
               {isLoading ? "Loading..." : "Proceed To Payment"}
             </div>
@@ -1121,100 +1257,10 @@ const MobCartComponent = () => {
           </div> */}
           </div>
         </div>
-      )}
-
-
-       <div className="payment-container">
-       
-       {/* <div className="Promo-ciode-code">
-        <span>Apply promo code</span>
-        <div
-         onClick={() => {
-          navigate(ROUTES_NAVIGATION.ALL_COUPONS_LIST);
-        }}
-         style={{ display: 'flex',flexDirection: 'row',alignItems: 'center'}}>
-          <span>New code</span>
-          <FontAwesomeIcon icon={faChevronRight} className="right-icon"/>
-        </div>
-       </div> */}
-
-     <div className="bill-summary-container">
-     <div className="Bill-summary">
-        <span>Bill summary</span>
-        <div
-           onClick={() => {
-           setBillSummary(!billSummary)
-          }}
-         style={{ display: 'flex',flexDirection: 'row',alignItems: 'center'}}>
-          <span>{cartItems.length} item | <b>₹{amount}</b> </span>
-          <FontAwesomeIcon icon={faChevronRight} className="right-icon"/>
-        </div>
-       
-       </div>
-       {
-          billSummary && (<div style={{padding: '10px'}}>
-            <MobCartBillingComponent
-          selectedTip={selectedTips}
-          coupon={coupon?.amount}
-          walletAmount={appliedWalletAmount}
-        />
-          </div>)
-        }
-     </div>
-
-
-     <div className="bill-summary-container">
-     <div className="Bill-summary">
-        <span>Cash</span>
-        <div
-          
-         style={{ display: 'flex',flexDirection: 'row',alignItems: 'center'}}>
-          <span>Change mode</span>
-          <FontAwesomeIcon icon={faChevronRight} className="right-icon"/>
-        </div>
-       
-       </div>
-    {/*   <div className="payment-modes-container">
-
-       {paymentsModes.map((item, index) => (
-        <div key={index} className="payment-mode-card">
-          <img src={item.icon} alt={item.title} className="payment-mode-icon" />
-          <span className="payment-mode-title">{item.title}</span>
-        </div>
-      ))}
-       </div> */}
-     </div>
-
-        <div className=" mt-1 d-flex justify-content-between">
-        
-          
-
-          <div
-            className="mob-cart-component-payment-button cursor-pointer"
-            onClick={() => {
-          
-              navigate(ROUTES_NAVIGATION.ORDER_CONFIRM);
-          
-            }}
-          >
-            {isLoading ? "Loading..." : "Proceed To Payment"}
-          </div>
-
-          {/* <div
-            className="mob-cart-component-payment-button cursor-pointer" 
-            onClick={() => {
-              // navigate(ROUTES_NAVIGATION.ORDER_CONFIRM);
-              navigate(ROUTES_NAVIGATION.CHANGE_LOCATION);
-            }}
-          >
-            Proceed To Payment
-          </div> */}
-        </div>
       </div>
-    </div>
-  )}
-  else {
-    return(<EmptyCart/>)
+    );
+  } else {
+    return <EmptyCart />;
   }
 };
 

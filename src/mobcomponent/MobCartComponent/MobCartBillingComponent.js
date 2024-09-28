@@ -33,7 +33,7 @@ const MobCartBillingComponent = ({ coupon, walletAmount }) => {
   const tipAmount = selectedTip; // Example tip, modify as needed
   const couponAmount = typeof coupon === "number" ? coupon : 0;
   const amountToPay =
-    totalItemPrice + deliveryFee + tipAmount - walletAmount - couponAmount;
+    totalItemPrice + deliveryFee + tipAmount- couponAmount;
   dispatch(setTotalAmount(amountToPay));
   // totalItemPrice + deliveryFee + tipAmount - savings;
 

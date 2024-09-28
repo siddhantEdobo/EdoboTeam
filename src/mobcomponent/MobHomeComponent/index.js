@@ -23,7 +23,7 @@ import ProductDetailsComponent from "../../component/ProductDetailsComponent";
 import MobSlideCollectionComponent from "./MobSlideCollectionComponent";
 import MobMultiBannerComponent from "./MobMultiBannerComponent/MobMultiBannerComponent";
 import MobTabbingCollection from "./MobTabbingCollectionComponent";
-import MobViewCart from './MobViewCart/index'
+import MobViewCart from "./MobViewCart/index";
 import { setCartItems } from "../../redux/reducers/addCart";
 
 const MobHomeComponent = () => {
@@ -32,9 +32,7 @@ const MobHomeComponent = () => {
   const [refreshCounter, setRefreshCounter] = useState(0);
   const { loading, fetchData, error } = useFetchProducts();
   const pincode = useSelector((state) => state.home.pincode);
- const cartItems =useSelector((state)=> state.cart.addToCart)
-
-  
+  const cartItems = useSelector((state) => state.cart.addToCart);
 
   useEffect(() => {
     localStorage.removeItem("pinCode");
@@ -87,9 +85,10 @@ const MobHomeComponent = () => {
   };
 
   console.log("data is ", productData);
+  const cartItems1 = useSelector((state) => state.cart.items);
 
   return (
-    <div className="home-container" style={{marginTop: '60px'}}>
+    <div className="home-container" style={{ marginTop: "60px" }}>
       <MobHeaderComponent />
       <MobSpecialEventComponent data={productData} />
       <MobBannerComponent data={productData} />
@@ -131,7 +130,7 @@ const MobHomeComponent = () => {
           </div>
         </>
       )}
-      <MobViewCart/>
+      {cartItems1.length > 0 && <MobViewCart />}
     </div>
   );
 };

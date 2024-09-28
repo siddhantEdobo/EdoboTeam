@@ -1,38 +1,35 @@
-.cart-view{
+.cart-view {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: auto;
-  margin-bottom:85px;
- 
-  
-
+  margin-bottom: 85px;
 }
 
-.cart-view-header{
+.cart-view-header {
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.Header-text{
+.Header-text {
   font-size: 25px;
   font-weight: 600;
 }
 
-.button{
+.button {
   background-color: transparent;
   border: none;
   width: 30px;
   height: 30px;
 
   & .backIcon {
-      font-size: 20px;
+    font-size: 20px;
   }
 }
 
-.choose-dilevery-header{
+.choose-dilevery-header {
   font-size: 17px;
 
   font-family: sans-serif;
@@ -42,7 +39,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  
+
   width: 300px;
   height: 65px;
   border: 2px solid #e4e4e7;
@@ -59,7 +56,7 @@
   overflow-x: scroll;
 }
 
-.dilevery-options-header{
+.dilevery-options-header {
   font-size: 18px;
   font-weight: 600;
   font-family: sans-serif;
@@ -71,18 +68,15 @@
   margin-right: 10px;
 }
 
-.dilevery-instruction-container{
+.dilevery-instruction-container {
   width: 100%;
   padding: 10px;
   display: flex;
   flex-direction: column;
-align-items: flex-start;
+  align-items: flex-start;
   justify-content: space-between;
   border-top: 2px solid #e4e4e7;
   border-bottom: 2px solid #e4e4e7;
-  
-  
-
 }
 
 .dilevery-text {
@@ -90,26 +84,25 @@ align-items: flex-start;
   flex-direction: column;
 
   & .header {
-      font-size: 18px;
-      color: black;
-      font-weight: 500;
-      font-family: sans-serif;
+    font-size: 18px;
+    color: black;
+    font-weight: 500;
+    font-family: sans-serif;
   }
-
- 
-
 }
 
-.header{
-  font-size: 14px;
+.header {
+  font-size: 16px;
   font-weight: 600;
+}
+.coupon-image {
+  font-size: 15px;
 }
 
 .instruction-card.selected {
-  border: 3px solid red; 
+  border: 3px solid red;
   border-radius: 20px;
 }
-
 
 .dilevery-instruction {
   width: 100%;
@@ -119,15 +112,14 @@ align-items: flex-start;
   justify-content: space-between;
 }
 
-.down-selection{
+.down-selection {
   width: 100%;
   overflow-x: scroll;
-
 }
 
 .wallet-button {
   border: none;
-  background-color: #D41A25;
+  background-color: #d41a25;
   border-radius: 8px;
   color: white;
   font-size: 16px;
@@ -149,11 +141,9 @@ align-items: flex-start;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-
-
 }
 
-.slot-setting-container{
+.slot-setting-container {
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -167,15 +157,14 @@ align-items: flex-start;
   justify-content: center;
 
   & h2 {
-     color: black;
-     font-weight: 500;
+    color: black;
+    font-weight: 500;
   }
 
   & h5 {
-     color: #A4A4A4; 
-     text-align: center;
+    color: #a4a4a4;
+    text-align: center;
   }
-
 }
 
 .date-selection-container {
@@ -197,7 +186,7 @@ align-items: flex-start;
   height: 100px;
   padding: 10px;
   border-radius: 10px;
-  border: 2px dotted #D41A25;
+  border: 2px dotted #d41a25;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
@@ -218,16 +207,16 @@ align-items: flex-start;
 
 .date-container-unselected:hover {
   background-color: #f8b1b1;
-  border: solid 1px #D41A25;
+  border: solid 1px #d41a25;
 }
 
 .date-container-selected {
-  background-color: #D41A25; /* Highlighted background color for selected date */
+  background-color: #d41a25; /* Highlighted background color for selected date */
   color: white;
   transform: scale(1.1); /* Slight zoom for selected date */
 }
 
-.date-container.selected h2, 
+.date-container.selected h2,
 .date-container.selected span {
   color: white;
 }
@@ -239,9 +228,6 @@ align-items: flex-start;
 .date-container.selected span {
   font-weight: 600; /* Bold day text */
 }
-
-
-
 
 .slider-container {
   display: flex;
@@ -255,7 +241,7 @@ align-items: flex-start;
   display: flex;
   flex-direction: row;
   overflow: x;
-  
+
   justify-content: space-around;
 }
 
@@ -269,7 +255,8 @@ align-items: flex-start;
   border-radius: 10px;
   font-size: 14px; /* Smaller font size for non-selected slots */
   color: #a9a9a9; /* Light grey for non-selected slots */
-  transition: transform 0.3s ease, background-color 0.3s ease, font-size 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease,
+    font-size 0.3s ease;
 }
 
 .time-slot.selected {
@@ -293,7 +280,7 @@ align-items: flex-start;
   cursor: not-allowed;
 }
 
-.buttons{
+.buttons {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -305,17 +292,17 @@ align-items: flex-start;
   font-size: 16px;
   padding: 10px;
   border-radius: 8px;
-  background-color: #D41A25;
+  background-color: #d41a25;
   color: white;
   border: none;
 }
 
-.cancel-delivery-button{
+.cancel-delivery-button {
   font-size: 16px;
   padding: 10px;
   border-radius: 8px;
-  border: 2px solid #D41A25;
-  background-color: #FFF4F4;
+  border: 2px solid #d41a25;
+  background-color: #fff4f4;
   color: black;
 }
 
@@ -336,26 +323,24 @@ align-items: flex-start;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid #ccc; 
+  border: 1px solid #ccc;
   padding: 10px;
 
-  box-sizing: border-box; 
-  border-radius: 15px; 
+  box-sizing: border-box;
+  border-radius: 15px;
   margin: 10px;
 
-  & img{
-      width: 50px;
-      height: 50px;
+  & img {
+    width: 50px;
+    height: 50px;
   }
   & h3 {
-      font-size: 16px;
-      margin-left: 10px;
+    font-size: 16px;
+    margin-left: 10px;
   }
-
-
 }
 
-.wallet{
+.wallet {
   width: 100%;
   height: 40px;
   display: flex;
@@ -366,35 +351,31 @@ align-items: flex-start;
   border-radius: 10px;
   background-color: #eeeeee;
 
-
-  & input{
-      width: 250px;
-      background-color: transparent;
-      border: none;
-      height: 25px;
-      font-size: 14px;
-      margin-right: 10px;
-      margin-left: 10px;
+  & input {
+    width: 250px;
+    background-color: transparent;
+    border: none;
+    height: 25px;
+    font-size: 14px;
+    margin-right: 10px;
+    margin-left: 10px;
   }
-
-  
 }
-.apply-cerdit{
+.apply-cerdit {
   font-size: 15px;
   width: 50px;
   height: 30px;
   border-radius: 8px;
-  border: 2px solid #D41A25;
-  background-color: #FFF4F4;
+  border: 2px solid #d41a25;
+  background-color: #fff4f4;
   color: black;
 }
 
-.payment-container{
-
+.payment-container {
   display: flex;
   flex-direction: column;
   width: 100%;
- 
+
   background-color: white;
   position: fixed;
   bottom: 0;
@@ -405,63 +386,59 @@ align-items: flex-start;
   box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.bill-summary-container{
+.bill-summary-container {
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid grey;
-
 }
 
-.Promo-ciode-code , .Bill-summary , .payment-mode-container{
-  padding: 20px;
+.Promo-ciode-code,
+.Bill-summary,
+.payment-mode-container {
+  padding: 15px;
   width: 100%;
-  
+
   border-bottom: 1px solid grey;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 
-
   & span {
-      font-size: 16px;
-      margin-bottom: 2px;
-      font-family: sans-serif;
-    
+    font-size: 16px;
+    margin-bottom: 2px;
+    font-family: sans-serif;
   }
 
-  & .right-icon{
-      font-size: 14px;
+  & .right-icon {
+    font-size: 14px;
   }
+}
 
- }
-
- .mob-cart-component-payment-button{
+.mob-cart-component-payment-button {
   width: 100%;
-  height: 60px;
-  background-color: #D41A25;
+  height: 50px;
+  background-color: #d41a25;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
   color: white;
-  font-size: 20px;
+  font-size: 18px;
+}
 
- }
-
-
-.mob-cart-component-view-more-coupon{
+.mob-cart-component-view-more-coupon {
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   border-top: 1px grey solid;
-  margin-top: 5px ;
+  margin-top: 5px;
 }
 
- .payment-modes-container {
+.payment-modes-container {
   display: flex;
   height: 100px;
   justify-content: space-between;
@@ -493,7 +470,6 @@ align-items: flex-start;
 .payment-mode-icon {
   width: 45px;
   height: 45px;
- 
 }
 
 .payment-mode-title {
