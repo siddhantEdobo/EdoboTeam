@@ -231,6 +231,9 @@ const MobCartComponent = () => {
   //   setShowInput(false); // Hide input after applying
   // };
   const [DeliveryOption, SetDeliveryOption] = useState("");
+  const [Payment , ChangePaymentmode] = useState(false)
+  const  [PaymentMethod, ChangePaymentMethod] = useState('')
+
   const [startDate, setStartDate] = useState(new Date());
   const [selectedSlot, setSelectedSlot] = useState(null);
   const navigate = useNavigate();
@@ -907,7 +910,7 @@ const MobCartComponent = () => {
                 <div className="fw-bold coupon-image ">Apply coupons </div>
                 <FontAwesomeIcon
                   icon={faChevronRight}
-                  className="faicon-size   "
+                  className="faicon-size"
                 />
               </div>
             ) : (
@@ -1239,18 +1242,41 @@ const MobCartComponent = () => {
 
           <div className="bill-summary-container">
             <div className="Bill-summary">
-              <span>Cash</span>
+              <span>{PaymentMethod ?  PaymentMethod : "Select Payment Method"}</span>
+
               <div
+              onClick={()=>{
+                ChangePaymentmode(!Payment);
+               }}
                 style={{
                   display: "flex",
                   flexDirection: "row",
                   alignItems: "center",
-                }}
-              >
+                  
+                }}>
+      
                 <span>Change mode</span>
-                <FontAwesomeIcon icon={faChevronRight} className="right-icon" />
+                <FontAwesomeIcon 
+                 
+                 icon={faChevronRight} className="right-icon" />
               </div>
             </div>
+            {
+              Payment && (
+                <div className="payment-modes-container">
+                  <div 
+                  onClick={()=>{
+                    ChangePaymentmode(!Payment)
+                    ChangePaymentMethod('Cash')}}
+                  className="payment-mode-card">Cash</div>
+                  <div 
+                  onClick={()=>{
+                    ChangePaymentmode(!Payment)
+                    ChangePaymentMethod('PayU')}}
+                  className="payment-mode-card">Payu</div>
+                </div>
+              )
+            }
             {/*   <div className="payment-modes-container">
 
        {paymentsModes.map((item, index) => (

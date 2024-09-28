@@ -16,6 +16,7 @@ import ROUTES_NAVIGATION from "../../routes/routes";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import MobHeaderNavigation from "../MobHeaderNavigation";
 
 const MobOTPVerificationComponent = () => {
   const [otp, setOtp] = useState("");
@@ -80,13 +81,7 @@ const MobOTPVerificationComponent = () => {
   }, []);
   return (
     <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={"OTP Verification"}
-        isCartShow={false}
-        isEdoboLogo={true}
-        isBottomTab={false}
-      />
+     <MobHeaderNavigation text={'OTP Verification'}/>
       <div className="mt-5 p-3 gap-3">
         <div className="d-flex  justify-content-center ">
           <div className="mt-3">
