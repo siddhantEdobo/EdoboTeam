@@ -384,6 +384,7 @@ const RouteComponent = () => {
           path={ROUTES_NAVIGATION.USER_ORDER}
           element={
             isMobileView ? (
+              
               <MobOrderHistoryComponent />
             ) : (
               //order History

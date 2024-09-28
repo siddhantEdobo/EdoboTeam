@@ -55,11 +55,61 @@
   align-items: center;
   overflow-x: scroll;
 }
+.date-slider-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%; /* Adjust to fit container */
+}
 
-.dilevery-options-header {
-  font-size: 18px;
-  font-weight: 600;
-  font-family: sans-serif;
+.date-slider-container {
+  overflow-x: auto; /* Enable horizontal scrolling */
+  white-space: nowrap;
+  flex: 1; /* Allow the slider to take up remaining space */
+  scroll-behavior: smooth; /* Enable smooth scrolling */
+}
+
+.date-slider {
+  display: flex;
+  gap: 15px; /* Space between dates */
+}
+
+.date-container {
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  min-width: 80px; /* Control the width of each date block */
+  background-color: #f5f5f5;
+  transition: background-color 0.3s;
+}
+
+.date-container h2 {
+  margin: 5px 0;
+}
+
+.scroll-left-button,
+.scroll-right-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.scroll-left-button {
+  position: absolute;
+  left: 0;
+}
+
+.scroll-right-button {
+  position: absolute;
+  right: 0;
+}
+
+.date-slider-container::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for cleaner UI */
 }
 
 .dilvery-icon {
@@ -127,20 +177,45 @@
   font-family: sans-serif;
   font-weight: 200;
 }
+.time-slot.selected {
+  background-color: white;
+  font-family: sans-serif;
+  border: none;
+  font-size: 19px; /* Larger font size for selected slot */
+  font-weight: 600; /* Bold text for selected slot */
+  color: black; /* White text color for selected slot */
+}
 
-.slot-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 200vh;
-  z-index: 23;
-  background-color: #00000080;
+.slider-container {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.time-options {
+  display: flex;
+  flex-direction: row;
+  overflow: x;
+
+  justify-content: space-around;
+}
+
+.date-container.selected {
+  background-color: #007bff;
+  color: white;
+}
+
+.date-container.unselected {
+  background-color: #f5f5f5;
+  color: #000;
+}
+
+.dilevery-options-header {
+  font-size: 18px;
+  font-weight: 600;
+  font-family: sans-serif;
 }
 
 .slot-setting-container {
@@ -165,6 +240,20 @@
     color: #a4a4a4;
     text-align: center;
   }
+}
+.slot-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 200vh;
+  z-index: 23;
+  background-color: #00000080;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .date-selection-container {
@@ -229,22 +318,6 @@
   font-weight: 600; /* Bold day text */
 }
 
-.slider-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.time-options {
-  display: flex;
-  flex-direction: row;
-  overflow: x;
-
-  justify-content: space-around;
-}
-
 .time-slot {
   display: flex;
   align-items: center;
@@ -257,15 +330,6 @@
   color: #a9a9a9; /* Light grey for non-selected slots */
   transition: transform 0.3s ease, background-color 0.3s ease,
     font-size 0.3s ease;
-}
-
-.time-slot.selected {
-  background-color: white;
-  font-family: sans-serif;
-  border: none;
-  font-size: 19px; /* Larger font size for selected slot */
-  font-weight: 600; /* Bold text for selected slot */
-  color: black; /* White text color for selected slot */
 }
 
 .slider-button {

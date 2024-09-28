@@ -470,6 +470,25 @@ const MobCartComponent = () => {
     dispatch(setSelectedDate(date.toISOString()));
   };
 
+  const generateDates = () => {
+    const dates = [];
+    const currentDate = new Date();
+
+    for (let i = 0; i < 7; i++) {
+      // For the next 7 days
+      const dateObj = new Date(currentDate);
+      dateObj.setDate(currentDate.getDate() + i);
+
+      const day = dateObj.toLocaleDateString("en-US", { weekday: "short" }); // Example: Mon, Tue
+      const date = dateObj.getDate(); // Day of the month (1-31)
+      const month = dateObj.toLocaleDateString("en-US", { month: "short" }); // Example: Jan, Feb
+      const year = dateObj.getFullYear(); // Year
+
+      dates.push({ day, date, month, year });
+    }
+    return dates;
+  };
+  const dates = generateDates();
   if (cartItems.length > 0) {
     return (
       <div className="cart-view">
@@ -608,8 +627,9 @@ const MobCartComponent = () => {
                 <h2>Select delivery's date & time</h2>
                 <div>
                   <h5>Select available dates</h5>
-                  <div className="date-selection-container">
-                    {date.map((date, index) => (
+                  <div className="date-selection-container"
+                  >
+                    {dates.map((date, index) => (
                       <div
                         key={index}
                         className={`date-container-${
@@ -619,7 +639,7 @@ const MobCartComponent = () => {
                       >
                         <span>{date.day}</span>
                         <h2>{date.date}</h2>
-                        <span>MAY</span>
+                        <span>{date.month.toUpperCase()}</span>
                       </div>
                     ))}
                   </div>
@@ -668,10 +688,11 @@ const MobCartComponent = () => {
 
           <div className="dilevery-instruction-container">
             <div
-             onClick={() => {
-              navigate(ROUTES_NAVIGATION.CHANGE_LOCATION);
-            }}
-             className="dilevery-instruction">
+              onClick={() => {
+                navigate(ROUTES_NAVIGATION.CHANGE_LOCATION);
+              }}
+              className="dilevery-instruction"
+            >
               <div>
                 <img
                   src={location}
@@ -682,9 +703,7 @@ const MobCartComponent = () => {
                 <span className="header">Delivery address</span>
               </div>
 
-              <div
-               
-              >
+              <div>
                 <FontAwesomeIcon icon={faChevronRight} />
               </div>
             </div>
@@ -707,7 +726,6 @@ const MobCartComponent = () => {
                 <span
                   className="header"
                   onClick={() => {
-                   
                     // navigate(ROUTES_NAVIGATION.ORDER_CONFIRM);
                     // need to ask where will be order confirm redirection.
                   }}
@@ -746,11 +764,12 @@ const MobCartComponent = () => {
           </div>
 
           <div className="dilevery-instruction-container">
-            <div 
-             onClick={() => {
-              navigate(ROUTES_NAVIGATION.USER_WISHLIST);
-            }}
-            className="dilevery-instruction">
+            <div
+              onClick={() => {
+                navigate(ROUTES_NAVIGATION.USER_WISHLIST);
+              }}
+              className="dilevery-instruction"
+            >
               <div>
                 <img
                   src={wishlist}
