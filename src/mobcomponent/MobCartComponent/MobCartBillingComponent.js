@@ -4,6 +4,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTip } from "../../redux/reducers/tipSlice";
 import { setTotalAmount } from "../../redux/reducers/totalAmountPay";
+import './mobCartView.css'
 
 const MobCartBillingComponent = ({ coupon, walletAmount }) => {
   const dispatch = useDispatch();

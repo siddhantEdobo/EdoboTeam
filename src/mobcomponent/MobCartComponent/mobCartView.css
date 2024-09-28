@@ -314,6 +314,9 @@
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
+
+
+
 .date-container.selected h2,
 .date-container.selected span {
   color: white;
@@ -513,10 +516,11 @@
 
 .payment-modes-container {
   display: flex;
-  height: 100px;
-  justify-content: space-between;
+  height: 50px;
+  justify-content: center;
+  gap: 10px;
   align-items: center;
-  margin: 20px 0;
+  margin: 10px 0;
   overflow-x: scroll;
 }
 
@@ -528,7 +532,7 @@
   padding: 10px;
   margin-left: 10px;
   width: 110px;
-  height: 70px;
+
   border: 2px solid #ccc;
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
@@ -557,4 +561,20 @@
 
 .toggle-icon.rotated {
   transform: rotate(180deg);
+}
+
+.mob-cart-component-billing-heading-style{
+  padding: 2px;
+  background-color: #53B175;
+  text-align: center;
+  color: white;
+  font-weight: 500;
+}
+
+.mob-cart-component-save-bill-style{
+  background-color: #53B175;
+  text-align: center;
+  color: white;
+  padding: 2px;
+  border-radius: 10px; 
 }
