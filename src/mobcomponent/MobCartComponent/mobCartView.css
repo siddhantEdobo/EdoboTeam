@@ -211,9 +211,18 @@
 }
 
 .date-container-selected {
-  background-color: #d41a25; /* Highlighted background color for selected date */
-  color: white;
-  transform: scale(1.1); /* Slight zoom for selected date */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 80px;
+  height: 100px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #f8b1b1;
+  border: solid 1px #d41a25;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .date-container.selected h2,
