@@ -675,3 +675,13 @@ ul li::before {
 /* otp verification */
 
 /* for showcartsummaryComponent component End */
+
+
+.offcanvas-body{
+  padding: 0;
+}
+
+.container{
+  padding-left: 0;
+  padding-right: 0;
+}

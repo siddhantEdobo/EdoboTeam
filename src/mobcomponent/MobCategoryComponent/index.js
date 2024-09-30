@@ -5,7 +5,7 @@ import cutFruitImage from "../../assets/Mob/mob-image/category/cut_fruits.png";
 import cutVegImage from "../../assets/Mob/mob-image/category/cut-veg.png";
 import leafyImage from "../../assets/Mob/mob-image/category/leafy.png";
 import vegImage from "../../assets/Mob/mob-image/category/veg.png";
-import MobHeaderComponent from "../MobHeaderComponent";
+import MobHeaderComponent from "../MobHeaderNavigation";
 import { useNavigate } from "react-router-dom";
 import ROUTES_NAVIGATION from "../../routes/routes";
 import CategorySkeleton from "../../common/CustomSkeleton/CategorySkeleton";
@@ -259,11 +259,11 @@ const MobCategoryComponent = () => {
   return (
     <div className="mob-category-container container">
       {console.log("categorydata..", productData)}
-      <MobHeaderComponent
-        isBack={true}
-        headerText={"Category"}
-        isCartShow={false}
-        isEdoboLogo={true}
+      <MobHeaderComponent text={'Category'}
+        // isBack={true}
+        // headerText={"Category"}
+        // isCartShow={false}
+        // isEdoboLogo={true}
       />
 
       {/* <CategorySkeleton /> */}

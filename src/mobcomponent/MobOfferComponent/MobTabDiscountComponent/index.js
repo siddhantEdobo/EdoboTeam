@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./MobTabDiscountComponent.css";
 import parse from "html-react-parser";
-import MobHeaderComponent from "../../MobHeaderComponent";
+import MobHeaderComponent from "../../MobHeaderNavigation";
 import axios from "axios";
 
 const MobTabDiscountComponent = () => {
@@ -42,11 +42,11 @@ const MobTabDiscountComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={"Discount and Coupons"}
-        isCartShow={false}
-        isEdoboLogo={true}
+      <MobHeaderComponent text={'Discount and Coupons'}
+        // isBack={true}
+        // headerText={"Discount and Coupons"}
+        // isCartShow={false}
+        // isEdoboLogo={true}
       />
       <div className="container home-container">
         <div className="fs-6 border-bottom pb-1">Available Coupons</div>

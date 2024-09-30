@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import "./MobBrowserCategoryComponent.css";
 import { useNavigate, useParams } from "react-router-dom";
-import MobHeaderComponent from "../MobHeaderComponent";
+import MobHeaderComponent from "../MobHeaderNavigation";
 import MobBrowseMainCategoryListComponent from "./MobBrowseMainCategoryListComponent";
 import ROUTES_NAVIGATION from "../../routes/routes";
 import MobBrowseSubCategoryListComponent from "./MobBrowseSubCategoryListComponent";
@@ -220,16 +220,12 @@ const MobBrowserCategoryComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={maincategory}
-        isEdoboLogo={true}
-      >
-        <div
-          type="button"
-          className="btn position-relative justify-content-end end-0"
-        ></div>
-      </MobHeaderComponent>
+      <MobHeaderComponent text={'Main Category'}
+        // isBack={true}
+        // headerText={maincategory}
+        // isEdoboLogo={true}
+      />
+    
       <div className=" container-lg align-items-start m-0 home-container flex-wrap overflow-hidden mob-browse-category-main-container">
         <div className=" mob-browse-category-header-banner">
           <img
@@ -359,7 +355,7 @@ const MobBrowserCategoryComponent = () => {
                 }}
               ></button>
             </div>
-            <div className="offcanvas-body small">
+            <div className="offcanvas-body">
               <div className="fs-14 fw-bold pb-2">Onion</div>
               <div className="card border-danger p-3">
                 <div className="d-flex align-items-center ">

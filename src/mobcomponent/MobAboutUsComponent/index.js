@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MobHeaderComponent from "../MobHeaderComponent";
+import MobHeaderComponent from "../MobHeaderNavigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -17,12 +17,12 @@ const MobAboutUsComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={"About Us"}
-        isCartShow={false}
-        isBottomTab={false}
-        isEdoboLogo={true}
+      <MobHeaderComponent text={'About us'}
+        // isBack={true}
+        // headerText={"About Us"}
+        // isCartShow={false}
+        // isBottomTab={false}
+        // isEdoboLogo={true}
       />
       {selectedCard === "about" &&
         AboutUS.map((data, index) => (

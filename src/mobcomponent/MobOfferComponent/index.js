@@ -6,7 +6,7 @@ import offerBanner3 from "../../assets/Mob/mob-image/Offer-page-banner-3.png";
 import "./MobOfferComponent.css";
 import { useNavigate } from "react-router-dom";
 import ROUTES_NAVIGATION from "../../routes/routes";
-import MobHeaderComponent from "../MobHeaderComponent";
+import MobHeaderComponent from "../MobHeaderNavigation";
 
 const MobOfferComponent = () => {
   const navigate = useNavigate();
@@ -17,7 +17,9 @@ const MobOfferComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent isBack={true} isEdoboLogo={true} />
+      <MobHeaderComponent text={'Offers'}
+      // isBack={true} isEdoboLogo={true} 
+      />
       <div className="container position-relative">
         <div className="position-relative">
           <div className="background-image-container">

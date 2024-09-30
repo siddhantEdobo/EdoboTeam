@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./MobSearchComponent.css";
-import MobHeaderComponent from "../MobHeaderComponent";
+import MobHeaderComponent from "../MobHeaderNavigation";
 import MobDailyNeedManuButtonComponent from "./MobDailyNeedManuButtonComponent";
 import MobEdiblesComponent from "../MobHomeComponent/MobEdibleComponent/MobEdiblesComponent";
 import MobCategoryBannerComponent from "../MobHomeComponent/MobCategoryBannerComponent/MobCategoryBannerComponent";
@@ -187,11 +187,11 @@ function MobSearchComponent() {
 
   return (
     <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={""}
-        isCartShow={false}
-        isEdoboLogo={true}
+      <MobHeaderComponent text={''}
+        // isBack={true}
+        // headerText={""}
+        // isCartShow={false}
+        // isEdoboLogo={true}
       >
         <div className="h-100 mob-serach-component-container flex-fill w-100">
           <input

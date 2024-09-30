@@ -59,7 +59,7 @@
 // export default MobRequestNewProductComponent;
 
 import React, { useState } from "react";
-import MobHeaderComponent from "../MobHeaderComponent";
+import MobHeaderComponent from "../MobHeaderNavigation";
 import "./MobRequestNewProductComponent.css";
 import { Images } from "../../assets";
 import { useNavigate } from "react-router-dom";
@@ -114,11 +114,11 @@ const MobRequestNewProductComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={"Request New Product"}
-        isCartShow={false}
-        isEdoboLogo={true}
+      <MobHeaderComponent text={'Request New Product'}
+        // isBack={true}
+        // headerText={"Request New Product"}
+        // isCartShow={false}
+        // isEdoboLogo={true}
       />
       <div className="mt-3 mx-3">
         <div

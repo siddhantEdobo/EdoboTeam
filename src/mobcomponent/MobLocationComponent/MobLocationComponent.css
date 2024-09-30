@@ -56,3 +56,10 @@
 .mob-location-component-offcanvas {
   padding: 0 !important;
 }
+
+.text-secondary{
+  text-align: justify;
+  font-weight: 600;
+  color: black;
+}
+

@@ -80,7 +80,7 @@
 // export default MobProductDetailComponent;
 
 import React, { createRef, useEffect, useRef, useState } from "react";
-import MobHeaderComponent from "../MobHeaderComponent";
+import MobHeaderComponent from "../MobHeaderNavigation";
 import ProductDetailsImageComponent from "../../component/ProductDetailsComponent/ProductDetailsImageComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -260,10 +260,10 @@ const MobProductDetailComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={"Product Detail"}
-        isEdoboLogo={true}
+      <MobHeaderComponent text={'Product Detail'}
+        // isBack={true}
+        // headerText={"Product Detail"}
+        // isEdoboLogo={true}
 
         // isEdoboLogo={true}
 

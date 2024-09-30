@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MobHeaderComponent from "../MobHeaderComponent";
+import MobHeaderComponent from "../MobHeaderNavigation";
 import "./MobCustomerSupportComponent.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -79,11 +79,11 @@ const MobCustomerSupportComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={"Customer Support"}
-        isCartShow={false}
-        isEdoboLogo={true}
+      <MobHeaderComponent text={'Customer Support'}
+        // isBack={true}
+        // headerText={"Customer Support"}
+        // isCartShow={false}
+        // isEdoboLogo={true}
       />
       <div className="container-fluid m-0 p-0 t">
         <div className="mob-cart-choose-change-location-container-heading">

@@ -13,6 +13,7 @@ import {
 import { useNavigate } from "react-router";
 import MobEnableLocationComponent from "./MobEnableLocationComponent";
 import "./MobEnableLocationComponent.css";
+import MobHeaderNavigation from "../MobHeaderNavigation";
 
 const MobSearchLocationManuallyComponent = ({ onClose = () => {} }) => {
   const [isSearch, setIsSearch] = useState("");
@@ -133,22 +134,9 @@ const MobSearchLocationManuallyComponent = ({ onClose = () => {} }) => {
   ];
 
   return (
-    <>
+    <div>
       <div className="container-fluid m-0 p-0">
-        <div className="mob-search-location-manually-component">
-          <div
-            className="d-flex gap-2"
-            onClick={() => {
-              onClose();
-            }}
-          >
-            <FontAwesomeIcon
-              icon={faAngleLeft}
-              className="mob-search-location-manually-component-backbutton-header faicons-size"
-            />
-            <div className="">Your Location</div>
-          </div>
-        </div>
+        <MobHeaderNavigation text={'Your Location'}/>
 
         <div className="container">
           <div>
@@ -269,7 +257,7 @@ const MobSearchLocationManuallyComponent = ({ onClose = () => {} }) => {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 };
 

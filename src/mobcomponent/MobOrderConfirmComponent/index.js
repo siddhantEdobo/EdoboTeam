@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MobHeaderComponent from "../MobHeaderComponent";
+import MobHeaderComponent from "../MobHeaderNavigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartShopping,
@@ -39,11 +39,11 @@ const ordersData = [
 const MobOrderConfirmComponent = () => {
   return (
     <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={"Order Confirm"}
-        isCartShow={false}
-        isEdoboLogo={true}
+      <MobHeaderComponent text={'Order Confirm'}
+        // isBack={true}
+        // headerText={"Order Confirm"}
+        // isCartShow={false}
+        // isEdoboLogo={true}
       />
       <div className="container-fluid">
         <div className="mt-1">
