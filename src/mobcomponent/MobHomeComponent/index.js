@@ -15,7 +15,7 @@ import MobVagitablesComponent from "./MobTabbingCollectionComponent";
 import MobComboComponent from "./MobComboComponent";
 import MobLocationComponent from "../MobLocationComponent";
 import MobMainHeaderComponent from "./MobMainHeaderComponent/MobMainHeaderComponent";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MobTabbingCollectionComponent from "./MobTabbingCollectionComponent";
 import useFetchProducts from "../../hooks/homeSetPincode";
 import GoogleMapsProvider from "../MobLocationComponent/GoogleMapsProvider";
@@ -25,6 +25,7 @@ import MobMultiBannerComponent from "./MobMultiBannerComponent/MobMultiBannerCom
 import MobTabbingCollection from "./MobTabbingCollectionComponent";
 import MobViewCart from "./MobViewCart/index";
 import { setCartItems } from "../../redux/reducers/addCart";
+import substoreId, { setSubStoreId } from "../../redux/reducers/substoreId";
 
 const MobHomeComponent = () => {
   const [showLocation, setShowLocation] = useState(false);
@@ -33,6 +34,7 @@ const MobHomeComponent = () => {
   const { loading, fetchData, error } = useFetchProducts();
   const pincode = useSelector((state) => state.home.pincode);
   const cartItems = useSelector((state) => state.cart.addToCart);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     localStorage.removeItem("pinCode");
@@ -43,12 +45,17 @@ const MobHomeComponent = () => {
     const fetchProducts = async () => {
       if (pincode) {
         const data = await fetchData(pincode);
+        const substore = data?.data[0]?.sub_store_id;
+        if (substore) {
+          dispatch(setSubStoreId(substore));
+        }
         setProductData(data);
+        console.log("here find substore id", substore);
       }
     };
 
     fetchProducts();
-  }, [pincode, fetchData, refreshCounter]);
+  }, [pincode, fetchData, refreshCounter, dispatch]);
 
   useEffect(() => {
     if (showLocation && !pincode) {

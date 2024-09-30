@@ -4,7 +4,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTip } from "../../redux/reducers/tipSlice";
 import { setTotalAmount } from "../../redux/reducers/totalAmountPay";
-import './mobCartView.css'
+import "./mobCartView.css";
 
 const MobCartBillingComponent = ({ coupon, walletAmount }) => {
   const dispatch = useDispatch();
@@ -33,8 +33,11 @@ const MobCartBillingComponent = ({ coupon, walletAmount }) => {
   // const walletAmount = 260; // Example wallet usage, modify as needed
   const tipAmount = selectedTip; // Example tip, modify as needed
   const couponAmount = typeof coupon === "number" ? coupon : 0;
-  const amountToPay =
-    totalItemPrice + deliveryFee + tipAmount- couponAmount;
+  const amountToPay = Math.max(
+    totalItemPrice + deliveryFee + tipAmount - couponAmount,
+    0
+  );
+  // Dispatch the total amount to Redux
   dispatch(setTotalAmount(amountToPay));
   // totalItemPrice + deliveryFee + tipAmount - savings;
 
@@ -54,7 +57,7 @@ const MobCartBillingComponent = ({ coupon, walletAmount }) => {
           </div>
         </div>
         <div className=" d-flex">
-          <div className="text-decoration-line-through pe-2">₹{savings}</div>
+          {/* <div className="text-decoration-line-through pe-2">₹{savings}</div> */}
           <div className="fw-bold">₹{totalItemPrice}</div>
         </div>
       </div>

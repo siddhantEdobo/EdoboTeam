@@ -60,6 +60,11 @@ import {
   setSelectedDate,
 } from "../../redux/reducers/slot";
 import MobHeaderNavigation from "../MobHeaderNavigation";
+import {
+  addInstruction,
+  removeInstruction,
+} from "../../redux/reducers/deliveryinstruction";
+import { findKey } from "lodash";
 // import { faUserSecret, faDoorClosed, faPhoneSlash, faCat } from '@fortawesome/free-solid-svg-icons';
 
 const OFFERSCODE = [
@@ -199,10 +204,13 @@ const MobCartComponent = () => {
   const coupon = useSelector((state) => state.coupons.appliedCoupon);
   const selectedTip = useSelector((state) => state.tip.selectedTip);
   const amount = useSelector((state) => state.totalAmount.amount);
+  const userInstruction = useSelector(
+    (state) => state.instruction.userInstruction
+  );
   console.log("amount to pay ", amount);
   const selectedCards = useSelector((state) => state.delivery.selectedCards); // Adjust state path if necessary
   const { deliveryType, selectSlot } = useSelector((state) => state.delivery);
-  console.log("cards select", selectedCards);
+  console.log("cards select", userInstruction);
 
   const handleUseClick = () => {
     setShowInput(!showInput); // Toggle the input box
@@ -231,8 +239,8 @@ const MobCartComponent = () => {
   //   setShowInput(false); // Hide input after applying
   // };
   const [DeliveryOption, SetDeliveryOption] = useState("");
-  const [Payment , ChangePaymentmode] = useState(false)
-  const  [PaymentMethod, ChangePaymentMethod] = useState('')
+  const [Payment, ChangePaymentmode] = useState(false);
+  const [PaymentMethod, ChangePaymentMethod] = useState("");
 
   const [startDate, setStartDate] = useState(new Date());
   const [selectedSlot, setSelectedSlot] = useState(null);
@@ -242,7 +250,7 @@ const MobCartComponent = () => {
   const [showCouponComponent, setShowCouponComponent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [walletDownMenu, setWalletDownMenu] = useState(false);
-  const [userInstruction, setUserInstruction] = useState([]);
+  // const [userInstruction, setUserInstruction] = useState([]);
   // const [selectedCards, setSelectedCards] = useState([]);
   // const [selectedTips, setSelectedTips] = useState([]);
   const [selectedTips, setSelectedTips] = useState(null);
@@ -291,13 +299,11 @@ const MobCartComponent = () => {
   //
 
   const handleAddInstruction = (data) => {
-    if (!userInstruction.includes(data)) {
-      setUserInstruction([...userInstruction, data]);
+    if (!userInstruction.some((item) => item.title === data.title)) {
+      dispatch(addInstruction(data));
     } else {
-      setUserInstruction(userInstruction.filter((item) => item !== data));
+      dispatch(removeInstruction(data));
     }
-
-    console.log(userInstruction);
   };
 
   const handleSlotSelection = (slot) => {
@@ -332,6 +338,9 @@ const MobCartComponent = () => {
   // const [couponCode, setCouponCode] = useState(coupon.map((item) => item.code));
   const [couponCode, setCouponCode] = useState(coupon ? coupon.code : "");
   const cartItems = useSelector((state) => state.cart.items);
+  const substoreId = useSelector((state) => state.substore.sub_store_id);
+  console.log("idd  is", substoreId);
+
   const [billSummary, setBillSummary] = useState(false);
   const [slotshow, setSlotShow] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -391,28 +400,62 @@ const MobCartComponent = () => {
     },
   ];
 
-  const timeSlots = [
-    "",
-    "10AM-12PM",
-    "12PM-2PM",
-    "2PM-4PM",
-    "4PM-6PM",
-    "6PM-8PM",
-  ];
+  // const timeSlots = [
+  //   "",
+  //   "10AM-12PM",
+  //   "12PM-2PM",
+  //   "2PM-4PM",
+  //   "4PM-6PM",
+  //   "6PM-8PM",
+  // ];
 
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(2);
   const [chooseTime, setChooseTime] = useState(false);
+  const [timeSlots, setTimeSlots] = useState([]);
 
-  const handleDateClick = (clickedDate) => {
+  const handleDateClick = async (clickedDate) => {
+    console.log(clickedDate.day);
     setSelectedDate(clickedDate);
     setChooseTime(true);
-  };
 
-  const handleTimeSlotClick = (time) => {
-    console.log(time);
-    setSelectedTime(time);
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/user/deliveryTimeSlots?delivery_name=chembur&substore_id=${substoreId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Check if response contains data and if it's an array
+      if (response && response.data && Array.isArray(response.data.data)) {
+        console.log("slot data", response.data.data);
+
+        // Filter the time slots for the selected day
+        response.data.data.forEach((slot) => {
+          // console.log("Slot Object:", slot);
+          console.log("Slot Day:", slot.day); // Log only the day property
+        });
+        const filteredSlots = response.data.data.filter(
+          (slot) => slot.day === clickedDate.day // Normalize case
+        );
+        console.log(filteredSlots);
+        setTimeSlots(filteredSlots); // Set the filtered time slots
+      } else {
+        throw new Error("Failed to fetch time slots");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const handleTimeSlotClick = (timeSlot) => {
+    // console.log(time);
+    // setSelectedTime(time);
+    setSelectedTimeSlot(timeSlot);
   };
 
   const handleConfirmDelivery = () => {
@@ -483,7 +526,7 @@ const MobCartComponent = () => {
       const dateObj = new Date(currentDate);
       dateObj.setDate(currentDate.getDate() + i);
 
-      const day = dateObj.toLocaleDateString("en-US", { weekday: "short" }); // Example: Mon, Tue
+      const day = dateObj.toLocaleDateString("en-US", { weekday: "long" }); // Example: Mon, Tue
       const date = dateObj.getDate(); // Day of the month (1-31)
       const month = dateObj.toLocaleDateString("en-US", { month: "short" }); // Example: Jan, Feb
       const year = dateObj.getFullYear(); // Year
@@ -656,26 +699,24 @@ const MobCartComponent = () => {
                 <div>
                   <h5>Choose time slots</h5>
 
-                  {chooseTime && (
+                  {chooseTime && timeSlots.length > 0 && (
                     <div
                       className="slider-container"
                       onTouchStart={handleTouchStart}
                       onTouchEnd={handleTouchEnd}
                     >
                       <div className="time-options">
-                        {timeSlots
-                          .slice(selectedIndex - 1, selectedIndex + 2)
-                          .map((time, index) => (
-                            <div
-                              key={index}
-                              className={`time-slot ${
-                                index === 1 ? "selected" : ""
-                              }`}
-                              onClick={() => handleTimeSlotClick(time)}
-                            >
-                              {time}
-                            </div>
-                          ))}
+                        {timeSlots.map((time, index) => (
+                          <div
+                            key={index}
+                            className={`time-slot ${
+                              selectedTimeSlot === time ? "selected" : ""
+                            }`}
+                            onClick={() => handleTimeSlotClick(time)}
+                          >
+                            {time.start_time}-{time.end_time}
+                          </div>
+                        ))}
                       </div>
                     </div>
                   )}
@@ -735,15 +776,7 @@ const MobCartComponent = () => {
                   style={{ marginBottom: "5px", marginRight: "10px" }}
                   alt="Delivery"
                 />
-                <span
-                  className="header"
-                  onClick={() => {
-                    // navigate(ROUTES_NAVIGATION.ORDER_CONFIRM);
-                    // need to ask where will be order confirm redirection.
-                  }}
-                >
-                  Delivery instruction
-                </span>
+                <span className="header">Delivery instruction</span>
               </div>
 
               <div onClick={() => setInstruction(!instructionCon)}>
@@ -753,26 +786,25 @@ const MobCartComponent = () => {
                 />
               </div>
             </div>
-            <div className="down-selection">
-              {instructionCon ? (
-                <div className="instruction-card-container">
-                  {instruction.map((items) => (
-                    <div
-                      key={items.title}
-                      className={`instruction-card ${
-                        userInstruction.includes(items) ? "selected" : ""
-                      }`}
-                      onClick={() => handleAddInstruction(items)}
-                    >
-                      <img src={items.instructionIcons} alt={items.title} />
-                      <h3>{items.title}</h3>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <span></span>
-              )}
-            </div>
+
+            {instructionCon && (
+              <div className="instruction-card-container">
+                {instruction.map((items) => (
+                  <div
+                    key={items.title}
+                    className={`instruction-card ${
+                      userInstruction.some((item) => item.title === items.title)
+                        ? "selected"
+                        : ""
+                    }`}
+                    onClick={() => handleAddInstruction(items)}
+                  >
+                    <img src={items.instructionIcons} alt={items.title} />
+                    <h3>{items.title}</h3>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="dilevery-instruction-container">
@@ -1250,41 +1282,46 @@ const MobCartComponent = () => {
 
           <div className="bill-summary-container">
             <div className="Bill-summary">
-              <span>{PaymentMethod ?  PaymentMethod : "Select Payment Method"}</span>
+              <span>
+                {PaymentMethod ? PaymentMethod : "Select Payment Method"}
+              </span>
 
               <div
-              onClick={()=>{
-                ChangePaymentmode(!Payment);
-               }}
+                onClick={() => {
+                  ChangePaymentmode(!Payment);
+                }}
                 style={{
                   display: "flex",
                   flexDirection: "row",
                   alignItems: "center",
-                  
-                }}>
-      
+                }}
+              >
                 <span>Change mode</span>
-                <FontAwesomeIcon 
-                 
-                 icon={faChevronRight} className="right-icon" />
+                <FontAwesomeIcon icon={faChevronRight} className="right-icon" />
               </div>
             </div>
-            {
-              Payment && (
-                <div className="payment-modes-container">
-                  <div 
-                  onClick={()=>{
-                    ChangePaymentmode(!Payment)
-                    ChangePaymentMethod('Cash')}}
-                  className="payment-mode-card">Cash</div>
-                  <div 
-                  onClick={()=>{
-                    ChangePaymentmode(!Payment)
-                    ChangePaymentMethod('PayU')}}
-                  className="payment-mode-card">Payu</div>
+            {Payment && (
+              <div className="payment-modes-container">
+                <div
+                  onClick={() => {
+                    ChangePaymentmode(!Payment);
+                    ChangePaymentMethod("Cash");
+                  }}
+                  className="payment-mode-card"
+                >
+                  Cash On Delivery
                 </div>
-              )
-            }
+                <div
+                  onClick={() => {
+                    ChangePaymentmode(!Payment);
+                    ChangePaymentMethod("PayU");
+                  }}
+                  className="payment-mode-card"
+                >
+                  PayuZ
+                </div>
+              </div>
+            )}
             {/*   <div className="payment-modes-container">
 
        {paymentsModes.map((item, index) => (

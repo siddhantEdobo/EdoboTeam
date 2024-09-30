@@ -16,6 +16,8 @@ import deliveryReducer from "./deliverySlice";
 import slotReducer from "./slot";
 // import addorderitemsmenu from "./addorderitemsmenu";
 import amountReducer from "./totalAmountPay";
+import instructionReducer from "./deliveryinstruction";
+import substoreReducer from "./substoreId";
 // ==============================|| COMBINE REDUCERS ||============================== //
 
 const reducers = combineReducers({
@@ -32,6 +34,8 @@ const reducers = combineReducers({
   delivery: deliveryReducer,
   slot: slotReducer,
   totalAmount: amountReducer,
+  instruction: instructionReducer,
+  substore: substoreReducer,
 });
 
 export default reducers;

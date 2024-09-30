@@ -314,9 +314,6 @@
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
-
-
-
 .date-container.selected h2,
 .date-container.selected span {
   color: white;
@@ -531,9 +528,9 @@
   justify-content: center;
   padding: 10px;
   margin-left: 10px;
-  width: 110px;
+  width: 150px;
 
-  border: 2px solid #ccc;
+  border: 2px solid rgb(117, 109, 109);
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
   cursor: pointer;
@@ -563,18 +560,18 @@
   transform: rotate(180deg);
 }
 
-.mob-cart-component-billing-heading-style{
+.mob-cart-component-billing-heading-style {
   padding: 2px;
-  background-color: #53B175;
+  background-color: #53b175;
   text-align: center;
   color: white;
   font-weight: 500;
 }
 
-.mob-cart-component-save-bill-style{
-  background-color: #53B175;
+.mob-cart-component-save-bill-style {
+  background-color: #53b175;
   text-align: center;
   color: white;
   padding: 2px;
-  border-radius: 10px; 
+  border-radius: 10px;
 }
