@@ -453,7 +453,7 @@ const HeaderComponent = () => {
     placeholder="Search everything at edobo online and in-store"
     aria-label="Username"
     aria-describedby="basic-addon1"
-    style={{ borderRadius: '50px' }} 
+    style={{ borderRadius: '50px' , height: '40px' }} 
   />
   <span
     class="input-group-text"
