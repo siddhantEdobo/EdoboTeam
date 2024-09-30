@@ -18,25 +18,37 @@
 }
 
 .map-search-box-wrapper {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
+  left: 54%;
   top: 1%;
-  left: 60%;
+ 
   transform: translate(-50%, -50%);
   width: 100%;
   z-index: 5;
 }
 
+.search-icon{
+  position: absolute;
+  left: 5%;
+  top: 20px;
+  z-index: 100;
+  font-size: 20px;
+  color: grey;
+  font-weight: 200;
+}
+
 .map-search-input {
-  width: 80%;
+  width: 90%;
   max-width: 500px;
   height: 40px;
-  padding: 0 12px;
+  text-align: center;
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: none;
+  border-radius: 10px;
 }
 .locate-me-button {
   position: absolute;

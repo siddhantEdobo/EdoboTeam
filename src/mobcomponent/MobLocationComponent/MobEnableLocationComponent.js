@@ -13,6 +13,8 @@ import "./MobEnableLocationComponent.css";
 import MobAddAddressLocationDeliveryComponent from "./MobAddAddressLocationDeliveryComponent";
 import { useDispatch } from "react-redux";
 import { addData } from "../../redux/reducers/gpsAdd";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+
 
 const MobEnableLocationComponent = ({
   onClose = () => {},
@@ -145,6 +147,10 @@ const MobEnableLocationComponent = ({
         onLoad={(map) => (mapRef.current = map)} // Set the map reference
       >
         <div className="map-search-box-wrapper">
+        <FontAwesomeIcon
+        icon={faSearch}
+        className="search-icon"
+      />
           <StandaloneSearchBox
             onLoad={(ref) => setSearchBox(ref)}
             onPlacesChanged={onPlacesChanged}

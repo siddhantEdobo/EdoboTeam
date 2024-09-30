@@ -129,7 +129,7 @@
 // export default MobCutomerSupportFAQHelpQueriesComponent;
 
 import React, { useState } from "react";
-import MobHeaderComponent from "../MobHeaderComponent";
+import MobHeaderComponent from "../MobHeaderNavigation";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import "./MobCutomerSupportFAQHelpQueriesComponent.css";
 import MobBottomNavComponent from "../MobBottomNavComponent";
@@ -156,11 +156,11 @@ const MobCutomerSupportFAQHelpQueriesComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={"Help With Queries"}
-        isCartShow={false}
-        isEdoboLogo={true}
+      <MobHeaderComponent text={'Help with Queries'}
+        // isBack={true}
+        // headerText={"Help With Queries"}
+        // isCartShow={false}
+        // isEdoboLogo={true}
       />
       <div className="container-fluid m-0 p-0 t">
         <div className="mob-cart-choose-change-location-container-heading">

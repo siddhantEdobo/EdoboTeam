@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import MobHeaderComponent from "../MobHeaderComponent";
+import MobHeaderComponent from "../MobHeaderNavigation";
 import { useParams } from "react-router-dom";
 import CollectionProductCard from "../../common/CollectionProductCard";
 
@@ -68,12 +68,12 @@ const MobCollectionProductComponent = () => {
   console.log("collectionproduct", collectionproduct);
 
   return (
-    <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={"Collections"}
-        isCartShow={false}
-        isEdoboLogo={true}
+    <div>
+      <MobHeaderComponent text={'Collections'}
+        // isBack={true}
+        // headerText={"Collections"}
+        // isCartShow={false}
+        // isEdoboLogo={true}
       />
       <div className="container-lg home-container">
         {COLLECTIONDATA.map((value) => {
@@ -110,7 +110,7 @@ const MobCollectionProductComponent = () => {
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
 

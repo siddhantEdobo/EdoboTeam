@@ -109,7 +109,7 @@
 
 import React from "react";
 import "./MobTabOffersComponent.css";
-import MobHeaderComponent from "../../MobHeaderComponent";
+import MobHeaderComponent from "../../MobHeaderNavigation";
 import backgroundbanner from "../../../assets/Mob/mob-image/offer-background-banner.png";
 import offerCoupon1 from "../../../assets/Mob/mob-image/coupon1.png";
 import offerCoupon2 from "../../../assets/Mob/mob-image/coupon2.png";
@@ -141,11 +141,11 @@ const MobTabOffersComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent
-        isBack={true}
-        isCartShow={false}
-        headerText={"Offers"}
-        isEdoboLogo={true}
+      <MobHeaderComponent text={'Offer'}
+        // isBack={true}
+        // isCartShow={false}
+        // headerText={"Offers"}
+        // isEdoboLogo={true}
       />
       <div className="container position-relative mt-2">
         <div className="position-relative">
