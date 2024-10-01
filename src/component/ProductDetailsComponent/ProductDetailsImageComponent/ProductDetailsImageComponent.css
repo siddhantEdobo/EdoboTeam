@@ -1,0 +1,61 @@
+.product-image-preview-container {
+    width: 50%;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.image-preview {
+    width: 400px;
+    height: 500px;
+    
+    margin-bottom: 20px;
+}
+
+.image-preview-slider-container {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    & button {
+        width: 30px;
+        height: 30px;
+        font-size: 20px;
+        border: none;
+        background-color: transparent;
+        border: 1px rgb(212, 212, 212) solid;
+        border-radius: 50%;
+    }
+}
+
+.slider-images {
+    border: 1px rgb(231, 231, 231) solid;
+ 
+    width: 80px; /* Adjust thumbnail size */
+    height: 80px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s, transform 0.3s ease;
+}
+
+/* Highlight the active image */
+.slider-images.active {
+  
+    border-radius: 5px;
+    opacity: 1;
+    transform: scale(1.1); /* Slightly enlarge the active thumbnail */
+}
+
+/* Hover effect */
+.slider-images:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+
+
+
