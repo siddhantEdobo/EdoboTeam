@@ -15,7 +15,10 @@ export const APIAdminLogout = (payload) => {
 
 // login test
 export const APIWebLogin = (payload) => {
-  return apiClient.post(APIUrlStrings.loginTest, payload);
+  return apiClient.post(
+    APIUrlStrings.BaseUrl + APIUrlStrings.loginTest,
+    payload
+  );
 };
 
 export const APIWebLogout = (payload) => {
@@ -30,23 +33,28 @@ export const APIgetWebOTP = (payload) => {
 };
 
 export const APIWebOTP = (payload) => {
-  return apiClient.post(APIUrlStrings.submitOtpTest, payload);
+  return apiClient.post(
+    APIUrlStrings.BaseUrl + APIUrlStrings.submitOtpTest,
+    payload
+  );
 };
 
 export const APIWebUserAccount = (payload, token) => {
-  return apiClient.post(APIUrlStrings.UserProfiletest, payload, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return apiClient.post(
+    APIUrlStrings.BaseUrl + APIUrlStrings.UserProfiletest,
+    payload,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 };
-
 
 // export const APIWebUserAccount = (payload) => {
 //   return privateAPIClient.post(APIUrlStrings.UserProfiletest, payload);
 // };
 // login test end
-
 
 export const APIgetRoleList = (payload) => {
   return privateAPIClient.get(

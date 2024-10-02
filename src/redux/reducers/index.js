@@ -18,6 +18,9 @@ import slotReducer from "./slot";
 import amountReducer from "./totalAmountPay";
 import instructionReducer from "./deliveryinstruction";
 import substoreReducer from "./substoreId";
+import authReducer from "../Slices/Auth/authSlice";
+import productReducer from "../Slices/Product/productSlice";
+import cartReducer from "../Slices/Cart/cartSlice";
 // ==============================|| COMBINE REDUCERS ||============================== //
 
 const reducers = combineReducers({
@@ -36,6 +39,9 @@ const reducers = combineReducers({
   totalAmount: amountReducer,
   instruction: instructionReducer,
   substore: substoreReducer,
+  auth: authReducer,
+  product: productReducer,
+  myCart: cartReducer,
 });
 
 export default reducers;

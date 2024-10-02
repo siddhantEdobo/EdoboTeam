@@ -5,7 +5,7 @@ import ProductBannerList from "./ProductBannerList";
 
 const ProductListComponent = () => {
   return (
-    //Main Container for ProductList
+    // Main Container for ProductList
     <div className="container-xxl">
       {/* Filter Container for ProductList */}
       <div className="row">
@@ -15,7 +15,7 @@ const ProductListComponent = () => {
           </div>
         </div>
 
-        {/* Banner and Show ProductList Container for ProductList */}
+        {/* Banner and Show ProductList Container */}
         <div className="col-md-9 custom-bg">
           <div className="Productlist-bg">
             <ProductBannerList />

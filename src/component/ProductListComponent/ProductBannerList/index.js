@@ -1,131 +1,83 @@
-// ProductBannerList.js
-
-// import React from "react";
-// import "./ProductBannerList.css"; // Import your CSS file
-// import BannerImage from "../../../assets/ProductBannerVegitable.png";
-
-// const ProductBannerList = () => {
-//   return (
-//     <div>
-//       <div className="banner-container">
-//         <img
-//           src={BannerImage} // Replace with the actual path to your banner image
-//           alt="Banner Image"
-//           className="banner-image"
-//         />
-//       </div>
-//       <div>Buy Fresh Vegitable Online</div>
-//     </div>
-//   );
-// };
-
-// export default ProductBannerList;
-
-// ProductBannerList.js
-
 import React from "react";
-import "./ProductBannerList.css"; // Import your CSS file
+import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "../../../common/ProductCard";
 import BannerImage from "../../../assets/ProductBannerVegitable.png";
+import "./ProductBannerList.css";
 import ProductFilterModalComponent from "./ProductFilterModalComponent";
-// import FilterModalComponent from "./"
-
-const products = [
-  {
-    id: 1,
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
-    title: "Green Masala Combo",
-    description:
-      "This is a short description of Product 1. You can provide additional details here.",
-    price: "₹ 41.3",
-    mrp: "₹ 51.3",
-    discount: "17% off",
-  },
-  {
-    id: 2,
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502fe73ec7e7a6a3500ed13/8901058905656-2--320x320.png",
-    title: "Cabbage 500gm - 900gm",
-    description:
-      "This is a short description of Product 2. You can provide additional details here.",
-    price: "₹61.3",
-    mrp: "₹531.3",
-  },
-  {
-    id: 3,
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502fe73ec7e7a6a3500ed13/8901058905656-2--320x320.png",
-    title: "Banana Raw 500 Gm",
-    description:
-      "This is a short description of Product 1. You can provide additional details here.",
-    price: "₹ 451.3",
-    mrp: "₹ 4001.3",
-  },
-  {
-    id: 4,
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502eece0fb0249f8a0f4c60/8901453000024-320x320.png",
-    title: "Product 2",
-    description:
-      "This is a short description of Product 2. You can provide additional details here.",
-    price: "₹ 681.3",
-    mrp: "₹ 691.3",
-  },
-  {
-    id: 5,
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502eca33fcf6003a40c09f8/8908013746026-320x320.png",
-    title: "Product 1",
-    description:
-      "This is a short description of Product 1. You can provide additional details here.",
-    price: "₹ 31.3",
-    mrp: "₹ 31.3",
-  },
-  {
-    id: 6,
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502eadcd4765e38729b8eff/8901725012557-2--320x320.png",
-    title: "Product 2",
-    description:
-      "This is a short description of Product 2. You can provide additional details here.",
-    price: "₹ 451.3",
-    mrp: "₹ 451.3",
-  },
-  {
-    id: 7,
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502eb80d4765e38729b9d8a/8901120143726-320x320.png",
-    title: "Product 2",
-    description:
-      "This is a short description of Product 2. You can provide additional details here.",
-    price: "₹ 342.3",
-    mrp: "₹ 342.3",
-  },
-  {
-    id: 8,
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502eba6bc232a38cb7ca6d3/8901207004421-320x320.png",
-    title: "Product 2",
-    description:
-      "This is a short description of Product 2. You can provide additional details here.",
-    price: "₹ 441.3",
-    mrp: "₹ 441.3",
-  },
-  {
-    id: 9,
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502eba6bc232a38cb7ca6d3/8901207004421-320x320.png",
-    title: "Product 2",
-    description:
-      "This is a short description of Product 2. You can provide additional details here.",
-    price: "₹ 441.3",
-    mrp: "₹ 441.3",
-    discount: "17% off",
-  },
-];
+import {
+  setSortBy,
+  setProductType,
+  resetFilters,
+} from "../../../redux/Slices/Product/productSlice";
 
 const ProductBannerList = () => {
+  const { products, filters } = useSelector((state) => state.product);
+  const dispatch = useDispatch();
+
+  const parsePriceRange = (range) => {
+    if (range === "Less than ₹20") return 20;
+    if (range === "₹21 to ₹50") return 50;
+    if (range === "₹51 to ₹100") return 100;
+    if (range === "₹101 to ₹200") return 200;
+    if (range === "₹201 to ₹500") return 500;
+    return Infinity;
+  };
+
+  const sortProducts = (products) => {
+    switch (filters.sortBy) {
+      case "priceLowToHigh":
+        return [...products].sort((a, b) => a.price - b.price);
+      case "priceHighToLow":
+        return [...products].sort((a, b) => b.price - a.price);
+      case "nameAToZ":
+        return [...products].sort((a, b) => a.title.localeCompare(b.title));
+      case "nameZToA":
+        return [...products].sort((a, b) => b.title.localeCompare(a.title));
+      default:
+        return products;
+    }
+  };
+
+  const filteredProducts = products.filter((product) => {
+    const matchesCategory = filters.category
+      ? product.category === filters.category
+      : true;
+    const matchesPrice = filters.priceRange
+      ? product.price <= parsePriceRange(filters.priceRange)
+      : true;
+    const matchesBrand = filters.brand ? product.brand === filters.brand : true;
+    const matchesDiscount = filters.discount
+      ? product.discount === filters.discount
+      : true;
+    const matchesVeg = filters.isVeg ? product.isVeg === filters.isVeg : true;
+    const matchesProductType =
+      filters.productType === "All" ||
+      (filters.productType === "Veg" && product.isVeg) ||
+      (filters.productType === "Non-Veg" && !product.isVeg) ||
+      (filters.productType === "Vegan" && product.category === "Vegan") ||
+      (filters.productType === "Eggitarian" &&
+        product.category === "Eggitarian");
+    const matchesSearch = filters.searchTerm
+      ? product.title.toLowerCase().includes(filters.searchTerm.toLowerCase())
+      : true;
+    const matchesRating = filters.rating
+      ? product.rating >= filters.rating
+      : true;
+
+    return (
+      matchesCategory &&
+      matchesPrice &&
+      matchesBrand &&
+      matchesDiscount &&
+      matchesVeg &&
+      matchesProductType &&
+      matchesSearch &&
+      matchesRating
+    );
+  });
+
+  const sortedProducts = sortProducts(filteredProducts);
+
   return (
     <div>
       <div className="container-xxl">
@@ -141,21 +93,43 @@ const ProductBannerList = () => {
           Buy Fresh Vegetables Online
         </div>
 
-        <div className="d-flex gap-2 ">
-          <div className="product-card-sort-filter-container">Veg</div>
-          <div className="product-card-sort-filter-container">Non-Veg</div>
-          <div className="product-card-sort-filter-container">Vegan</div>
-          <div className="product-card-sort-filter-container">Eggitarian</div>
+        <div className="d-flex gap-2">
+          {["Veg", "Non-Veg", "Vegan", "Eggitarian"].map((type) => (
+            <div
+              key={type}
+              className={`product-card-sort-filter-container ${
+                filters.productType === type ? "active" : ""
+              }`}
+              onClick={() => dispatch(setProductType(type))}
+            >
+              {type}
+            </div>
+          ))}
           <div className="product-card-sort-container">
             <select
-              class="form-select form-select-sm"
-              aria-label="Small select example"
+              className="form-select form-select-sm"
+              onChange={(e) => {
+                const selectedValue = e.target.value;
+                if (selectedValue === "1") {
+                  dispatch(setSortBy("priceLowToHigh"));
+                } else if (selectedValue === "2") {
+                  dispatch(setSortBy("priceHighToLow"));
+                } else if (selectedValue === "3") {
+                  dispatch(setSortBy("nameAToZ"));
+                } else if (selectedValue === "4") {
+                  dispatch(setSortBy("nameZToA"));
+                } else {
+                  dispatch(setSortBy("default"));
+                }
+              }}
             >
-              <option selected>Sort By</option>
-              <option value="1">Price(Low to high)</option>
-              <option value="2">Price(High to Low)</option>
-              <option value="3">Name(Accending order)</option>
-              <option value="4">Name (Descending order)</option>
+              <option value="default" selected>
+                Sort By
+              </option>
+              <option value="1">Price (Low to High)</option>
+              <option value="2">Price (High to Low)</option>
+              <option value="3">Name (A to Z)</option>
+              <option value="4">Name (Z to A)</option>
             </select>
           </div>
           <div
@@ -178,65 +152,47 @@ const ProductBannerList = () => {
         <ProductFilterModalComponent />
       </div>
 
-      <div className="">
+      {sortedProducts.length > 0 ? (
         <div className="row">
-          {products.map((product) => (
-            <div className=" col-lg-3 col-4" key={product.id}>
-              <div className="edititable-product-image-container mt-4 ">
+          {sortedProducts.map((product) => (
+            <div className="col-lg-3 col-4" key={product.id}>
+              <div className="editable-product-image-container mt-4">
                 <ProductCard
-                  // discountValue={product?.discount}
+                  product={product}
+                  id={product.id}
                   imageSrc={product.imageSrc}
                   title={product.title}
-                  // description={product.description}
                   price={product.price}
                   mrp={product.mrp}
-                  onAddtoCartClick={() => {
-                    console.log("___________________");
-                  }}
+                  description={product.description}
+                  discountValue={product.discount}
                 />
               </div>
-              {/* <ProductCard
-                imageSrc={product.imageSrc}
-                title={product.title}
-                // description={product.description}
-                price={product.price}
-                mrp={product.mrp}
-              /> */}
             </div>
           ))}
         </div>
-      </div>
-      {/* // <div className="product-list-container">
-      //   {products.map((product) => (
-      //     <ProductCard
-      //       key={product.id}
-      //       imageSrc={product.imageSrc}
-      //       title={product.title}
-      //       // description={product.description}
-      //       price={product.price}
-      //       mrp={product.mrp}
-      //     />
-      //   ))}
-      // </div> */}
+      ) : (
+        <div className="no-products-container">
+          <div className="no-products-content">
+            <img
+              src="https://path-to-your-icon/sad-icon.png"
+              alt="No Products"
+              className="no-products-icon"
+            />
+            <h3 className="no-products-message">No Products Found</h3>
+            <p className="no-products-submessage">
+              Sorry, we couldn't find any products matching your search.
+            </p>
+            <button
+              className="btn btn-primary"
+              onClick={() => dispatch(resetFilters())}
+            >
+              Clear Filters
+            </button>
+          </div>
+        </div>
+      )}
     </div>
-    // <>
-    //   <div className="container">
-    //     <div className="row row-cols-3">
-    //       {products.map((product) => (
-    //         <div className="col ">
-    //           <ProductCard
-    //             key={product.id}
-    //             imageSrc={product.imageSrc}
-    //             title={product.title}
-    //             // description={product.description}
-    //             price={product.price}
-    //             mrp={product.mrp}
-    //           />
-    //         </div>
-    //       ))}
-    //     </div>
-    //   </div>
-    // </>
   );
 };
 

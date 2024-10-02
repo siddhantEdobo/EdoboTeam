@@ -92,8 +92,10 @@ export const APIUrlStrings = {
 
   // Temp Url
   loginTest: "/send-otp",
-  submitOtpTest: "verify-otp",
-  UserProfiletest: "profile-update",
-  logouttest: "logout",
+  submitOtpTest: "/verify-otp",
+  UserProfiletest: "/profile-update",
+  logouttest: "/logout",
   categoryListTest: "/get-categories-list",
+  // Base Url
+  BaseUrl: "http://127.0.0.1:8000/api/v2",
 };
