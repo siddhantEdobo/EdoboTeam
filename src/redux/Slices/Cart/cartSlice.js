@@ -4,6 +4,9 @@ const initialState = {
   cartItems: [],
   totalPrice: 0,
   totalItems: 0,
+  deliveryInstructions: [],
+  tip: 0,
+  coupon: null,
 };
 
 const cartSlice = createSlice({
@@ -13,7 +16,7 @@ const cartSlice = createSlice({
     addToCart: (state, action) => {
       const item = state.cartItems.find((i) => i.id === action.payload.id);
       if (!item) {
-        state.cartItems.push({ ...action.payload, quantity: 1 }); // Store the entire product with quantity
+        state.cartItems.push({ ...action.payload, quantity: 1 });
         state.totalItems += 1;
         state.totalPrice += action.payload.price;
       }
@@ -50,6 +53,23 @@ const cartSlice = createSlice({
         );
       }
     },
+    setDeliveryInstructions: (state, action) => {
+      const instruction = action.payload;
+      if (state.deliveryInstructions.includes(instruction)) {
+        state.deliveryInstructions = state.deliveryInstructions.filter(
+          (item) => item !== instruction
+        );
+      } else {
+        state.deliveryInstructions.push(instruction);
+      }
+    },
+    setTip: (state, action) => {
+      state.tip = action.payload;
+    },
+    applyCoupon: (state, action) => {
+      state.coupon = action.payload;
+      state.totalPrice -= (state.totalPrice * action.payload.discount) / 100;
+    },
   },
 });
 
@@ -58,6 +78,9 @@ export const {
   incrementQuantity,
   decrementQuantity,
   removeFromCart,
+  setDeliveryInstructions,
+  setTip,
+  applyCoupon,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import AddToCartButtonCustomIcon from "../../common/AddToCartButtonCustomIcon";
+import AddToCartButton from "../../common/AddToCartButton"; // Updated import to use the AddToCartButton
 import { removeFromCart } from "../../redux/Slices/Cart/cartSlice";
 import ROUTES_NAVIGATION from "../../routes/routes";
 import emptycart from "../../assets/Icon/empty-cart.png";
@@ -43,46 +43,44 @@ const ShowCartSummaryComponent = () => {
 
       {/* Show empty cart message if there are no items */}
       {cartItems && cartItems.length === 0 ? (
-        <>
-          <div className="offcanvas-body">
-            <div className="justify-content-center text-center">
-              <div className="my-5">
-                <img src={emptycart} alt="empty cart" width={100} />
-              </div>
-              <div className="fs-4 fw-bold my-2">It's raining discounts!</div>
-              <div className="fs-13 fw-semibold">just not in your cart</div>
-              <button className="btn btn-danger rounded-5 mt-3 w-75">
-                Quick, Grab them here!
+        <div className="offcanvas-body">
+          <div className="justify-content-center text-center">
+            <div className="my-5">
+              <img src={emptycart} alt="empty cart" width={100} />
+            </div>
+            <div className="fs-4 fw-bold my-2">It's raining discounts!</div>
+            <div className="fs-13 fw-semibold">just not in your cart</div>
+            <button className="btn btn-danger rounded-5 mt-3 w-75">
+              Quick, Grab them here!
+            </button>
+            <div className="fs-6 fw-semibold my-3">Fill it up with...</div>
+            <div className="d-flex justify-content-center">
+              <button className="btn btn-outline-danger rounded-5 me-2">
+                Combos
               </button>
-              <div className="fs-6 fw-semibold my-3">Fill it up with...</div>
-              <div className="d-flex justify-content-center">
-                <button className="btn btn-outline-danger rounded-5 me-2">
-                  Combos
-                </button>
-                <button className="btn btn-outline-danger rounded-5">
-                  Personal Care
-                </button>
-              </div>
-              <div className="d-flex justify-content-center my-2">
-                <button className="btn btn-outline-danger rounded-5 me-2">
-                  Baby Care
-                </button>
-                <button className="btn btn-outline-danger rounded-5">
-                  Snacks
-                </button>
-              </div>
               <button className="btn btn-outline-danger rounded-5">
-                Fruits & Vegetables
+                Personal Care
               </button>
             </div>
+            <div className="d-flex justify-content-center my-2">
+              <button className="btn btn-outline-danger rounded-5 me-2">
+                Baby Care
+              </button>
+              <button className="btn btn-outline-danger rounded-5">
+                Snacks
+              </button>
+            </div>
+            <button className="btn btn-outline-danger rounded-5">
+              Fruits & Vegetables
+            </button>
           </div>
-        </>
+        </div>
       ) : (
         <>
           <div className="offcanvas-body">
             {/* Loop through cart items */}
             {cartItems.map((item, index) => (
-              <div key={index} className=" border-bottom p-3">
+              <div key={index} className="border-bottom p-3">
                 <div className="row">
                   <div className="col border showcartsummar-fixed-size-container">
                     <img
@@ -104,7 +102,8 @@ const ShowCartSummaryComponent = () => {
                         <div className="fs-12">{item.weight || "245.5Gm"}</div>
                       </div>
                       <div className="align-items-center justify-content-center d-flex pt-2">
-                        <AddToCartButtonCustomIcon quantity={item.quantity} />
+                        {/* Use the updated AddToCartButton */}
+                        <AddToCartButton id={item.id} product={item} />
                       </div>
                     </div>
                   </div>

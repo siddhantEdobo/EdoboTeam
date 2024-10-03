@@ -25,12 +25,13 @@ import Edobostorecomponent from "../EdoboStoreComponent";
 import { commonColor } from "../../utils/commonColor";
 import favourite from "../../assets/Icon/favourite.png";
 import cart from "../../assets/Icon/cart.png";
+import { useSelector } from "react-redux";
 
 const HeaderComponent = () => {
   const { setShowLoader } = useLoader();
   const { isModalOpen, setIsModalOpen } = useContext(GlobalContext);
   const [activeCategory, setActiveCategory] = useState(0);
-
+  const { totalItems, totalPrice } = useSelector((store) => store.myCart);
   const dropdownRef = useRef(null);
   const menuRef = useRef(null); // Reference to the dropdown menu container
 
@@ -613,13 +614,13 @@ const HeaderComponent = () => {
                         src={cart}
                         style={{ width: "20px", height: "20px" }}
                       />
-                      <span className="cart-number">0</span>
+                      <span className="cart-number">{totalItems}</span>
                     </div>
                     <span
                       className="text-sm text-gray-80"
                       style={{ fontSize: "10px" }}
                     >
-                      ₹3,597
+                      ₹{totalPrice?.toFixed(2)}
                     </span>
                   </div>
                 </div>

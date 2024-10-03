@@ -185,7 +185,6 @@ const UserWishlistComponent = Loadable(
   lazy(() => import("../component/UserWishlistComponent"))
 );
 
-
 const MobWishListComponent = Loadable(
   lazy(() => import("../mobcomponent/MobWishListComponent"))
 );
@@ -384,7 +383,6 @@ const RouteComponent = () => {
           path={ROUTES_NAVIGATION.USER_ORDER}
           element={
             isMobileView ? (
-              
               <MobOrderHistoryComponent />
             ) : (
               //order History
