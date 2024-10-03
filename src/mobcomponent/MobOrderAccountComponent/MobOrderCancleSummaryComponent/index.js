@@ -1,5 +1,5 @@
 import React from "react";
-import MobHeaderComponent from "../../MobHeaderComponent";
+import MobHeaderComponent from "../../MobHeaderNavigation";
 import "../MobOrderReturnRequest/MobOrderReturnRequest.css";
 import { useNavigate } from "react-router";
 import ROUTES_NAVIGATION from "../../../routes/routes";
@@ -54,7 +54,7 @@ function MobOrderCancleSummary() {
     <>
       <MobHeaderComponent
         isBack={true}
-        headerText={"Return Summary"}
+        text={"Return Summary"}
         isCartShow={false}
         isEdoboLogo={true}
       />

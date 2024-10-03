@@ -682,6 +682,13 @@ ul li::before {
 }
 
 .container{
-  padding-left: 0;
-  padding-right: 0;
+  
+}
+
+.dot{
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: orange;
+  margin: 2px;
 }

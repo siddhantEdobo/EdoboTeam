@@ -261,6 +261,10 @@ const RequestNewProductComponent = Loadable(
   lazy(() => import("../component/RequestNewProductComponent"))
 );
 
+const OrderLiveTrackComponent = Loadable(
+  lazy(() => import("../mobcomponent/MobOrderAccountComponent/MobOrderTimerComponent/MobOrdertrackMap"))
+)
+
 const MobRequestNewProductSearchComponent = Loadable(
   lazy(() =>
     import(
@@ -423,10 +427,15 @@ const RouteComponent = () => {
           element={isMobileView ? <MobOrderTimerComponent /> : ""}
         />
 
+        <Route
+        path={ROUTES_NAVIGATION.ORDER_LIVE_TRACK}
+        element={isMobileView ? <OrderLiveTrackComponent /> : <OrderLiveTrackComponent />  }/>
+
         {/* Order Delay */}
 
         <Route
-          path={ROUTES_NAVIGATION.ORDER_DELAY}
+          path={ROUTES_NAVIGATION.ORDER_DELAY }
+
           element={isMobileView ? <MobOrderDelayComponent /> : ""}
         />
 

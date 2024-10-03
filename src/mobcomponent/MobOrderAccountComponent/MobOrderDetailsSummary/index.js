@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MobHeaderComponent from "../../MobHeaderComponent";
+import MobHeaderComponent from "../../MobHeaderNavigation";
 import "./MobOrderDetailsSummary.css";
 import star from "../../../assets/Icon/star.png";
 import ROUTES_NAVIGATION from "../../../routes/routes";
@@ -123,15 +123,17 @@ function MobOrderDetailsSummary() {
   };
 
   return (
-    <>
-      <MobHeaderComponent
-        isBack={true}
-        headerText={"Order Summary "}
-        isCartShow={false}
-        isEdoboLogo={true}
+    <div>
+      <MobHeaderComponent text={'Order Summary'}
+        // isBack={true}
+        // headerText={"Order Summary "}
+        // isCartShow={false}
+        // isEdoboLogo={true}
       />
 
-      <div className="container container-top">
+      <div 
+      style={{padding: '10px' , marginTop: '0'}}
+      className="container container-top">
         {OrderDetails.Delivery && (
           <div className="border-bottom">
             {OrderDetails.Delivery.map((data) => (
@@ -321,7 +323,7 @@ function MobOrderDetailsSummary() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

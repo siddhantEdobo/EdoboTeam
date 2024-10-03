@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MobHeaderComponent from "../../MobHeaderComponent";
+import MobHeaderComponent from "../../MobHeaderNavigation";
 import "../MobOrderReturnRequest/MobOrderReturnRequest.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
@@ -64,7 +64,7 @@ function MobOrderCancle() {
     <>
       <MobHeaderComponent
         isBack={true}
-        headerText={"Return Cancle"}
+     text={"Return Cancel"}
         isCartShow={false}
         isEdoboLogo={true}
       />
