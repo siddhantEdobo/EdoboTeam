@@ -16,6 +16,7 @@ import MobOTPVerificationComponent from "../mobcomponent/MobLoginComponent/MobOT
 import MobTabbingCollection from "../mobcomponent/MobHomeComponent/MobTabbingCollectionComponent";
 import ProductListPage from "../mobcomponent/MobHomeComponent/MobTabbingCollectionComponent/productList";
 import MobSlideCollectionComponent from "../mobcomponent/MobHomeComponent/MobSlideCollectionComponent";
+import { last } from "lodash";
 
 const HomeComponent = Loadable(
   lazy(() => import("../component/HomeComponent"))
@@ -262,6 +263,10 @@ const RequestNewProductComponent = Loadable(
 );
 
 const OrderLiveTrackComponent = Loadable(
+  lazy(()=>import('../component/OrderAccountComponent/OrdertrackMap'))
+)
+
+const MobOrderLiveTrackComponent = Loadable(
   lazy(() => import("../mobcomponent/MobOrderAccountComponent/MobOrderTimerComponent/MobOrdertrackMap"))
 )
 
@@ -424,12 +429,12 @@ const RouteComponent = () => {
 
         <Route
           path={ROUTES_NAVIGATION.ORDER_TIMER}
-          element={isMobileView ? <MobOrderTimerComponent /> : ""}
+          element={isMobileView ? <MobOrderTimerComponent /> : <UserOrderHistoryComponent />}
         />
 
         <Route
         path={ROUTES_NAVIGATION.ORDER_LIVE_TRACK}
-        element={isMobileView ? <OrderLiveTrackComponent /> : <OrderLiveTrackComponent />  }/>
+        element={isMobileView ? <MobOrderLiveTrackComponent /> : <OrderLiveTrackComponent />  }/>
 
         {/* Order Delay */}
 

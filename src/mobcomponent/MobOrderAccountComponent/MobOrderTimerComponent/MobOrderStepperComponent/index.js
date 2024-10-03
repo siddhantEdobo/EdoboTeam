@@ -88,6 +88,14 @@ function MobOrderStepperComponent() {
     }
   }, [activeStep]);
 
+  useEffect(() => {
+    // Navigate to another route when activeStep reaches 3
+    if (activeStep === 3) {
+      navigate(ROUTES_NAVIGATION.ORDER_DELAY); // Replace with your desired route
+    }
+  }, [activeStep, navigate]);
+
+
   const steps = [
     {
       label: (

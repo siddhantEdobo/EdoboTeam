@@ -15,22 +15,22 @@ function Timer() {
     return () => clearInterval(timer);
   }, []);
 
-  useEffect(() => {
-    if (time === 80 || time === 60) {
-      setMessage("Hey! Your order is on time");
-    }
-    if (time === 30) {
-      setMessage("Rider On The Way");
-    }
-    if (time === -10) {
-      setMessage(
-        "You have win 10% OFF for next order as your order is 10 mins delay"
-      );
-    }
-    if (time === 0) {
-      setMessage("Sorry, Your order is 5 mins delay");
-    }
-  }, [time]);
+  // useEffect(() => {
+  //   if (time === 80 || time === 60) {
+  //     setMessage("Hey! Your order is on time");
+  //   }
+  //   if (time === 30) {
+  //     setMessage("Rider On The Way");
+  //   }
+  //   if (time === -10) {
+  //     setMessage(
+  //       "You have win 10% OFF for next order as your order is 10 mins delay"
+  //     );
+  //   }
+  //   if (time === 0) {
+  //     setMessage("Sorry, Your order is 5 mins delay");
+  //   }
+  // }, [time]);
 
   const formatTime = () => {
     const minutes = Math.floor(Math.abs(time) / 60); // Use absolute value for minutes
@@ -44,13 +44,24 @@ function Timer() {
 
   return (
     <div className="my-2">
-      <div className="d-flex justify-content-center ">
+      <div
+      
+      style={{
+        color: time < 0 ? 'red' : 'green', // Change color to red when time is negative
+        fontSize: '30px',
+        fontWeight: '200'
+      }}
+
+      className="d-flex justify-content-center ">
         {formatTime()}{" "}
-        {message && (
+        {
+          time < 0 && (<spa> (Delay)</spa>)
+        }
+        {/* {message && (
           <div className={`fs-13 mt-2 fw-bold ms-2 ${messageClass}`}>
             {message}
           </div>
-        )}
+        )} */}
         {/* {(time === 80 || time === 60) && <MobOrderDelayScreen />} */}
       </div>
     </div>

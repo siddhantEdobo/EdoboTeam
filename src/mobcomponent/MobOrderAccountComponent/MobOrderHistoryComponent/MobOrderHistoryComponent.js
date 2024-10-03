@@ -1,5 +1,5 @@
 import { useState } from "react";
-import MobHeaderComponent from "../../MobHeaderComponent";
+import MobHeaderComponent from "../../MobHeaderNavigation";
 import MobEmptyOrder from "../MobEmptyOrderComponent";
 import "../MobOrderHistoryComponent/MobOrderHistoryComponent.css";
 import { useNavigate } from "react-router";
@@ -170,7 +170,7 @@ const MobOrderHistoryComponent = () => {
     <>
       <MobHeaderComponent
         isBack={true}
-        headerText={"Order Details"}
+        text={"Order Details"}
         isCartShow={false}
         isEdoboLogo={true}
       />
@@ -179,8 +179,8 @@ const MobOrderHistoryComponent = () => {
         <MobEmptyOrder />
       ) : (
         <div className="container-fluid m-0 p-0">
-          <div className="container d-flex justify-content-between">
-            <div className="fs-6 fw-semibold">My Orders</div>
+          <div className="container d-flex justify-content-end mt-2">
+            {/* <div className="fs-6 fw-semibold">My Orders</div> */}
             <div className="btn btn-warning rounded-5 fs-13 fw-bold">
               PAY NOW
             </div>

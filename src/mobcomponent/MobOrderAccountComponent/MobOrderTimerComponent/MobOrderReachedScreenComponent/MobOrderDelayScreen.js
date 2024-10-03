@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Moborderscreen.css";
 import logo from "../../../../assets/Icon/delay.png";
+import sorry from '../../../../assets/Icon/discount.png'
 import contact from "../../../../assets/Icon/contact.png";
 import app from "../../../../assets/Icon/app.png";
 import earn from "../../../../assets/Icon/earn.png";
@@ -31,8 +32,20 @@ function MobOrderDelayScreen() {
               { arriveStatus == 'On-time'  ? 'Your order reached in 29 mins'  : 'Your order reached in 10 mins delayed' }
 
             </div>
-            <img src={logo} alt="delay logo" width={40} className="mb-5 mt-5" />
+            <img src={arriveStatus == 'On-time' ? logo : sorry} alt="delay logo" width={40} className="mb-5 mt-5" />
           </div>
+
+        {/* compensation component */}
+{ 
+      arriveStatus != 'On-time' &&  (<div className="compensation-container">
+             <span className="compensation-discount-header">10% OFF on your next order</span>
+            <span className="compensation-discount-discription">As we have delayed your order by 10 mins, 
+            you are getting this offer for next order. </span>
+            <span className="compensation-discount-discription">Use Coupon Use:</span>
+            <span className="compensation-discount-code">10MINDELAY</span>
+        </div>)
+        
+        }
 
           {/* Connect and Earn */}
           <div className="text-start my-1">
@@ -67,6 +80,7 @@ function MobOrderDelayScreen() {
               </div>
             </div>
           </div>
+
 
           {/* Star Rating */}
           <div className="container mt-5 mob-order-delay-star-main-div">

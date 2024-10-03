@@ -1,7 +1,7 @@
 .mob-order-background-screen {
  
   width: 100%;
-  height: 100vh;
+  height: auto;
   background-color: #FF0101;
   display: flex;
   flex-direction: column;
@@ -69,4 +69,41 @@ margin-top: 10px;
   top: 42%;
   left: 88%;
   transform: translateY(-50%);
+}
+
+
+.compensation-container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #aaa8a863;
+ margin-bottom: 5px;
+}
+
+.compensation-discount-header{
+  text-align: center;
+  font-size: 22px;
+  color: white;
+  font-weight: 200;
+}
+
+.compensation-discount-discription{
+  margin-top: 10px;
+  text-align: justify;
+  font-size: 16px;
+  color: white;
+  font-weight: 200;
+}
+
+.compensation-discount-code{
+  text-align: justify;
+  font-size: 16px;
+  color: white;
+  font-weight: 200;
 }

@@ -11,7 +11,7 @@ const StepperMap = () => {
   const [sanitized, setSanitized] = useState({ status: 'incomplete', time: '' });
   const [inTransit, setInTransit] = useState({ status: 'incomplete', time: '' });
   const [riderReached, setRiderReached] = useState({ status: 'Incomplete', time: '' });
-  const [arriveStatus , setArriveStatus] = useState('on-time')
+  const [arriveStatus , setArriveStatus] = useState('On-time')
   const navigate = useNavigate()
 
   // Function to determine background color based on status
@@ -32,10 +32,10 @@ const StepperMap = () => {
   useEffect(()=>{
     if(riderReached.status == 'Done'){
       setTimeout(() => {
-        navigate({
-          pathname: ROUTES_NAVIGATION.ORDER_DELAY,
-          search: `?arriveStatus=${arriveStatus}`
-        });
+        // navigate({
+        //   pathname: ROUTES_NAVIGATION.ORDER_DELAY,
+        //   search: `?arriveStatus=${arriveStatus}`
+        // });
         
       }, 2000);
     }

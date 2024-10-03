@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Stepper } from "react-form-stepper";
+import mapIcon from '../../assets/Mob/mob-image/map.png'
+import { useNavigate } from "react-router-dom";
+import ROUTES_NAVIGATION from "../../routes/routes";
 
 const OrderPlaced = () => {
   return <div className="">Order placed</div>;
@@ -46,6 +49,9 @@ function Delivered() {
 }
 
 function MobOrderCofirmProgressComponent() {
+
+  const navigate = useNavigate()
+
   const [activeStep, setActiveStep] = useState(2);
   const [orderStatus, setOrderStatus] = useState(""); // State to hold the order status
 
@@ -88,7 +94,12 @@ function MobOrderCofirmProgressComponent() {
       label: (
         <div className="gap-1">
           <div>Rider on the way</div>
-          <div className="mt-1">Click on the icon for live status</div>
+          <div className="mt-1">
+            <span>Click on icon for live track</span><br></br>
+          <img
+          onClick={()=>navigate(ROUTES_NAVIGATION.ORDER_LIVE_TRACK)}
+           src= {mapIcon} width={'25px'}/>
+          </div>
         </div>
       ),
     },

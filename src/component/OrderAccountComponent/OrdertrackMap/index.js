@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import MobHeaderNavigation from '../../../MobHeaderNavigation';
+
 import {
   GoogleMap,
   LoadScript,
@@ -7,13 +7,13 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 import './mobOrderTrack.css'
-import rider from '../../../../assets/Mob/mob-image/riderImg.png'
-import star from '../../../../assets/Icon/star.png'
+import rider from '../../../assets/Mob/mob-image/riderImg.png'
+import star from '../../../assets/Icon/star.png';
 
 // Font Awesome imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhoneAlt, faCommentDots, faClipboardList } from '@fortawesome/free-solid-svg-icons';
-import MobOrderStepperComponent from '../MobOrderStepperComponent/StepperMaps';
+import MobOrderStepperComponent from '../../../mobcomponent/MobOrderAccountComponent/MobOrderTimerComponent/MobOrderStepperComponent/StepperMaps';
 
 const libraries = ['places']; // Include libraries you need
 
@@ -80,12 +80,12 @@ export default function MobOrdertrackMap() {
       {/* Bottom Overlay Container */}
       <div className='driver-detail-container' style={{
         position: 'absolute',
-        bottom: '5px',
+        bottom: '5%',
         left: '0',
         right: '0',
         marginLeft: '10px',
         marginRight: '10px',
-        width: '95%',
+        width: '40%',
         height: 'auto',
         borderRadius: '20px',
         backgroundColor: 'rgba(255, 255, 255, 0.9)',
@@ -95,13 +95,15 @@ export default function MobOrdertrackMap() {
         flexDirection: 'column',
         zIndex: 10,
       }}>
-        <div className='rating-container'>
+
+<div className='rating-container'>
          <div className='rating-img-text-container'> 
           <img src={star} width={'25px'}/>
           <span className='rating-text'>4.2</span>
        </div>
          <span>(148 rating)</span>
         </div>
+
        <div className='driver-photo-name-container'>
             <img src={rider} alt='driver' className='driver-image'/>
             <div className='driver-name-container'>
