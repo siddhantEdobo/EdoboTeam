@@ -56,6 +56,10 @@ const MobOrderHistoryComponent = () => {
     navigate(ROUTES_NAVIGATION.ORDER_TIMER);
   };
 
+  const HandleCancel = ()=>{
+    navigate(ROUTES_NAVIGATION.ORDER_CANCLE)
+  }
+
   const cutoffTimes = [
     { label: "9:00 AM - 10:00 AM", value: "9:00 AM" },
     { label: "9:00 AM - 10:00 PM", value: "9:30 AM" },
@@ -81,8 +85,9 @@ const MobOrderHistoryComponent = () => {
       schedule: "26th Dec, 2019 8.00 AM to 11.00 AM",
       button: [
         { id: 1, title: "TRACK ORDER", onClick: HandleOrderTimer },
-        { id: 2, title: "CHECKLIST", onClick: HandleOrderTimer },
-        { id: 3, title: "CANCEL" },
+        { id: 2, title: "CHECKLIST", onClick: handleCheckList },
+        { id: 3, title: "CANCEL" ,  onClick: HandleCancel },
+
         { id: 4, title: "RESCHEDULE" },
       ],
     },
@@ -99,7 +104,8 @@ const MobOrderHistoryComponent = () => {
       button: [
         { id: 1, title: "RESCHEDULE", onClick: handleAddressOpen },
         { id: 2, title: "CHECKLIST", onClick: handleCheckList },
-        { id: 3, title: "CANCEL" },
+        { id: 3, title: "CANCEL"  ,  onClick: HandleCancel },
+
       ],
     },
   ];
@@ -170,7 +176,7 @@ const MobOrderHistoryComponent = () => {
     <>
       <MobHeaderComponent
         isBack={true}
-        text={"Order Details"}
+        text={"My Order"}
         isCartShow={false}
         isEdoboLogo={true}
       />

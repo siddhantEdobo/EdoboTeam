@@ -42,12 +42,51 @@
 .mob-order-history-card-fixed-size-image {
   height: 100px;
   object-fit: cover;
+
 }
 .mob-order-details-col2-container {
   margin-top: 3px;
   padding-left: 10px;
   flex: 1;
 }
+
+.order-detail-main-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  gap: 10px;
+}
+
+.checkbox {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  appearance: none; /* Remove default checkbox appearance */
+  border: 2px solid #D41A25;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.checkbox:checked {
+  background-color: #D41A25; /* Make background red when checked */
+}
+
+.checkbox:checked::before {
+  content: '✔';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  color: white; /* White checkmark */
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 
 .mob-order-text-color {
   color: rgb(141, 142, 142);
@@ -84,9 +123,14 @@
   width: 100%;
 }
 
+
 .mob-order-history-component-card-body {
   padding: 0px 10px 20px 10px;
+  
+ 
 }
+
+
 
 .mob-order-history-component-card-delivered {
   height: auto;
@@ -194,15 +238,23 @@ input[type="checkbox"]:checked + label::after {
   cursor: pointer;
 }
 
+.schedule-container , .orderon-container , .orderno-container{
+  
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
 .my-order-history-track-btn {
   width: 80px;
   height: 35px;
-  border-radius: 5px;
+  border-radius: 8px;
   justify-content: center;
   align-items: center;
   background-color: #d41a25;
   color: #fff;
-  font-weight: 600;
+  font-weight: 400;
   display: flex;
 }
 .my-order-history-checklist-btn {
@@ -213,31 +265,40 @@ input[type="checkbox"]:checked + label::after {
   align-items: center;
   border: 1px solid #d41a25;
   color: #d41a25;
-  font-weight: 600;
+  font-weight: 500;
   display: flex;
 }
 
+.order-detail-btns{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
 .my-order-history-dispatch-btn {
-  width: 80px;
+  width: 30px;
   height: 30px;
   border-radius: 15px;
   justify-content: center;
   align-items: center;
   background-color: #620b94;
   color: #fff;
-  font-weight: 600;
+
   display: flex;
 }
 
 .my-order-history-order-receive-btn {
-  width: 120px;
-  height: 30px;
+  width: auto;
+  height: 20px;
   border-radius: 15px;
   justify-content: center;
   align-items: center;
   background-color: #ff7900;
   color: #fff;
-  font-weight: 600;
+  font-weight: 500;
+  padding-left: 5px;
+  padding-right: 5px;
   display: flex;
 }
 
@@ -275,3 +336,68 @@ input[type="checkbox"]:checked + label::after {
   font-weight: 600;
   display: flex;
 } */
+
+.otp-container{
+  display: flex;
+  background-color: #D41A25;
+  padding: 3px;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  color: white;
+  font-weight: 200;
+  font-size: 12px;
+}
+
+.order-internal-header{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.btn-paynow{
+  display: none;
+  background-color: rgba(218, 216, 216, 0.178);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 136px;
+  height: 50px;
+  font-weight: 200;
+  font-size: 20px;
+  border-radius: 25px;
+  color: white;
+
+}
+
+.btn-paynow.active{
+  background-color: #FEEECB;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 136px;
+  height: 50px;
+  font-weight: 200;
+  font-size: 20px;
+  border-radius: 25px;
+  color: black;
+  cursor: pointer;
+}
+
+
+.track-header{
+  width: 100%;
+  display: flex;
+  font-size: 15px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #D41A25;
+  color: white;
+  height: 40px;
+  border-radius: 5px;
+}
