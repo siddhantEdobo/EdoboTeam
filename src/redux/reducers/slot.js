@@ -1,45 +1,48 @@
+// deliverySlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  deliveryType: null,
-  selectSlot: null,
-  selectedDate: null, // Initially null; we will set it when needed
+  selectedDate: null,
+  selectedTimeSlot: null,
+  deliveryOption: null, // Add this to track the delivery option
 };
 
-const deliverySlot = createSlice({
+const SlotSlice = createSlice({
   name: "delivery",
   initialState,
   reducers: {
-    setDeliveryType: (state, action) => {
-      state.deliveryType = action.payload;
-
-      // Reset selectSlot and selectedDate if deliveryType is 0 (Pickup) or 1 (Express Delivery)
-      if (action.payload === 0 || action.payload === 1) {
-        state.selectSlot = null; // Clear selected slot
-        state.selectedDate = null; // Clear selected date
-      } else {
-        // Set the selected date to today if delivery type is 2 (Slot Delivery) or 3 (Pickup)
-        if (action.payload === 2 || action.payload === 3) {
-          state.selectedDate = new Date().toISOString(); // Store current date
-        }
-      }
-    },
-    setSelectSlot: (state, action) => {
-      // Only allow setting selectSlot if delivery type is 2 (Slot Delivery)
-      if (state.deliveryType === 2) {
-        state.selectSlot = action.payload;
-      }
-    },
     setSelectedDate: (state, action) => {
-      // Only allow setting selectedDate if delivery type is 2 (Slot Delivery)
-      if (state.deliveryType === 2) {
-        state.selectedDate = action.payload; // Store as string
+      state.selectedDate = action.payload;
+    },
+    setSelectedTimeSlot: (state, action) => {
+      state.selectedTimeSlot = action.payload;
+    },
+    setDeliveryOption: (state, action) => {
+      state.deliveryOption = action.payload;
+      if (action.payload === "Slot") {
+        state.isSlotMenuOpen = true; // Open slot menu when Slot is selected
+      } else {
+        state.isSlotMenuOpen = false; // Close slot menu for other options
       }
+    },
+    clearDeliverySlot: (state) => {
+      state.selectedDate = null;
+      state.selectedTimeSlot = null;
+      // state.deliveryOption = null;
+    },
+    confirmDeliverySlot: (state, action) => {
+      state.isSlotMenuOpen = false;
+      // Close the slot menu after confirmation
     },
   },
 });
 
-export const { setDeliveryType, setSelectSlot, setSelectedDate } =
-  deliverySlot.actions;
+export const {
+  setSelectedDate,
+  setSelectedTimeSlot,
+  setDeliveryOption,
+  clearDeliverySlot,
+  confirmDeliverySlot,
+} = SlotSlice.actions;
 
-export default deliverySlot.reducer;
+export default SlotSlice.reducer;

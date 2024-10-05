@@ -14,10 +14,14 @@ import walletReducer from "./walletSlice";
 import tipReducer from "./tipSlice";
 import deliveryReducer from "./deliverySlice";
 import slotReducer from "./slot";
+
 // import addorderitemsmenu from "./addorderitemsmenu";
 import amountReducer from "./totalAmountPay";
 import instructionReducer from "./deliveryinstruction";
 import substoreReducer from "./substoreId";
+import profileReducer from "./profileData";
+import paymentReducer from "./payment";
+import orderReducer from "./orderid";
 // ==============================|| COMBINE REDUCERS ||============================== //
 
 const reducers = combineReducers({
@@ -31,11 +35,15 @@ const reducers = combineReducers({
   // appliedWalletAmount: walletReducer,
   wallet: walletReducer,
   tip: tipReducer,
-  delivery: deliveryReducer,
+  // delivery: deliveryReducer,
   slot: slotReducer,
+  delivery: deliveryReducer,
   totalAmount: amountReducer,
   instruction: instructionReducer,
   substore: substoreReducer,
+  profile: profileReducer,
+  payment: paymentReducer,
+  order: orderReducer,
 });
 
 export default reducers;

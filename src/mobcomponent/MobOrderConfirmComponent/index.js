@@ -12,6 +12,8 @@ import {
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import "./MobOrderConfirmComponent.css";
 import MobOrderCofirmProgressComponent from "./MobOrderCofirmProgressComponent";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import ROUTES_NAVIGATION from "../../routes/routes";
 // import MobOrderCofirmProgressComponent from "./MobOrderCofirmProgressComponent";
 
 const ordersData = [
@@ -37,9 +39,13 @@ const ordersData = [
 ];
 
 const MobOrderConfirmComponent = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { userData, savings } = location.state || {};
   return (
     <>
-      <MobHeaderComponent text={'Order Confirm'}
+      <MobHeaderComponent
+        text={"Order Confirm"}
         // isBack={true}
         // headerText={"Order Confirm"}
         // isCartShow={false}
@@ -51,7 +57,7 @@ const MobOrderConfirmComponent = () => {
             Thank you for ordering.
           </div>
           <div className="d-flex justify-content-center  text-success mb-1">
-            You Saved ₹500
+            You Saved ₹{savings}
           </div>
         </div>
 
@@ -69,7 +75,7 @@ const MobOrderConfirmComponent = () => {
           </div>
         </div>
 
-        <div className="">
+        {/* <div className="">
           {ordersData.map((order) => (
             <div
               key={order.id}
@@ -129,11 +135,16 @@ const MobOrderConfirmComponent = () => {
               <MobOrderCofirmProgressComponent />
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="mt-3  d-flex justify-content-center gap-3">
-          <div className="mob-order-confirm-review-us"> REVIEW US !</div>
-          <div className="mob-order-confirm-countinue-shopping">
+          {/* <div className="mob-order-confirm-review-us"> REVIEW US !</div> */}
+          <div
+            className="mob-order-confirm-countinue-shopping"
+            onClick={() => {
+              navigate(ROUTES_NAVIGATION.HOME);
+            }}
+          >
             COUNTINUE SHOPPING US !
           </div>
         </div>
