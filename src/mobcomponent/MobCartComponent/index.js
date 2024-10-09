@@ -76,6 +76,7 @@ import {
 import { setPaymentMethod } from "../../redux/reducers/payment";
 import { setTotalAmount } from "../../redux/reducers/totalAmountPay";
 import { setOrderId } from "../../redux/reducers/orderid";
+import { clearCart, removeFromCart } from "../../redux/reducers/addCart";
 // import { faUserSecret, faDoorClosed, faPhoneSlash, faCat } from '@fortawesome/free-solid-svg-icons';
 
 const OFFERSCODE = [
@@ -201,6 +202,8 @@ const instruction = [
 ];
 
 const MobCartComponent = () => {
+  const [loading, setLoading] = useState(false);
+
   const [showInput, setShowInput] = useState(false);
   const [walletAmount, setWalletAmount] = useState(0); // Local state to track wallet amount input
   // const dispatchh = useDispatch();
@@ -349,6 +352,7 @@ const MobCartComponent = () => {
   // const [couponCode, setCouponCode] = useState(coupon.map((item) => item.code));
   const [couponCode, setCouponCode] = useState(coupon ? coupon.code : "");
   const cartItems = useSelector((state) => state.cart.items);
+  console.log(cartItems);
   const substoreId = useSelector((state) => state.substore.sub_store_id);
   console.log("idd  is", substoreId);
 
@@ -704,42 +708,158 @@ const MobCartComponent = () => {
     customer_id: userData?.data?.id,
   };
   console.log("place order data", data);
+  const amountInPaise = amount * 100;
+  const initiateRazorpayPayment = async (razorpayOrderId) => {
+    const scriptLoaded = await loadRazorpayScript();
+    const options = {
+      key: "rzp_test_Pu2pvCuPYnstgx", // Replace with your Razorpay Key ID
+      amount: amountInPaise, // Amount in paise
+      currency: "INR",
+      name: substoreId,
+      description: "Test Transaction",
+      order_id: razorpayOrderId, // This is the Razorpay order ID returned by your backend
+      handler: function (response) {
+        // Payment was successful, handle it here
+        navigate(ROUTES_NAVIGATION.ORDER_CONFIRM, {
+          state: { userData, savings },
+        });
+        alert(
+          "Payment successful! Payment ID: " + response.razorpay_payment_id
+        );
+        dispatch(clearCart());
+        // You can make a call to your backend to verify and update the order status if needed
+      },
+      prefill: {
+        name: userData?.data.name, // Prefill with user data
+        email: userData?.data?.email,
+        contact: userData?.data?.phone_number,
+      },
+      notes: {
+        customerId: userData?.data?.id,
+        address: userData?.data?.default_address?.customer_shipping_addess,
+        storeId: substoreId,
+        cartItems: cartItems.map((item) => ({
+          product_id: item.id,
+          order_status_id: 1,
+          name: item.product_name,
+          qty: item.quantity,
+          price: item.compare_price,
+          total: item.compare_price,
+          // tax: item.igst || 0,
+        })),
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    // const rzp = new Razorpay(options);
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
 
   const handleConfirmOrder = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/user/order-place",
-        {
-          payment_mode: payment,
-          store_id: substoreId,
-          firstname: userData?.data.name,
-          order_status_id: 1,
-          lastname: userData?.data?.last_name || "",
-          email: userData?.data?.email,
-          phone_number: userData?.data?.phone_number,
-          shipping_address:
-            userData?.data?.default_address?.customer_shipping_addess,
-          shipping_city: city?.results[0]?.address_components[5]?.long_name,
-          shipping_postcode: pincode,
-          day_id: dayId,
-          time_slot: selectedTimeSlot || "",
-          total: amount,
-          delivery_type_id: deliveryTypeId,
-          customer_id: userData?.data?.id,
-        },
-        {
+    if (PaymentMethod === "razorpay") {
+      setLoading(true);
+
+      try {
+        // Step 1: Call your backend to create a Razorpay order
+        const response = await fetch("http://localhost:3000/user/order-place", {
+          method: "POST",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
+          body: JSON.stringify({
+            customer_id: userData?.data?.id,
+            payment_mode: payment,
+            amount: amount,
+            store_id: substoreId,
+            firstname: userData?.data.name,
+            order_status_id: 1,
+            lastname: userData?.data?.last_name || "",
+            email: userData?.data?.email,
+            phone_number: userData?.data?.phone_number,
+            shipping_address:
+              userData?.data?.default_address?.customer_shipping_addess,
+            shipping_city: city?.results[0]?.address_components[5]?.long_name,
+            shipping_postcode: pincode,
+            day_id: dayId,
+            time_slot: selectedTimeSlot || "",
+            total: amount,
+            delivery_type_id: deliveryTypeId,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          const { razorpayOrderId } = result;
+          initiateRazorpayPayment(razorpayOrderId);
+        } else {
+          alert("Error creating order: " + result.message);
         }
-      );
-      if (response) {
-        console.log("place order response", response.data?.result?.id);
-        dispatch(setOrderId(response.data?.result?.id));
+      } catch (error) {
+        alert("An error occurred while processing payment: " + error.message);
       }
-    } catch (error) {
-      console.error(error.message);
+
+      setLoading(false);
+    } else {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/user/order-place",
+          {
+            payment_mode: payment,
+            store_id: substoreId,
+            firstname: userData?.data.name,
+            order_status_id: 1,
+            lastname: userData?.data?.last_name || "",
+            email: userData?.data?.email,
+            phone_number: userData?.data?.phone_number,
+            shipping_address:
+              userData?.data?.default_address?.customer_shipping_addess,
+            shipping_city: city?.results[0]?.address_components[5]?.long_name,
+            shipping_postcode: pincode,
+            day_id: dayId,
+            time_slot: selectedTimeSlot || "",
+            total: amount,
+            delivery_type_id: deliveryTypeId,
+            customer_id: userData?.data?.id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.data.success === true) {
+          navigate(ROUTES_NAVIGATION.ORDER_CONFIRM, {
+            state: { userData, savings },
+          });
+
+          console.log("place order response", response);
+
+          console.log("place order response", response.data?.result?.id);
+          dispatch(setOrderId(response.data?.result?.id));
+          dispatch(clearCart());
+        }
+      } catch (error) {
+        console.error(error.message);
+      }
     }
+  };
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
   };
 
   const [deliveryTypes, setDeliveryTypes] = useState([]);
@@ -1584,12 +1704,12 @@ const MobCartComponent = () => {
                 <div
                   onClick={() => {
                     ChangePaymentmode(!Payment);
-                    ChangePaymentMethod("PayU");
-                    dispatch(setPaymentMethod("PayU"));
+                    ChangePaymentMethod("razorpay");
+                    dispatch(setPaymentMethod("razorpay"));
                   }}
                   className="payment-mode-card"
                 >
-                  PayU
+                  razorpay
                 </div>
               </div>
             )}
@@ -1609,9 +1729,9 @@ const MobCartComponent = () => {
               className="mob-cart-component-payment-button cursor-pointer"
               onClick={() => {
                 handleConfirmOrder();
-                navigate(ROUTES_NAVIGATION.ORDER_CONFIRM, {
-                  state: { userData, savings },
-                });
+                // navigate(ROUTES_NAVIGATION.ORDER_CONFIRM, {
+                //   state: { userData, savings },
+                // });
               }}
             >
               {isLoading ? "Loading..." : "Proceed To Payment"}

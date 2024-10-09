@@ -1,9 +1,12 @@
-import { useState } from "react";
-import MobHeaderComponent from "../../MobHeaderComponent";
+import { useEffect, useState } from "react";
+// import MobHeaderComponent from "../../MobHeaderComponent";
+import MobHeaderComponent from "../../MobHeaderNavigation/index";
+
 import MobEmptyOrder from "../MobEmptyOrderComponent";
 import "../MobOrderHistoryComponent/MobOrderHistoryComponent.css";
 import { useNavigate } from "react-router";
 import ROUTES_NAVIGATION from "../../../routes/routes";
+// import MobOrderConfirmProgressComponent from "../../MobOrderConfirmComponent/MobOrderCofirmProgressComponent";
 import MobOrderCofirmProgressComponent from "../../MobOrderConfirmComponent/MobOrderCofirmProgressComponent";
 import ridericon from "../../../assets/Icon/rider.png";
 import star from "../../../assets/Icon/star.png";
@@ -12,6 +15,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import Datepicker from "../Datepicker";
 import MobBottomNavComponent from "../../MobBottomNavComponent";
+import axios from "axios";
+import Cookies from "universal-cookie";
 
 const MobOrderHistoryComponent = () => {
   const [activeOrderId, setActiveOrderId] = useState(null);
@@ -165,115 +170,383 @@ const MobOrderHistoryComponent = () => {
       Rating: "148 Rating",
     },
   ];
+  const cookie = new Cookies();
+  const token = cookie.get("auth_token");
+  console.log("token is", token);
+  const [orderDetails, setOrderDetails] = useState();
+  const [orderStatuss, setOrderStatuss] = useState();
+  const [status, setStatus] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/user/order-list",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response) {
+          console.log(response.data);
+          setOrderDetails(response.data.data);
+          const orderIds = response.data?.data?.map((order) => order.orderId); // Assuming `id` is the order ID
+          // orderStatus(orderIds);
+
+          setStatus(orderIds);
+
+          console.log("O id", orderIds);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false); // End loading
+      }
+    };
+    fetchData();
+  }, []);
+
+  console.log(orderDetails);
+  useEffect(() => {
+    const orderStatus = async () => {
+      if (!status || !token) return; // Ensure dependencies are available before proceeding
+
+      try {
+        const statuses = await Promise.all(
+          status.map(async (orderId) => {
+            const response = await axios.get(
+              `http://localhost:3000/user/order-status?orderId=${orderId}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            return { orderId, status: response.data };
+          })
+        );
+        console.log("statuses", statuses);
+        setOrderStatuss(statuses);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false); // End loading
+      }
+    };
+
+    orderStatus(); // Call the function immediately on component mount
+  }, [status, token]); // Ensure useEffect re-runs when `status` or `token` changes
+
+  console.log(orderDetails);
+  useEffect(() => {}, []);
+
+  const handleCancelOrder = async (orderId) => {
+    try {
+      // Call the Cancel Order API using PUT
+      const response = await axios.put(
+        `http://localhost:3000/user/cancel-order`,
+        { order_id: orderId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Order canceled successfully");
+
+        // Update the specific order status in state
+        setOrderStatuss((prevStatuses) =>
+          prevStatuses.map((status) =>
+            status.orderId === orderId
+              ? {
+                  ...status,
+                  status: {
+                    data: { status: { order_status_name: "Cancelled" } },
+                  },
+                }
+              : status
+          )
+        );
+      } else {
+        console.error("Failed to cancel the order");
+      }
+    } catch (error) {
+      console.error("Error canceling the order:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const [trackOrder, setTrackOrder] = useState(false);
+  const [trackOrderId, setTrackOrderId] = useState(null); // State to track which order is being tracked
+
+  const handleTrackOrder = (orderId) => {
+    setTrackOrderId((prevId) => (prevId === orderId ? null : orderId)); // Toggle the orderId
+  };
+
+  // if (loading) {
+  //   return <div>Loading...</div>; // Show loading state while data is being fetched
+  // }
 
   return (
     <>
       <MobHeaderComponent
         isBack={true}
-        headerText={"Order Details"}
+        text={"My Orders"}
         isCartShow={false}
         isEdoboLogo={true}
       />
-
-      {OrderDetails.length === 0 ? (
-        <MobEmptyOrder />
-      ) : (
+      {loading && (
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      )}
+      {!loading && orderDetails ? (
         <div className="container-fluid m-0 p-0">
-          <div className="container d-flex justify-content-between">
-            <div className="fs-6 fw-semibold">My Orders</div>
-            <div className="btn btn-warning rounded-5 fs-13 fw-bold">
+          <div className="container d-flex justify-content-end mt-2">
+            {/* <div className="fs-6 fw-semibold">My Orders</div> */}
+            {/* <div className="btn btn-warning rounded-5 fs-13 fw-bold">
               PAY NOW
-            </div>
+            </div> */}
           </div>
-          <div className="border mt-2"></div>
-          {OrderDetails.map((order) => (
-            <div className="d-flex mx-2 my-2" key={order.id}>
-              <input
-                type="checkbox"
-                data-bs-toggle="collapse"
-                href={`#trackorderCollapse${order.id}`}
-                role="button"
-                aria-expanded="false"
-                aria-controls="trackorderCollapse"
-                className="me-2 fs-1"
-                checked={activeOrderId === order.id}
-                onChange={() => handleCheckboxChange(order.id)}
-              />
+          {/* <div className="border mt-2"></div> */}
+          {orderDetails?.map((order) => {
+            const orderStatus = orderStatuss?.find(
+              (status) => status.orderId === order.orderId
+            );
 
-              <div className="card shadow-sm mob-order-history-component-card-container">
-                <div className="card-body mob-order-history-component-card-body">
-                  <div className="d-flex justify-content-between pt-2">
-                    <div className="fw-bold">Order {order.orderno}</div>
-                    <div className="fw-bold text-danger">
-                      {order.statuse[1].title}
+            const statusName =
+              orderStatus?.status?.data?.status?.order_status_name ||
+              "Fetching status...";
+
+            // Mapping status to a progress percentage
+            const statusMap = {
+              Open: 25,
+              Packed: 50,
+              Shipped: 75,
+              Delivered: 100,
+            };
+
+            const progressPercentage = statusMap[statusName] || 0;
+
+            return (
+              // <div className="d-flex mx-2 my-2" key={order.id}>
+              //   <input
+              //     type="checkbox"
+              //     data-bs-toggle="collapse"
+              //     href={`#trackorderCollapse${order.id}`}
+              //     role="button"
+              //     aria-expanded="false"
+              //     aria-controls="trackorderCollapse"
+              //     className="me-2 fs-1"
+              //     checked={activeOrderId === order.orderId}
+              //     onChange={() => handleCheckboxChange(order.id)}
+              //   />
+
+              //   <div className="card shadow-sm mob-order-history-component-card-container">
+              //     <div className="card-body mob-order-history-component-card-body">
+              //       <div className="d-flex justify-content-between pt-2">
+              //         <div className="fw-bold">Order Id {order.orderId}</div>
+              //         <div className="fw-bold text-danger">
+              //           Order Status :
+              //           {" " +
+              //             orderStatus?.status?.data?.status
+              //               ?.order_status_name || "Fetching status..."}
+              //         </div>
+              //       </div>
+              //       <div>
+              //         {new Date(order.created_at).toISOString().split("T")[0]}
+              //         <div className="mt-1 cancel-schedule">
+              //           <span>Schedule:</span>{" "}
+              //         </div>
+              //       </div>
+              //       <div className="status mt-2">
+              //         {orderStatus?.status?.data?.status?.order_status_name !==
+              //           "Cancelled" && (
+              //           <button
+              //             className="btn btn-danger trackbutton"
+              //             onClick={() => handleTrackOrder(order.orderId)}
+              //           >
+              //             Track Order
+              //           </button>
+              //         )}
+              //         {orderStatus?.status?.data?.status?.order_status_name !==
+              //           "Cancelled" && (
+              //           <button
+              //             className="btn btn-danger cancelbutton"
+              //             onClick={() => handleCancelOrder(order.orderId)}
+              //           >
+              //             Cancel Order
+              //           </button>
+              //         )}
+              //       </div>
+              //       {trackOrderId === order.orderId &&
+              //         statusName !== "Cancelled" && (
+              //           <div className="mt-3">
+              //             <div className="track-order-bar">
+              //               <div className="progress">
+              //                 <div
+              //                   className="progress-bar"
+              //                   role="progressbar"
+              //                   style={{ width: `${progressPercentage}%` }}
+              //                   aria-valuenow={progressPercentage}
+              //                   aria-valuemin="0"
+              //                   aria-valuemax="100"
+              //                 ></div>
+              //               </div>
+              //               <div className="track-order-status">
+              //                 <span
+              //                   className={
+              //                     progressPercentage >= 25 ? "active" : ""
+              //                   }
+              //                 >
+              //                   Open
+              //                 </span>
+              //                 <span
+              //                   className={
+              //                     progressPercentage >= 50 ? "active" : ""
+              //                   }
+              //                 >
+              //                   Packed
+              //                 </span>
+              //                 <span
+              //                   className={
+              //                     progressPercentage >= 75 ? "active" : ""
+              //                   }
+              //                 >
+              //                   Shipped
+              //                 </span>
+              //                 <span
+              //                   className={
+              //                     progressPercentage === 100 ? "active" : ""
+              //                   }
+              //                 >
+              //                   Delivered
+              //                 </span>
+              //               </div>
+              //             </div>
+              //           </div>
+              //         )}
+              //       <div className="mt-2">{/* Cancel Order Button */}</div>
+              //       <div
+              //         className="collapse"
+              //         id={`trackorderCollapse${order.id}`}
+              //       >
+              //         {/* <MobOrderCofirmProgressComponent /> */}
+              //       </div>
+              //     </div>
+              //   </div>
+              // </div>
+
+              <div className="d-flex mx-2 my-2" key={order.id}>
+                <div
+                  className="card shadow-sm mob-order-history-component-card-container"
+                  data-bs-toggle="collapse"
+                  href={`#trackorderCollapse${order.id}`}
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="trackorderCollapse"
+                >
+                  <div className="card-body mob-order-history-component-card-body">
+                    <div className="d-flex justify-content-between pt-2">
+                      <div className="fw-bold">Order Id {order.orderId}</div>
+                      <div className="fw-bold text-danger">
+                        Order Status:
+                        {" " +
+                          orderStatus?.status?.data?.status
+                            ?.order_status_name || "Fetching status..."}
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <div>{order.date.toLocaleDateString()}</div>
-                    <div className=" mt-1 ">
-                      <span>Schedule:</span> {order.schedule}
+                    <div>
+                      {new Date(order.created_at).toISOString().split("T")[0]}
+                      <div className="mt-1 cancel-schedule">
+                        <span>Schedule:</span>{" "}
+                      </div>
                     </div>
-                  </div>
-                  {activeOrderId === order.id && (
-                    <>
-                      {order.id &&
-                        RiderDetails.map((rider, index) => (
-                          <div
-                            className="d-flex align-items-center my-2"
-                            key={rider}
-                          >
-                            <div>
-                              <img
-                                src={rider.img}
-                                alt={rider.Name}
-                                width={45}
-                              />
+                    <div className="status mt-2">
+                      {orderStatus?.status?.data?.status?.order_status_name !==
+                        "Cancelled" && (
+                        <button
+                          className="btn btn-danger trackbutton"
+                          onClick={() => handleTrackOrder(order.orderId)}
+                        >
+                          Track Order
+                        </button>
+                      )}
+                      {orderStatus?.status?.data?.status?.order_status_name !==
+                        "Cancelled" && (
+                        <button
+                          className="btn btn-danger cancelbutton"
+                          onClick={() => handleCancelOrder(order.orderId)}
+                        >
+                          Cancel Order
+                        </button>
+                      )}
+                    </div>
+                    {trackOrderId === order.orderId &&
+                      statusName !== "Cancelled" && (
+                        <div className="mt-3">
+                          <div className="track-order-bar">
+                            <div className="progress">
+                              <div
+                                className="progress-bar"
+                                role="progressbar"
+                                style={{ width: `${progressPercentage}%` }}
+                                aria-valuenow={progressPercentage}
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
                             </div>
-                            <div className="ms-2">
-                              <div>{rider.title}</div>
-                              <div className="fw-bold fs-6">{rider.Name}</div>
-                            </div>
-                            <div className="ms-auto">
-                              <div className="d-flex align-items-center">
-                                <img
-                                  src={rider.starimg}
-                                  alt={rider.Name}
-                                  width={15}
-                                  className="me-1"
-                                />
-                                <span>{rider.Star}</span>
-                              </div>
-                              <div>({rider.Rating})</div>
+                            <div className="track-order-status">
+                              <span
+                                className={
+                                  progressPercentage >= 25 ? "active" : ""
+                                }
+                              >
+                                Open
+                              </span>
+                              <span
+                                className={
+                                  progressPercentage >= 50 ? "active" : ""
+                                }
+                              >
+                                Packed
+                              </span>
+                              <span
+                                className={
+                                  progressPercentage >= 75 ? "active" : ""
+                                }
+                              >
+                                Shipped
+                              </span>
+                              <span
+                                className={
+                                  progressPercentage === 100 ? "active" : ""
+                                }
+                              >
+                                Delivered
+                              </span>
                             </div>
                           </div>
-                        ))}
-                    </>
-                  )}
-                  <div className="mt-2">
-                    <div className="d-flex justify-content-between ">
-                      {order.button.slice(0, 3).map((btn) => (
-                        <div
-                          key={btn.id}
-                          className="text-danger fs-13"
-                          onClick={btn.onClick}
-                        >
-                          {btn.title}
                         </div>
-                      ))}
+                      )}
+                    <div
+                      className="collapse"
+                      id={`trackorderCollapse${order.id}`}
+                    >
+                      {/* <MobOrderCofirmProgressComponent /> */}
                     </div>
-                  </div>
-                  <div
-                    className="collapse"
-                    id={`trackorderCollapse${order.id}`}
-                  >
-                    <MobOrderCofirmProgressComponent />
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
+
           <div className="mob-order-history-component-border"></div>
-          {OrderDelivered.map((order) => (
+          {/* {OrderDelivered.map((order) => (
             <div className="d-flex mx-2 my-2" key={order.id}>
               <input type="checkbox" className="me-2 fs-1" checked />
               <div className="card shadow-sm mob-order-history-component-card-delivered">
@@ -306,9 +579,9 @@ const MobOrderHistoryComponent = () => {
                 </div>
               </div>
             </div>
-          ))}
+          ))} */}
 
-          {OrderCanelled.map((order) => (
+          {/* {OrderCanelled.map((order) => (
             <div
               className="d-flex mx-2 my-2"
               key={order.id}
@@ -371,8 +644,10 @@ const MobOrderHistoryComponent = () => {
                 </div>
               </div>
             </div>
-          ))}
+          ))} */}
         </div>
+      ) : (
+        <MobEmptyOrder />
       )}
 
       {isAddressShow && (
@@ -438,7 +713,7 @@ const MobOrderHistoryComponent = () => {
           </div>
         </>
       )}
-      <MobBottomNavComponent />
+      {/* <MobBottomNavComponent /> */}
     </>
   );
 };

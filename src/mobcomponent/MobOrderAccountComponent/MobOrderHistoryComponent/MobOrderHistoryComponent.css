@@ -128,6 +128,42 @@ input[type="checkbox"]:checked + label::after {
   color: #fff !important;
 }
 
+.cancel-schedule {
+  display: flex;
+
+  /* justify-content: space-between; */
+}
+.status {
+  display: flex;
+  /* margin-inline: 0px; */
+}
+.cancelbutton {
+  display: flex;
+  padding: 5px;
+  /* margin-left: 33px; */
+  font-size: 15px;
+  background-color: white;
+  color: red;
+  margin-inline: 10px;
+}
+.trackbutton {
+  /* display: flex; */
+  padding: 5px;
+  /* margin-inline: 10px; */
+
+  font-size: 15px;
+  background-color: white;
+  color: red;
+  /* border: 2px solid red; */
+  /* font-weight: normal; */
+}
+
+.trackbutton.active {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+}
+
 .datepicker {
   margin: 3px !important;
 }
@@ -135,4 +171,38 @@ input[type="checkbox"]:checked + label::after {
 .date-day-Item-selected {
   border: 1px solid #242222 !important;
   color: #242222 !important;
+}
+
+.track-order-bar {
+  position: relative;
+}
+
+.progress {
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+}
+
+.progress-bar {
+  background-color: #28a745; /* Progress bar color */
+}
+
+.track-order-status {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.track-order-status span {
+  position: relative;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.track-order-status span.active {
+  background-color: #28a745;
+  color: white;
 }
