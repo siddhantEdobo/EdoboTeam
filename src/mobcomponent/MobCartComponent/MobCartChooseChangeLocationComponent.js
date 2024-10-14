@@ -114,8 +114,7 @@ const MobCartChooseChangeLocationComponent = ({
 
   return (
     <>
-      <MobHeaderComponent text={'Address'}
-      />
+      <MobHeaderComponent text={"Address"} />
       <div className="container-fluid m-0 p-0 t">
         <div className="mob-cart-choose-change-location-container-heading">
           <div className="">Choose Delivery Address</div>

@@ -77,6 +77,12 @@ import { setPaymentMethod } from "../../redux/reducers/payment";
 import { setTotalAmount } from "../../redux/reducers/totalAmountPay";
 import { setOrderId } from "../../redux/reducers/orderid";
 import { clearCart, removeFromCart } from "../../redux/reducers/addCart";
+import {
+  setEmail,
+  setFirstName,
+  setLastName,
+  setMobNumber,
+} from "../../redux/reducers/profileData";
 // import { faUserSecret, faDoorClosed, faPhoneSlash, faCat } from '@fortawesome/free-solid-svg-icons';
 
 const OFFERSCODE = [
@@ -689,6 +695,11 @@ const MobCartComponent = () => {
     fetchData();
   }, []);
   console.log(userData);
+  // dispatch(setEmail(userData?.data?.email));
+  // dispatch(setFirstName(userData?.data?.name));
+  // dispatch(setLastName(userData?.data?.last_name));
+  // dispatch(setMobNumber(userData?.data?.phone_number));
+
   console.log("type id", deliveryTypeId);
   const data = {
     payment_mode: payment,
@@ -839,8 +850,8 @@ const MobCartComponent = () => {
 
           console.log("place order response", response);
 
-          console.log("place order response", response.data?.result?.id);
-          dispatch(setOrderId(response.data?.result?.id));
+          console.log("place order response", response.data?.orderId);
+          dispatch(setOrderId(response.data?.orderId));
           dispatch(clearCart());
         }
       } catch (error) {

@@ -25,9 +25,9 @@ const MobProfileComponent = () => {
 
   return (
     <>
-      <div>
+      <div className="">
         {selectedList?.length === 0 && (
-          <div className="nav  nav-underline justify-content-around ">
+          <div className="nav  nav-underline justify-content-around mt-2 ">
             <div className="nav-item">
               <div className={`nav-link text-secondary active text-danger`}>
                 MY ACCOUNT

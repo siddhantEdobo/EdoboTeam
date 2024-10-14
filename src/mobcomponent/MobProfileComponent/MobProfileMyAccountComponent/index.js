@@ -14,6 +14,7 @@ import { useNavigate } from "react-router";
 
 import MobProfileEditAccount from "./MobProfileEditAccount";
 import MobAddFamilyMemberComponent from "./MobAddFamilyMemberComponent";
+import { useSelector } from "react-redux";
 
 const MobProfileMyAccountComponent = ({ onClose }) => {
   const [isAddressShow, setIsAddressShow] = useState(false);
@@ -86,6 +87,13 @@ const MobProfileMyAccountComponent = ({ onClose }) => {
       },
     },
   ];
+
+  // const name = useSelector((state) => state.a.userName);
+  const email = useSelector((state) => state.profile.email);
+  const firstName = useSelector((state) => state.profile.firstName);
+  const lastName = useSelector((state) => state.profile.lastName);
+  const mobNumber = useSelector((state) => state.profile.mobNumber);
+
   return (
     <>
       <div className="container-fluid m-0 p-0">
@@ -95,8 +103,12 @@ const MobProfileMyAccountComponent = ({ onClose }) => {
             <div className="mob-profile-myaccount-component-card-edit-container rounded-1 p-2 ">
               <div className="mob-profile-myaccount-component-card-edit ">
                 <div className="d-flex gap-5 w-100">
-                  <div className="fw-medium fs-6">Kajol Mehta </div>
-                  <div className="ps-3 pe-2">(Admin)</div>
+                  <div className="fw-medium fs-6">
+                    {firstName + " "}
+
+                    {lastName}
+                  </div>
+                  {/* <div className="ps-3 pe-2">(Admin)</div> */}
                 </div>
 
                 <div
@@ -108,10 +120,10 @@ const MobProfileMyAccountComponent = ({ onClose }) => {
                   <img src={Images.edit} alt="edit" className="w-100 h-100" />
                 </div>
               </div>
-              <div className="fs-12">testmail@gmail.com</div>
+              <div className="fs-12">{email}</div>
 
               <div className="d-flex justify-content-between pt-2">
-                <div className="fs-12 text-secondary">9820000001</div>
+                <div className="fs-12 text-secondary">{mobNumber}</div>
                 <div className="d-flex gap-2 cursor-pointer">
                   <div className="fw-bold text-uppercase">
                     cancel Authorisation
@@ -148,7 +160,7 @@ const MobProfileMyAccountComponent = ({ onClose }) => {
             </div>
           </div>
 
-          <div className="d-flex justify-content-between px-2 mt-3 mob-profile-my-account-component-family-heading">
+          {/* <div className="d-flex justify-content-between px-2 mt-3 mob-profile-my-account-component-family-heading">
             My Family
             <div className="d-flex gap-3 cursor-pointer">
               <div
@@ -164,9 +176,9 @@ const MobProfileMyAccountComponent = ({ onClose }) => {
                 className="faicon-size pt-1"
               />
             </div>
-          </div>
+          </div> */}
 
-          {isAddFamilyMember > 0 ? (
+          {/* {isAddFamilyMember > 0 ? (
             <div className="mt-3 pt-2 pb-2 card mob-profile-my-account-component-add-family-member">
               <div className="d-flex justify-content-around align-items-center">
                 <div className="fw-bold">Karan Mehta</div>
@@ -189,7 +201,7 @@ const MobProfileMyAccountComponent = ({ onClose }) => {
                 className="w-25 h-25 mt-3"
               />
             </div>
-          )}
+          )} */}
         </div>
       </div>
 

@@ -6,12 +6,13 @@ import { useNavigate } from "react-router";
 import MobDrawerComponent from "../MobDrawerComponent";
 import MobBottomNavComponent from "../MobBottomNavComponent";
 import MobLocationComponent from "../MobLocationComponent";
-import profile from '../../assets/Mob/mob-image/profile.png';
-import search from '../../assets/Icon/search.png';
-import down from '../../assets/Icon/down.png';
-import locationIcon from '../../assets/Mob/mob-image/locationIcon.png';
+import profile from "../../assets/Mob/mob-image/profile.png";
+import search from "../../assets/Icon/search.png";
+import down from "../../assets/Icon/down.png";
+import locationIcon from "../../assets/Mob/mob-image/locationIcon.png";
 import ROUTES_NAVIGATION from "../../routes/routes";
 import { faL } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 const MobHeaderComponent = (props) => {
   const {
@@ -27,16 +28,20 @@ const MobHeaderComponent = (props) => {
   const { isDrawerOpen, setIsDrawerOpen } = useContext(GlobalContext);
   const navigate = useNavigate();
   const [isLocaionSelected, setIsLocaionSelected] = useState(false);
-  const [pinCode, setPinCode] = useState(localStorage.getItem("pinCode") || "140902");
+  const [pinCode, setPinCode] = useState(
+    localStorage.getItem("pinCode") || "140902"
+  );
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
-  const [searchBar , setSearchBar] = useState(false)
+  const [searchBar, setSearchBar] = useState(false);
 
   const handleConfirmLocation = (pinCode) => {
     setPinCode(pinCode);
     setIsLocaionSelected(false);
     localStorage.setItem("pinCode", pinCode);
   };
+
+  const pincode = useSelector((state) => state.home.pincode);
 
   const onShortOrderOpenCloseHandler = useCallback((toggle) => {
     setIsLocaionSelected(toggle);
@@ -108,7 +113,12 @@ const MobHeaderComponent = (props) => {
         className={`d-lg-none navbar navbar-expand-lg container-fluid fixed-top ${
           isBack ? "white text-black" : ""
         }`}
-        style={{ backgroundColor: "#FFEDED", height: "65px", display: 'flex' , flexDirection: 'column'}}
+        style={{
+          backgroundColor: "#FFEDED",
+          height: "65px",
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
         <div className="mob-header-container">
           <img
@@ -117,10 +127,20 @@ const MobHeaderComponent = (props) => {
             className="profile-img"
             onClick={handleProfileClick} // Open sidebar when profile image is clicked
           />
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <div className="location-block">
               <button>
-                <img src={locationIcon} alt="Location Icon" className="location-icon" />
+                <img
+                  src={locationIcon}
+                  alt="Location Icon"
+                  className="location-icon"
+                />
               </button>
               <div className="location-details">
                 <span className="delivering-to-text">Delivering to</span>
@@ -137,34 +157,35 @@ const MobHeaderComponent = (props) => {
                   fontFamily: "sans-serif",
                 }}
               >
-                HOME - {pinCode}
+                HOME - {pincode}
               </span>
             </div>
           </div>
-            {
-              !searchBar ? (
-                <button onClick={()=>{setSearchBar(!searchBar)}}>
-                <img src={search} alt="Search" />
-              </button>
-              ) : (
-                <div>
-
-                </div>
-              )
-            }
-
-         
+          {!searchBar ? (
+            <button
+              onClick={() => {
+                setSearchBar(!searchBar);
+              }}
+            >
+              <img src={search} alt="Search" />
+            </button>
+          ) : (
+            <div></div>
+          )}
         </div>
-        {
-            searchBar && (
-            <div className="search-box-container">
-             
-              <input type="text" placeholder="Search E.g Groceries"/>
-              <button className='input-search-button' onClick={()=>{setSearchBar(!searchBar)}}>
-            <img src={search} alt="Search" width={'20px'} height={'20px'}/>
-          </button>
-            </div>)
-          }
+        {searchBar && (
+          <div className="search-box-container">
+            <input type="text" placeholder="Search E.g Groceries" />
+            <button
+              className="input-search-button"
+              onClick={() => {
+                setSearchBar(!searchBar);
+              }}
+            >
+              <img src={search} alt="Search" width={"20px"} height={"20px"} />
+            </button>
+          </div>
+        )}
       </nav>
 
       {isDrawerOpen && <MobDrawerComponent />}

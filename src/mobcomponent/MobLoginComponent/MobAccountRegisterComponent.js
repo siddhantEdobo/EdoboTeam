@@ -38,11 +38,12 @@ const MobAccountRegisterComponent = () => {
 
   // Set userName when needed
 
+  const [userName, setUserName] = useState("");
   const handleInput = (e) => {
     setUserName(e.target.value);
+    dispatch(setUserNamee(userName));
   };
 
-  const [userName, setUserName] = useState("");
   const [emailId, setEmailId] = useState("");
   // const [firstname, setFirstName] = useState("");
   // const [lastname, setLastName] = useState("");

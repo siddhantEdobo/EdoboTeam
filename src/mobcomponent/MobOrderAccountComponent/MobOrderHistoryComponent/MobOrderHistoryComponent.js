@@ -304,7 +304,7 @@ const MobOrderHistoryComponent = () => {
           <span className="visually-hidden">Loading...</span>
         </div>
       )}
-      {!loading && orderDetails ? (
+      {!loading && orderDetails?.length > 0 ? (
         <div className="container-fluid m-0 p-0">
           <div className="container d-flex justify-content-end mt-2">
             {/* <div className="fs-6 fw-semibold">My Orders</div> */}
