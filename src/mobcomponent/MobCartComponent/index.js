@@ -720,6 +720,8 @@ const MobCartComponent = () => {
   };
   console.log("place order data", data);
   const amountInPaise = amount * 100;
+
+  
   const initiateRazorpayPayment = async (razorpayOrderId) => {
     const scriptLoaded = await loadRazorpayScript();
     const options = {
