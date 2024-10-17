@@ -26,11 +26,17 @@ import {
   faInstagram,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
+import { useSelector } from "react-redux";
 
 const MobDrawerComponent = () => {
   console.log("MobDrawerComponent render");
   const navigate = useNavigate();
   const { isDrawerOpen, setIsDrawerOpen } = useContext(GlobalContext);
+  const username = useSelector((state) => state.user.userName);
+  const firstName = useSelector((state) => state.profile.firstName);
+  const lastName = useSelector((state) => state.profile.lastName);
+
+  console.log(username);
 
   const DrawerCloseHandler = () => {
     setIsDrawerOpen(false);
@@ -56,23 +62,23 @@ const MobDrawerComponent = () => {
         DrawerCloseHandler();
       },
     },
-    {
-      icon: faCoins,
-      text: "Connect & Earn",
-      onClick: () => {
-        navigate(ROUTES_NAVIGATION.CART);
-        DrawerCloseHandler();
-      },
-    },
+    // {
+    //   icon: faCoins,
+    //   text: "Connect & Earn",
+    //   onClick: () => {
+    //     navigate(ROUTES_NAVIGATION.CART);
+    //     DrawerCloseHandler();
+    //   },
+    // },
 
-    {
-      icon: faWallet,
-      text: "My Wallet",
-      onClick: () => {
-        navigate(ROUTES_NAVIGATION.MY_WALLET);
-        DrawerCloseHandler();
-      },
-    },
+    // {
+    //   icon: faWallet,
+    //   text: "My Wallet",
+    //   onClick: () => {
+    //     navigate(ROUTES_NAVIGATION.MY_WALLET);
+    //     DrawerCloseHandler();
+    //   },
+    // },
     // {
     //   icon: faBattery,
     //   text: "My Subscriptions",
@@ -85,10 +91,8 @@ const MobDrawerComponent = () => {
       icon: faHeart,
       text: "Wish List",
       onClick: () => {
-        navigate(
-          // ROUTES_NAVIGATION.PROFILE + "/" + ROUTES_NAVIGATION.USER_WISHLIST
-          
-        );
+        navigate();
+        // ROUTES_NAVIGATION.PROFILE + "/" + ROUTES_NAVIGATION.USER_WISHLIST
         DrawerCloseHandler();
       },
     },
@@ -188,7 +192,7 @@ const MobDrawerComponent = () => {
               className="offcanvas-title d-flex align-items-center gap-2"
               id="mobDrawerViewLabel"
             >
-              Saurabh Maurya
+              {firstName + " " + lastName}
             </h5>
             <button
               type="button"

@@ -6,39 +6,17 @@ import { selectTip } from "../../redux/reducers/tipSlice";
 import { setTotalAmount } from "../../redux/reducers/totalAmountPay";
 import "./mobCartView.css";
 
-const MobCartBillingComponent = ({ coupon, walletAmount }) => {
+const MobCartBillingComponent = ({
+  totalItemPrice,
+  savings,
+  deliveryFee,
+  couponAmount,
+  tipAmount,
+  amountToPay,
+}) => {
   const dispatch = useDispatch();
   const amount = useSelector((state) => state.totalAmount.amount);
 
-  const cartItems = useSelector((state) => state.cart.items);
-  const selectedTip = useSelector((state) => state.tip.selectedTip);
-  console.log("tip is", selectedTip);
-  console.log("coupon amount", coupon);
-
-  console.log(cartItems);
-  const totalItemPrice = cartItems.reduce(
-    (acc, item) => acc + item.compare_price * item.quantity, // Assuming `item.price` and `item.quantity` are part of each cart item
-    0
-  );
-  console.log("Total amount", totalItemPrice);
-
-  const savings = cartItems.reduce(
-    (acc, item) => acc + (item.price - item.compare_price) * item.quantity, // Assuming `item.discount` is the saved amount for each product
-
-    0
-  );
-  console.log("saving amount", savings);
-
-  const deliveryFee = 30; // Example delivery fee, you can modify this based on your logic
-  // const walletAmount = 260; // Example wallet usage, modify as needed
-  const tipAmount = selectedTip; // Example tip, modify as needed
-  const couponAmount = typeof coupon === "number" ? coupon : 0;
-  const amountToPay = Math.max(
-    totalItemPrice + deliveryFee + tipAmount - couponAmount,
-    0
-  );
-  // Dispatch the total amount to Redux
-  dispatch(setTotalAmount(amountToPay));
   // totalItemPrice + deliveryFee + tipAmount - savings;
 
   return (
@@ -66,7 +44,7 @@ const MobCartBillingComponent = ({ coupon, walletAmount }) => {
         <div>Delivery partner fee for 3km</div>
         <div className="fw-bold">₹{deliveryFee}</div>
       </div>
-      {coupon > 0 && (
+      {couponAmount > 0 && (
         <div className="mt-2 d-flex justify-content-between mob-cart-component-billing-border">
           <div>
             <span className="ps-1">Coupon discount</span>
@@ -74,7 +52,7 @@ const MobCartBillingComponent = ({ coupon, walletAmount }) => {
           <div className="fw-bold">₹{couponAmount}</div>
         </div>
       )}
-      {walletAmount > 0 && (
+      {/* {walletAmount > 0 && (
         <div className="mt-2 d-flex justify-content-between mob-cart-component-billing-border">
           <div>
             <FontAwesomeIcon icon={faWallet} className="faicons-size" />
@@ -82,18 +60,18 @@ const MobCartBillingComponent = ({ coupon, walletAmount }) => {
           </div>
           <div className="fw-bold">₹{walletAmount}</div>
         </div>
-      )}
+      )} */}
 
       {/* <div className="mt-2 d-flex  justify-content-between mob-cart-component-billing-border">
           <div className="">Loyality Points</div>
           <div className="fw-bold">-₹50</div>
         </div> */}
-      {tipAmount > 0 && (
+      {/* {tipAmount > 0 && (
         <div className="mt-2 d-flex justify-content-between mob-cart-component-billing-border">
           <div>Delivery Partner Tip</div>
           <div className="fw-bold">₹{selectedTip}</div>
         </div>
-      )}
+      )} */}
 
       <div className="mt-2 d-flex justify-content-between">
         <div className="fw-bold">You Pay</div>

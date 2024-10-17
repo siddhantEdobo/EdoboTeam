@@ -26,6 +26,14 @@ import MobTabbingCollection from "./MobTabbingCollectionComponent";
 import MobViewCart from "./MobViewCart/index";
 import { setCartItems } from "../../redux/reducers/addCart";
 import substoreId, { setSubStoreId } from "../../redux/reducers/substoreId";
+import axios from "axios";
+import {
+  setEmail,
+  setFirstName,
+  setLastName,
+  setMobNumber,
+} from "../../redux/reducers/profileData";
+import Cookies from "universal-cookie";
 
 const MobHomeComponent = () => {
   const [showLocation, setShowLocation] = useState(false);
@@ -93,6 +101,37 @@ const MobHomeComponent = () => {
 
   console.log("data is ", productData);
   const cartItems1 = useSelector((state) => state.cart.items);
+
+  const [userData, setUserData] = useState();
+  const cookie = new Cookies();
+  const token = cookie.get("auth_token");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://127.0.0.1:8000/api/v2/user-details",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response) {
+          // console.log("userdata", response.data);
+          setUserData(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+  console.log(userData);
+  dispatch(setEmail(userData?.data?.email));
+  dispatch(setFirstName(userData?.data?.name));
+  dispatch(setLastName(userData?.data?.last_name));
+  dispatch(setMobNumber(userData?.data?.phone_number));
 
   return (
     <div className="home-container" style={{ marginTop: "60px" }}>

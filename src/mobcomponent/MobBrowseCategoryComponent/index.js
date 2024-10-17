@@ -220,12 +220,13 @@ const MobBrowserCategoryComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent text={'Main Category'}
+      <MobHeaderComponent
+        text={"Main Category"}
         // isBack={true}
         // headerText={maincategory}
         // isEdoboLogo={true}
       />
-    
+
       <div className=" container-lg align-items-start m-0 home-container flex-wrap overflow-hidden mob-browse-category-main-container">
         <div className=" mob-browse-category-header-banner">
           <img
@@ -236,7 +237,9 @@ const MobBrowserCategoryComponent = () => {
           />
         </div>
         <MobBrowseSubCategoryListComponent
-          categoryProduct={productData}
+          categoryProduct={productData.filter(
+            (product) => product?.id === selectedMainCategory?.id
+          )}
           selectedSubCategory={selectedSubCategory}
           onClick={(subCategory) => {
             console.log("subCategory", subCategory);
@@ -274,44 +277,44 @@ const MobBrowserCategoryComponent = () => {
 
         <div className="mob-browe-category-proudct-card-container">
           {/* {COLLECTIONDATA.map((value) => {
-            return (
-              <div key={value?.id} className="mt-2">
-                <CollectionProductCard
-                  title={value?.title}
-                  description={value?.description}
-                  imageUrl={value?.imageUrl}
-                  price={value?.price}
-                  mrp={value?.mrp}
-                  discountAmount={value?.discountAmount}
-                  quantity={"0"}
-                  isNew={value?.isNew}
-                  starRating={value?.starRating}
-                  allRating={value?.allRating}
-                  onClick={() => {
-                    console.log("onClick");
-                    navigate(
-                      ROUTES_NAVIGATION.PRODUCT_DETAILS +
-                        "/" +
-                        value?.title.toLocaleLowerCase().replaceAll(" ", "-")
-                    );
-                  }}
-                  onWishlistClick={() => {
-                    console.log("onWishlistClick");
-                  }}
-                  onDecrement={() => {
-                    console.log("onDecrement");
-                  }}
-                  onIncrement={() => {
-                    console.log("onIncrement");
-                  }}
-                  onAddtoCartClick={() => {
-                    console.log("onAddtoCartClick");
-                    onVarientOpenCloseHandler(true);
-                  }}
-                />
-              </div>
-            );
-          })} */}
+              return (
+                <div key={value?.id} className="mt-2">
+                  <CollectionProductCard
+                    title={value?.title}
+                    description={value?.description}
+                    imageUrl={value?.imageUrl}
+                    price={value?.price}
+                    mrp={value?.mrp}
+                    discountAmount={value?.discountAmount}
+                    quantity={"0"}
+                    isNew={value?.isNew}
+                    starRating={value?.starRating}
+                    allRating={value?.allRating}
+                    onClick={() => {
+                      console.log("onClick");
+                      navigate(
+                        ROUTES_NAVIGATION.PRODUCT_DETAILS +
+                          "/" +
+                          value?.title.toLocaleLowerCase().replaceAll(" ", "-")
+                      );
+                    }}
+                    onWishlistClick={() => {
+                      console.log("onWishlistClick");
+                    }}
+                    onDecrement={() => {
+                      console.log("onDecrement");
+                    }}
+                    onIncrement={() => {
+                      console.log("onIncrement");
+                    }}
+                    onAddtoCartClick={() => {
+                      console.log("onAddtoCartClick");
+                      onVarientOpenCloseHandler(true);
+                    }}
+                  />
+                </div>
+              );
+            })} */}
         </div>
       </div>
 

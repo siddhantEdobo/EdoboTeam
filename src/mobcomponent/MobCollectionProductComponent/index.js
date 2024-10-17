@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import MobHeaderComponent from "../MobHeaderNavigation";
 import { useParams } from "react-router-dom";
 import CollectionProductCard from "../../common/CollectionProductCard";
+import axios from "axios";
+import Cookies from "universal-cookie";
 
 const COLLECTIONDATA = [
   {
@@ -66,10 +68,34 @@ const COLLECTIONDATA = [
 const MobCollectionProductComponent = () => {
   const { collectionproduct } = useParams();
   console.log("collectionproduct", collectionproduct);
+  const cookie = new Cookies();
+  const token = cookie.get("auth_token");
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/user/order-list`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response) {
+          console.log("my orders", response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchdata();
+  });
 
   return (
     <div>
-      <MobHeaderComponent text={'Collections'}
+      <MobHeaderComponent
+        text={"Collections"}
         // isBack={true}
         // headerText={"Collections"}
         // isCartShow={false}

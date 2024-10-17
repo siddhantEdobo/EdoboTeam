@@ -7,7 +7,8 @@ import { useNavigate } from "react-router";
 const MobProfileAccountManageComponent = () => {
   return (
     <div>
-      <MobHeaderComponent text={'My Accoount'}
+      <MobHeaderComponent
+        text={"My Account"}
         // isBack={true}
         // headerText={"My Account"}
         // isCartShow={false}

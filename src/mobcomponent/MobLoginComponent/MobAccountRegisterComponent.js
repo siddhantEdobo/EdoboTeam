@@ -23,12 +23,14 @@ import "./MobAccountRegisterComponent.css";
 import InputFieldComponent from "../../common/InputFieldComponent";
 import MobLocationComponent from "../MobLocationComponent";
 import { useSelector } from "react-redux";
+import { setFirstName, setLastName } from "../../redux/reducers/profileData";
 const UserContext = createContext();
 
 const MobAccountRegisterComponent = () => {
   const [navigationComplete, setNavigationComplete] = useState(false);
   const [isLocationSelected, setIsLocationSelected] = useState(false);
   const [showLocation, setShowLocation] = useState(false);
+  const { firstName, lastName } = useSelector((state) => state.profile);
 
   // const userNamee = useSelector((state) => state.user.userName);
 
@@ -36,12 +38,16 @@ const MobAccountRegisterComponent = () => {
 
   // Set userName when needed
 
+  const [userName, setUserName] = useState("");
   const handleInput = (e) => {
     setUserName(e.target.value);
+    dispatch(setUserNamee(userName));
   };
 
-  const [userName, setUserName] = useState("");
   const [emailId, setEmailId] = useState("");
+  // const [firstname, setFirstName] = useState("");
+  // const [lastname, setLastName] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -183,10 +189,14 @@ const MobAccountRegisterComponent = () => {
   // const onCartClickHandler = () => {
   //   navigate(ROUTES_NAVIGATION.CART);
   // };
+  const handleInputChange = (setter) => (e) => {
+    setter(e.target.value);
+  };
 
   return (
     <>
-      <MobHeaderComponent text={'Profile Update'}
+      <MobHeaderComponent
+        text={"Profile Update"}
         // isBack={true}
         // headerText={"Account Register"}
         // isCartShow={false}
@@ -197,12 +207,30 @@ const MobAccountRegisterComponent = () => {
         <div className="card mob-account-register-component-form">
           <div className="p-3">
             <InputFieldComponent
-              placeholder='Enter Phone no.'
+              placeholder="Enter Phone no."
               value={phone}
               // icon={Images.loginPhoneNoImg}
               readOnly={true}
               successIcon={faCircleCheck}
               successColor="custom-success-color"
+            />
+            <InputFieldComponent
+              placeholder="Enter First name"
+              value={firstName}
+              onChange={handleInputChange((value) =>
+                dispatch(setFirstName(value))
+              )}
+              // onChange={(e) => setFirstName(e.target.value)}
+              icon={Images.loginPhoneEmailImg}
+            />
+            <InputFieldComponent
+              placeholder="Enter last name"
+              value={lastName}
+              // onChange={(e) => setLastName(e.target.value)}
+              onChange={handleInputChange((value) =>
+                dispatch(setLastName(value))
+              )}
+              icon={Images.loginPhoneEmailImg}
             />
             <InputFieldComponent
               placeholder="Enter email address"
@@ -217,16 +245,17 @@ const MobAccountRegisterComponent = () => {
               icon={Images.userName}
             />
           </div>
-          <div
-          style={{marginLeft: '20px'}}
-           className="mb-3 d-flex justify-content-start  gap-3">
+          {/* <div
+            style={{ marginLeft: "20px" }}
+            className="mb-3 d-flex justify-content-start  gap-3"
+          >
             <div className="mob-account-register-component-gender">He</div>
             <div className="mob-account-register-component-gender">She</div>
             <div className="mob-account-register-component-gender">Other</div>
-          </div>
+          </div> */}
         </div>
 
-        <div className="mt-2">
+        {/* <div className="mt-2">
           <div className="fs-14 fw-bold">Age</div>
           <div className="mt-2 gap-2 horizontal-scroll-container-age-container pb-3">
             {[
@@ -242,7 +271,7 @@ const MobAccountRegisterComponent = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         <div
           className={`fixed-bottom mob-account-register-component-submit-btn ${

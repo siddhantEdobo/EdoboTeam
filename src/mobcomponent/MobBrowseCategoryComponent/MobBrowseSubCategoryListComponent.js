@@ -5,7 +5,7 @@ const MobBrowseSubCategoryListComponent = (props) => {
   // console.log("subx", categoryProduct[0].sub_categories);
   return (
     <div className="d-flex hide-scrollbar gap-3 mt-2">
-      {categoryProduct.map((items) =>
+      {categoryProduct?.map((items) =>
         items?.sub_categories.map((item) => (
           <div
             key={item.id}

@@ -15,13 +15,14 @@ import { useDispatch } from "react-redux";
 import { addData } from "../../redux/reducers/gpsAdd";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-
 const MobEnableLocationComponent = ({
   onClose = () => {},
   onConfirm = () => {},
 }) => {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+
   const [pinCode, setPinCode] = useState("");
   const [searchBox, setSearchBox] = useState(null);
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
@@ -73,7 +74,10 @@ const MobEnableLocationComponent = ({
       if (response.data.status === "OK") {
         setGpsAdd(response?.data);
         if (response.data.results.length > 0) {
+          const city =
+            response.data?.results[0].address_components[1]?.long_name;
           const formattedAddress = response.data.results[0].formatted_address;
+          setCity(city);
           setAddress(formattedAddress);
 
           // Extract the pin code (postal code) from the address components
@@ -147,10 +151,7 @@ const MobEnableLocationComponent = ({
         onLoad={(map) => (mapRef.current = map)} // Set the map reference
       >
         <div className="map-search-box-wrapper">
-        <FontAwesomeIcon
-        icon={faSearch}
-        className="search-icon"
-      />
+          <FontAwesomeIcon icon={faSearch} className="search-icon" />
           <StandaloneSearchBox
             onLoad={(ref) => setSearchBox(ref)}
             onPlacesChanged={onPlacesChanged}
@@ -214,7 +215,7 @@ const MobEnableLocationComponent = ({
                 className="mt-1 pe-1 text-danger faicons-size"
               />
             </div>
-            <div className="fs-6 fw-bold">Raj Infrabuilds</div>
+            <div className="fs-6 fw-bold">{city}</div>
           </div>
           <div className="d-flex">
             <div className="fs-10 text-secondary w-75 ps-2 mob-enble-location-component-max-line-address">

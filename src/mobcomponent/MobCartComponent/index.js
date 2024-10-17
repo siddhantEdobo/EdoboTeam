@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MobHeaderComponent from "../MobHeaderNavigation";
 import "./mobCartView.css";
 import Slider from "react-slick";
@@ -54,17 +54,35 @@ import {
 } from "../../redux/reducers/walletSlice";
 import { removeTip, selectTip } from "../../redux/reducers/tipSlice";
 import { toggleCardSelection } from "../../redux/reducers/deliverySlice";
-import {
-  setDeliveryType,
-  setSelectSlot,
-  setSelectedDate,
-} from "../../redux/reducers/slot";
+// import {
+//   setDeliveryType,
+//   setSelectSlot,
+//   setSelectedDate,
+//   setSelectedTimeSlot,
+// } from "../../redux/reducers/slot";
 import MobHeaderNavigation from "../MobHeaderNavigation";
 import {
   addInstruction,
   removeInstruction,
 } from "../../redux/reducers/deliveryinstruction";
 import { findKey } from "lodash";
+import {
+  clearDeliverySlot,
+  setDeliveryOption,
+  setSelectedDate,
+  setSelectedTimeSlot,
+  confirmDeliverySlot,
+} from "../../redux/reducers/slot";
+import { setPaymentMethod } from "../../redux/reducers/payment";
+import { setTotalAmount } from "../../redux/reducers/totalAmountPay";
+import { setOrderId } from "../../redux/reducers/orderid";
+import { clearCart, removeFromCart } from "../../redux/reducers/addCart";
+import {
+  setEmail,
+  setFirstName,
+  setLastName,
+  setMobNumber,
+} from "../../redux/reducers/profileData";
 // import { faUserSecret, faDoorClosed, faPhoneSlash, faCat } from '@fortawesome/free-solid-svg-icons';
 
 const OFFERSCODE = [
@@ -190,6 +208,8 @@ const instruction = [
 ];
 
 const MobCartComponent = () => {
+  const [loading, setLoading] = useState(false);
+
   const [showInput, setShowInput] = useState(false);
   const [walletAmount, setWalletAmount] = useState(0); // Local state to track wallet amount input
   // const dispatchh = useDispatch();
@@ -238,7 +258,7 @@ const MobCartComponent = () => {
   //   setAppliedWalletAmount(walletAmount);
   //   setShowInput(false); // Hide input after applying
   // };
-  const [DeliveryOption, SetDeliveryOption] = useState("");
+  // const [DeliveryOption, SetDeliveryOption] = useState("");
   const [Payment, ChangePaymentmode] = useState(false);
   const [PaymentMethod, ChangePaymentMethod] = useState("");
 
@@ -307,7 +327,7 @@ const MobCartComponent = () => {
   };
 
   const handleSlotSelection = (slot) => {
-    dispatch(setSelectSlot(slot));
+    dispatch(setSelectedTimeSlot(slot));
   };
 
   const handleProceedToPayment = () => {
@@ -338,6 +358,7 @@ const MobCartComponent = () => {
   // const [couponCode, setCouponCode] = useState(coupon.map((item) => item.code));
   const [couponCode, setCouponCode] = useState(coupon ? coupon.code : "");
   const cartItems = useSelector((state) => state.cart.items);
+  console.log(cartItems);
   const substoreId = useSelector((state) => state.substore.sub_store_id);
   console.log("idd  is", substoreId);
 
@@ -409,20 +430,34 @@ const MobCartComponent = () => {
   //   "6PM-8PM",
   // ];
 
-  const [selectedDate, setSelectedDate] = useState("");
+  const deliveryOption = useSelector((state) => state.slot.deliveryOption);
+  const selectedDate = useSelector((state) => state.slot.selectedDate);
+  const selectedTimeSlot = useSelector((state) => state.slot.selectedTimeSlot);
+  console.log("selectedtime", selectedTimeSlot);
+  const isSlotMenuOpen = useSelector((state) => state.slot.isSlotMenuOpen);
+  const payment = useSelector((state) => state.payment.paymentMethod);
+  console.log(payment);
+  const city = useSelector((state) => state.addData.add);
+  const pincode = useSelector((state) => state.home.pincode);
+  console.log(city?.results[0]?.address_components[5]?.long_name);
+  // const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(2);
   const [chooseTime, setChooseTime] = useState(false);
+  const [dayId, setDayId] = useState(null);
   const [timeSlots, setTimeSlots] = useState([]);
 
   const handleDateClick = async (clickedDate) => {
     console.log(clickedDate.day);
+    dispatch(setSelectedDate(clickedDate));
     setSelectedDate(clickedDate);
+    setDayId(clickedDate.dayId);
     setChooseTime(true);
+    console.log("clciked data", dayId);
 
     try {
       const response = await axios.get(
-        `http://localhost:3000/user/deliveryTimeSlots?delivery_name=chembur&substore_id=${substoreId}`,
+        `http://localhost:3000/user/deliveryTimeSlots?delivery_name=govandii&substore_id=${substoreId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -451,19 +486,89 @@ const MobCartComponent = () => {
       console.error(error);
     }
   };
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  // const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+
   const handleTimeSlotClick = (timeSlot) => {
+    dispatch(setSelectedTimeSlot(timeSlot));
     // console.log(time);
     // setSelectedTime(time);
     setSelectedTimeSlot(timeSlot);
   };
 
-  const handleConfirmDelivery = () => {
-    console.log("clicked");
-    console.log("Selected Date:", selectedDate);
-    console.log("Selected Time:", selectedTime);
-    SetDeliveryOption("");
+  const handleConfirmDelivery = (option) => {
+    // dispatch(confirmDeliverySlot());
+
+    setDeliveryOption("Slot");
+    dispatch(confirmDeliverySlot());
+    // SetDeliveryOption("");
+
     alert("Slot booked sucessfully");
+    console.log("delivery:::::", deliveryOption);
+
+    const selectedDeliveryType = deliveryTypes.find(
+      (type) => type.delivery_types === option || "chembur Slots delivery" // Use the passed 'option' instead of 'deliveryOption'
+    );
+
+    // Log the found delivery type
+    if (selectedDeliveryType) {
+      console.log("Selected delivery type found:", selectedDeliveryType.id);
+      setDeliveryTypeId(selectedDeliveryType.id);
+    } else {
+      console.log("No delivery type found for option:", option);
+      setDeliveryTypeId(""); // Reset if not found
+    }
+  };
+  const [deliveryTypeId, setDeliveryTypeId] = useState("");
+
+  const handleDeliveryOptionChange = (option) => {
+    // Dispatch the action to set the delivery option in Redux
+    dispatch(setDeliveryOption(option));
+
+    // Set current day ID for Express or Pickup
+    if (option === "Express" || option === "Pick_up") {
+      dispatch(clearDeliverySlot());
+      setDayId(getCurrentDayId());
+    }
+
+    // Set the delivery option in local state
+    setDeliveryOption(option);
+
+    // Log the current delivery option being processed
+    console.log("Current delivery option:", option);
+
+    // Find the selected delivery type based on the selected option
+    const selectedDeliveryType = deliveryTypes?.find(
+      (type) => type?.delivery_types === option // Use the passed 'option' instead of 'deliveryOption'
+    );
+
+    // Log the found delivery type
+    if (selectedDeliveryType) {
+      console.log("Selected delivery type found:", selectedDeliveryType.id);
+      setDeliveryTypeId(selectedDeliveryType.id);
+    } else {
+      console.log("No delivery type found for option:", option);
+      setDeliveryTypeId(""); // Reset if not found
+    }
+
+    // setDeliveryOption(option);
+
+    // switch (option) {
+    //   case "Express":
+    //     setDeliveryTypeId(deliveryTypes.expressId); // Assuming expressId is the key in your fetched data
+    //     break;
+    //   case "Slot":
+    //     setDeliveryTypeId(deliveryTypes.slotId); // Assuming slotId is the key in your fetched data
+    //     break;
+    //   case "Pick_up":
+    //     setDeliveryTypeId(deliveryTypes.pickupId); // Assuming pickupId is the key in your fetched data
+    //     break;
+    //   default:
+    //     setDeliveryTypeId("");
+    // }
+  };
+  const getCurrentDayId = () => {
+    const day = new Date().getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+    return day === 0 ? 7 : day; // Convert Sunday (0) to 7
   };
   // Swipe Feature
 
@@ -475,6 +580,7 @@ const MobCartComponent = () => {
   };
 
   // Handle touch end
+
   const handleTouchEnd = (e) => {
     const touchEndX = e.changedTouches[0].clientX; // Record where the touch ended
     const touchDifference = touchStartX - touchEndX;
@@ -490,54 +596,333 @@ const MobCartComponent = () => {
 
   // Slot Delivery - Anirudh -----End
 
-  const handleShowSlot = () => {
-    setSlotShow(!slotshow);
-    setIsClicked(2);
-    dispatch(setDeliveryType(2));
-  };
+  // const handleShowSlot = () => {
+  //   setSlotShow(!slotshow);
+  //   setIsClicked(2);
+  //   dispatch(setDeliveryType(2));
+  // };
 
-  const handleSelect1 = () => {
-    setSlotShow(false);
+  // const handleSelect1 = () => {
+  //   setSlotShow(false);
 
-    setIsClicked(1);
-    dispatch(setDeliveryType(1));
-  };
+  //   setIsClicked(1);
+  //   dispatch(setDeliveryType(1));
+  // };
 
-  const handleSelect2 = () => {
-    setSlotShow(false);
+  // const handleSelect2 = () => {
+  //   setSlotShow(false);
 
-    setIsClicked(3);
-    dispatch(setDeliveryType(3));
-  };
+  //   setIsClicked(3);
+  //   dispatch(setDeliveryType(3));
+  // };
 
-  const handleDateChange = (date) => {
-    setStartDate(date);
+  // const handleDateChange = (date) => {
+  //   setStartDate(date);
 
-    // Dispatch the action to store the selected date in Redux
-    // dispatch(setSelectedDate(date));
-    dispatch(setSelectedDate(date.toISOString()));
-  };
+  // Dispatch the action to store the selected date in Redux
+  // dispatch(setSelectedDate(date));
+  //   dispatch(setSelectedDate(date.toISOString()));
+  // };
   const generateDates = () => {
     const dates = [];
     const currentDate = new Date();
+
+    // Helper function to calculate day ID (1 = Monday, 7 = Sunday)
+    const getDayId = (day) => {
+      switch (day) {
+        case "Sunday":
+          return 7;
+        case "Monday":
+          return 1;
+        case "Tuesday":
+          return 2;
+        case "Wednesday":
+          return 3;
+        case "Thursday":
+          return 4;
+        case "Friday":
+          return 5;
+        case "Saturday":
+          return 6;
+        default:
+          return null;
+      }
+    };
 
     // Generate current date and the next 3 days
     for (let i = 0; i < 4; i++) {
       const dateObj = new Date(currentDate);
       dateObj.setDate(currentDate.getDate() + i);
 
-      const day = dateObj.toLocaleDateString("en-US", { weekday: "long" }); // Example: Mon, Tue
+      const day = dateObj.toLocaleDateString("en-US", { weekday: "long" }); // Full day name (e.g., Monday)
       const date = dateObj.getDate(); // Day of the month (1-31)
-      const month = dateObj.toLocaleDateString("en-US", { month: "short" }); // Example: Jan, Feb
-      const year = dateObj.getFullYear(); // Year
+      const month = dateObj.toLocaleDateString("en-US", { month: "short" }); // Month abbreviation (e.g., Jan)
+      const year = dateObj.getFullYear(); // Full year (e.g., 2024)
+      const dayId = getDayId(day); // Get the day ID (1-7)
 
-      dates.push({ day, date, month, year });
+      dates.push({ day, date, month, year, dayId });
     }
 
     return dates;
   };
 
   const dates = generateDates();
+
+  // Debug: Output generated dates with dayId
+  // console.log(dates);
+  console.log("dayid:-", dayId);
+
+  const [userData, setUserData] = useState();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://127.0.0.1:8000/api/v2/user-details",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response) {
+          // console.log("userdata", response.data);
+          setUserData(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+  console.log(userData);
+  // dispatch(setEmail(userData?.data?.email));
+  // dispatch(setFirstName(userData?.data?.name));
+  // dispatch(setLastName(userData?.data?.last_name));
+  // dispatch(setMobNumber(userData?.data?.phone_number));
+
+  console.log("type id", deliveryTypeId);
+  const data = {
+    payment_mode: payment,
+    store_id: substoreId,
+    firstname: userData?.data.name,
+    order_status_id: 1,
+    lastname: userData?.data?.last_name,
+    email: userData?.data?.email,
+    phone_number: userData?.data?.phone_number,
+    shipping_address: userData?.data?.default_address?.customer_shipping_addess,
+    shipping_city: city?.results[0]?.address_components[5]?.long_name,
+    shipping_postcode: pincode,
+    day_id: dayId,
+    time_slot: selectedTimeSlot || "",
+    total: amount,
+    delivery_type_id: deliveryTypeId,
+    customer_id: userData?.data?.id,
+  };
+  console.log("place order data", data);
+  const amountInPaise = amount * 100;
+
+  
+  const initiateRazorpayPayment = async (razorpayOrderId) => {
+    const scriptLoaded = await loadRazorpayScript();
+    const options = {
+      key: "rzp_test_Pu2pvCuPYnstgx", // Replace with your Razorpay Key ID
+      amount: amountInPaise, // Amount in paise
+      currency: "INR",
+      name: substoreId,
+      description: "Test Transaction",
+      order_id: razorpayOrderId, // This is the Razorpay order ID returned by your backend
+      handler: function (response) {
+        // Payment was successful, handle it here
+        navigate(ROUTES_NAVIGATION.ORDER_CONFIRM, {
+          state: { userData, savings },
+        });
+        alert(
+          "Payment successful! Payment ID: " + response.razorpay_payment_id
+        );
+        dispatch(clearCart());
+        // You can make a call to your backend to verify and update the order status if needed
+      },
+      prefill: {
+        name: userData?.data.name, // Prefill with user data
+        email: userData?.data?.email,
+        contact: userData?.data?.phone_number,
+      },
+      notes: {
+        customerId: userData?.data?.id,
+        address: userData?.data?.default_address?.customer_shipping_addess,
+        storeId: substoreId,
+        cartItems: cartItems.map((item) => ({
+          product_id: item.id,
+          order_status_id: 1,
+          name: item.product_name,
+          qty: item.quantity,
+          price: item.compare_price,
+          total: item.compare_price,
+          // tax: item.igst || 0,
+        })),
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    // const rzp = new Razorpay(options);
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
+
+  const handleConfirmOrder = async () => {
+    if (PaymentMethod === "razorpay") {
+      setLoading(true);
+
+      try {
+        // Step 1: Call your backend to create a Razorpay order
+        const response = await fetch("http://localhost:3000/user/order-place", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            customer_id: userData?.data?.id,
+            payment_mode: payment,
+            amount: amount,
+            store_id: substoreId,
+            firstname: userData?.data.name,
+            order_status_id: 1,
+            lastname: userData?.data?.last_name || "",
+            email: userData?.data?.email,
+            phone_number: userData?.data?.phone_number,
+            shipping_address:
+              userData?.data?.default_address?.customer_shipping_addess,
+            shipping_city: city?.results[0]?.address_components[5]?.long_name,
+            shipping_postcode: pincode,
+            day_id: dayId,
+            time_slot: selectedTimeSlot || "",
+            total: amount,
+            delivery_type_id: deliveryTypeId,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          const { razorpayOrderId } = result;
+          initiateRazorpayPayment(razorpayOrderId);
+        } else {
+          alert("Error creating order: " + result.message);
+        }
+      } catch (error) {
+        alert("An error occurred while processing payment: " + error.message);
+      }
+
+      setLoading(false);
+    } else {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/user/order-place",
+          {
+            payment_mode: payment,
+            store_id: substoreId,
+            firstname: userData?.data.name,
+            order_status_id: 1,
+            lastname: userData?.data?.last_name || "",
+            email: userData?.data?.email,
+            phone_number: userData?.data?.phone_number,
+            shipping_address:
+              userData?.data?.default_address?.customer_shipping_addess,
+            shipping_city: city?.results[0]?.address_components[5]?.long_name,
+            shipping_postcode: pincode,
+            day_id: dayId,
+            time_slot: selectedTimeSlot || "",
+            total: amount,
+            delivery_type_id: deliveryTypeId,
+            customer_id: userData?.data?.id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.data.success === true) {
+          navigate(ROUTES_NAVIGATION.ORDER_CONFIRM, {
+            state: { userData, savings },
+          });
+
+          console.log("place order response", response);
+
+          console.log("place order response", response.data?.orderId);
+          dispatch(setOrderId(response.data?.orderId));
+          dispatch(clearCart());
+        }
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+  };
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  };
+
+  const [deliveryTypes, setDeliveryTypes] = useState([]);
+
+  const fetchDeliveryTypes = async () => {
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/delivery-types"
+      );
+      setDeliveryTypes(response.data.results.data);
+      console.log("delivery Types..", response.data.results.data);
+    } catch (error) {
+      console.error("Error fetching delivery types:", error.message);
+    }
+  };
+
+  // Call fetchDeliveryTypes on component mount
+  useEffect(() => {
+    fetchDeliveryTypes();
+  }, []);
+
+  console.log("tip is", selectedTip);
+  console.log("coupon amount", coupon);
+
+  console.log(cartItems);
+  const totalItemPrice = cartItems.reduce(
+    (acc, item) => acc + item.compare_price * item.quantity, // Assuming `item.price` and `item.quantity` are part of each cart item
+    0
+  );
+  console.log("Total amount", totalItemPrice);
+
+  const savings = cartItems.reduce(
+    (acc, item) => acc + (item.price - item.compare_price) * item.quantity, // Assuming `item.discount` is the saved amount for each product
+
+    0
+  );
+  console.log("saving amount", savings);
+
+  const deliveryFee = 30; // Example delivery fee, you can modify this based on your logic
+  // const walletAmount = 260; // Example wallet usage, modify as needed
+  const tipAmount = selectedTip; // Example tip, modify as needed
+  const couponAmount = typeof coupon?.amount === "number" ? coupon?.amount : 0;
+  const amountToPay = Math.max(
+    totalItemPrice + deliveryFee + tipAmount - couponAmount,
+    0
+  );
+  // Dispatch the total amount to Redux
+  dispatch(setTotalAmount(amountToPay));
+  // totalItemPrice + deliveryFee + tipAmount - savings;
+
   if (cartItems.length > 0) {
     return (
       <div className="cart-view">
@@ -597,19 +982,21 @@ const MobCartComponent = () => {
           <div className=" mt-3 mb-10 border border-danger rounded-3">
             <div className="d-flex align-items-center gap-2 ps-2 mt-1">
               <div className="choose-dilevery-header">
-                Choose a dilevery type
+                Choose a delivery type
               </div>
             </div>
             <div className="dilevery-option-container">
               <div
                 className="dilevery-options "
                 style={{
-                  borderColor: DeliveryOption === "Express" ? "red" : "#e4e4e7",
+                  borderColor: deliveryOption === "Express" ? "red" : "#e4e4e7",
                   borderWidth: "2px",
                   borderStyle: "solid",
+                  if() {},
                 }}
                 onClick={() => {
-                  SetDeliveryOption("Express");
+                  setDeliveryOption("Express");
+                  handleDeliveryOptionChange("Express");
                 }}
               >
                 <img src={express} className="dilvery-icon" />
@@ -627,11 +1014,17 @@ const MobCartComponent = () => {
               <div
                 className="dilevery-options"
                 style={{
-                  borderColor: DeliveryOption === "Slot" ? "red" : "#e4e4e7",
+                  borderColor:
+                    selectedTimeSlot && deliveryOption === "Slot"
+                      ? "red"
+                      : "#e4e4e7",
                   borderWidth: "2px",
                   borderStyle: "solid",
                 }}
-                onClick={() => SetDeliveryOption("Slot")}
+                onClick={() => {
+                  setDeliveryOption("Slot");
+                  handleDeliveryOptionChange("Slot");
+                }}
               >
                 <img src={slot} className="dilvery-icon" />
                 <div
@@ -648,11 +1041,11 @@ const MobCartComponent = () => {
               <div
                 className="dilevery-options"
                 style={{
-                  borderColor: DeliveryOption === "Pick_up" ? "red" : "#e4e4e7",
+                  borderColor: deliveryOption === "Pick_up" ? "red" : "#e4e4e7",
                   borderWidth: "2px",
                   borderStyle: "solid",
                 }}
-                onClick={() => SetDeliveryOption("Pick_up")}
+                onClick={() => handleDeliveryOptionChange("Pick_up")}
               >
                 <img src={pickup} className="dilvery-icon" />
                 <div
@@ -670,7 +1063,7 @@ const MobCartComponent = () => {
           </div>
 
           {/* Slot Menu */}
-          {DeliveryOption === "Slot" && (
+          {isSlotMenuOpen && (
             <div className="slot-container">
               <div className="slot-setting-container">
                 <h2>Select delivery's date & time</h2>
@@ -681,7 +1074,7 @@ const MobCartComponent = () => {
                       <div
                         key={index}
                         className={`date-container-${
-                          selectedDate.date === date.date
+                          selectedDate?.date === date.date
                             ? "selected"
                             : "unselected"
                         }`}
@@ -724,13 +1117,16 @@ const MobCartComponent = () => {
                 <div className="buttons">
                   <button
                     className="cancel-delivery-button"
-                    onClick={() => SetDeliveryOption("")}
+                    onClick={() => dispatch(clearDeliverySlot())}
                   >
                     Cancel Delivery
                   </button>
                   <button
                     className="delivery-button"
-                    onClick={handleConfirmDelivery}
+                    onClick={() => {
+                      setDeliveryOption("Slot");
+                      handleConfirmDelivery(deliveryOption);
+                    }}
                   >
                     Confirm Delivery
                   </button>
@@ -1272,6 +1668,12 @@ const MobCartComponent = () => {
             {billSummary && (
               <div style={{ padding: "10px" }}>
                 <MobCartBillingComponent
+                  totalItemPrice={totalItemPrice}
+                  savings={savings}
+                  deliveryFee={deliveryFee}
+                  tipAmount={tipAmount}
+                  couponAmount={couponAmount}
+                  amountToPay={amountToPay}
                   selectedTip={selectedTips}
                   coupon={coupon?.amount}
                   walletAmount={appliedWalletAmount}
@@ -1305,7 +1707,8 @@ const MobCartComponent = () => {
                 <div
                   onClick={() => {
                     ChangePaymentmode(!Payment);
-                    ChangePaymentMethod("Cash");
+                    ChangePaymentMethod("Cash on delivery");
+                    dispatch(setPaymentMethod("Cash on delivery"));
                   }}
                   className="payment-mode-card"
                 >
@@ -1314,11 +1717,12 @@ const MobCartComponent = () => {
                 <div
                   onClick={() => {
                     ChangePaymentmode(!Payment);
-                    ChangePaymentMethod("PayU");
+                    ChangePaymentMethod("razorpay");
+                    dispatch(setPaymentMethod("razorpay"));
                   }}
                   className="payment-mode-card"
                 >
-                  PayuZ
+                  razorpay
                 </div>
               </div>
             )}
@@ -1337,7 +1741,10 @@ const MobCartComponent = () => {
             <div
               className="mob-cart-component-payment-button cursor-pointer"
               onClick={() => {
-                navigate(ROUTES_NAVIGATION.ORDER_CONFIRM);
+                handleConfirmOrder();
+                // navigate(ROUTES_NAVIGATION.ORDER_CONFIRM, {
+                //   state: { userData, savings },
+                // });
               }}
             >
               {isLoading ? "Loading..." : "Proceed To Payment"}

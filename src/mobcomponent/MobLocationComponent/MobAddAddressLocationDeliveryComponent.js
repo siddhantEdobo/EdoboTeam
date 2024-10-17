@@ -153,7 +153,7 @@ const MobAddAddressLocationDeliveryComponent = ({
   };
 
   return (
-    <div>
+    <div className="m-2">
       {/* Form Fields */}
       <div className="mt-2">
         <div className="fw-bold">HOUSE / FLAT / BLOCK no.</div>
