@@ -34,6 +34,7 @@ const ROUTES_NAVIGATION = {
   ORDER_DETAIL_SUMMARY: "/order-detail-summary",
   ORDER_CANCLE: "/order-cancle",
   ORDER_TIMER: "/order-timer",
+  ORDER_LIVE_TRACK: "/order-track",
   CUSTOMER_SUPPORT_FAQ: "/customer-support-faq",
   REQUEST_NEW_PRODUCT: "/request-new-product",
   REQUEST_NEW_PRODUCT_SEARCH: "/request-new-product-search",
@@ -41,6 +42,7 @@ const ROUTES_NAVIGATION = {
   ACCOUNT_REGISTER: "/account-register",
   CREDITO_COIN: "/credito-coin",
   EDOBO_STORE: "/edobo-store",
+
 };
 
 export default ROUTES_NAVIGATION;

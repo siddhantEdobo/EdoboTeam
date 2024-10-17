@@ -87,7 +87,9 @@ const MobToBeReviwedComponent = ({ data }) => {
   //   If data is available, you can render your regular UI
 
   return (
-    <div className="container-fluid m-0 p-0">
+    <div
+    style={{width: '90%'}}
+     className="container-fluid m-0 p-0">
       <div className="edobo-white">
         {reviewData.map((review) => (
           <div className="p-2 " key={review.id}>
@@ -123,6 +125,7 @@ const MobToBeReviwedComponent = ({ data }) => {
                     </div>
 
                     <div
+                  
                       className={`mb-2 d-flex justify-content-center align-items-center border p-2 w-50 me-2 fw-bold ${
                         isActive
                           ? "text-success border-success"

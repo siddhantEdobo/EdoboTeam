@@ -9,6 +9,7 @@ import {
   faCirclePlus,
   faClock,
   faDoorClosed,
+  faL,
   faPhoneSlash,
   faTags,
   faTrash,
@@ -30,6 +31,23 @@ import MobCartBillingComponent from "../../mobcomponent/MobCartComponent/MobCart
 import MobProductCard from "../../common/MobProductCard";
 import CartBillingComponent from "./CartBillingComponent";
 import ReplceProductComponent from "../../common/ReplaceProductComponent";
+import trashIcon from '../../assets/Icon/trash.png'
+import leaveWithGuard from '../../assets/Icon/leaveWithGuard.png'
+import leaveWithDoor from '../../assets/Icon/leaveWithHome.png'
+import avoidcall from '../../assets/Icon/avoidCall.png'
+import dogs from '../../assets/Icon/bewareOfDog.png'
+import couponBanner from '../../assets/Icon/couponBanner.png'
+import sticker1 from '../../assets/sticker1.png'
+import sticker2 from '../../assets/sticker2.png'
+import slotDelivery from '../../assets/Icon/slotDeliver2.png'
+import express from '../../assets/Icon/Express2.png'
+import pickUp from '../../assets/Icon/PickUp2.png'
+import { flatMap } from "lodash";
+import Summary from "./Summary";
+import EdiblesComponent from "../HomeComponent/EdiblesComponent";
+
+
+
 
 const NEWOFFERS = [
   {
@@ -52,7 +70,7 @@ const NEWOFFERS = [
   },
   {
     id: 3,
-    name: "Madhur 1Kg",
+
     imageSrc:
       "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/64f84698d171af6a6696032d/5-1--320x320.jpg",
     price: 9,
@@ -69,6 +87,39 @@ const NEWOFFERS = [
     quantity: "1 kg",
   },
 ];
+
+
+const instruction = [
+  {
+    instructionIcons: leaveWithGuard,
+    title : 'Leave with guard'
+  },
+  {
+    instructionIcons: leaveWithDoor,
+    title : 'Leave with door'
+  },
+  {
+    instructionIcons: avoidcall,
+    title : 'Avoid calls'
+  },
+  {
+    instructionIcons: dogs,
+    title : 'Beware of pets'
+  },
+  
+]
+
+
+const ComboOffer= [
+  {
+    id: 1,
+    url: "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
+    title: "Green Masala Milk",
+    price: "₹ 41.3",
+    mrp: "₹ 51.3",
+  }
+]
+
 
 const EDITIBLE = [
   {
@@ -159,904 +210,397 @@ const EDITIBLE = [
 ];
 
 const datesData = [
-  { id: 1, text: "Today", date: new Date() },
+  { id: 1, text: "Today", date: new Date() , day: 'MON' },
   {
     id: 2,
     text: "Tomorrow",
     date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+    day: 'TUE',
   },
   {
     id: 3,
-    text: "Sunday",
+    text: "",
     date: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000),
+    day: 'WED',
   },
-  // Add more dates as needed
 ];
 
+const timeSlots = [
+  '8:00AM-12:00PM',
+  '12:00PM-4:00PM',
+  '4:00PM-8:00PM',
+ 
+]
+
+
+
 const CartComponent = () => {
+  const [checkout , setCheckout] = useState(false)
+  const [slotMenu, setSlotMenu] = useState(false)
+  const [changeSlot , setChangeSlot] = useState(false)
   const [startDate, setStartDate] = useState(new Date());
+  const [selectDate, setselectDate] = useState(null);
+  const [selectTime , setSelectTime]= useState(null)
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedCards, setSelectedCards] = useState([]);
   const [selectedTips, setSelectedTips] = useState([]);
+  const [userInstruction, setUserInstruction] = useState([]);
+  const [slotInfo , setSlotInfo] = useState(null)
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [couponList , setCouponList] = useState(false)
+  const [couponApplied , setCouponApplied] =  useState(null)
+  const [Tip , setTip] = useState(0)
 
   const navigate = useNavigate();
 
-  const handleSlotSelection = (slot) => {
-    setSelectedSlot(slot);
+  const handleAddInstruction = (data) => {
+  
+    if (!userInstruction.includes(data)) {
+      setUserInstruction([...userInstruction, data]); 
+    } else {
+      setUserInstruction(userInstruction.filter(item => item !== data)); 
+    }
+
+    console.log(userInstruction);
+    
   };
 
-  const toggleCardSelection = (index) => {
-    const isSelected = selectedCards.includes(index);
-    if (isSelected) {
-      setSelectedCards(selectedCards.filter((i) => i !== index));
-    } else {
-      setSelectedCards([...selectedCards, index]);
-    }
-  };
 
-  const tipCardSelection = (index) => {
-    const selectedIndex = selectedTips.indexOf(index);
-    if (selectedIndex === -1) {
-      setSelectedTips([...selectedTips, index]); // Add index to selectedTips if not already selected
-    } else {
-      setSelectedTips(selectedTips.filter((i) => i !== index)); // Remove index from selectedTips if already selected
-    }
-  };
+  const handleCOD=()=>{
+   alert(`Thanks Shop with Edobo, Your Delivery type: ${selectedOption}`)
+   navigate(ROUTES_NAVIGATION.HOME)
+  }
+
+  const handleSlotInfo=()=>{
+    const data = {
+        slotDate:  selectDate,
+        slotTime: selectTime
+      }
+      console.log(data)
+      setSlotInfo(data)
+      setselectDate(null)
+      setSelectTime(null)
+      
+      setChangeSlot(false)
+  }
+
+ const CouponCodes = [
+  { code: "EDBO10", discount: 10 },
+  { code: "EDBO20", discount: 20 },
+  { code: "EDBO30", discount: 30 },
+  { code: "EDBO40", discount: 40 },
+
+
+
+ ]
+
+  const handleProceedCheckOut=()=>{
+    setCheckout(true)
+    setSlotMenu(true)
+  }
+  
+  
+  
 
   return (
-    <div className="container-lg home-container">
-      <div className="d-flex justify-content-between align-items-center">
-        <div className="d-flex align-items-center">
-          <div className="fs-5 p-4 fw-bold">
-            Your Cart <span className="fs-13">{`( 4 items )`}</span>{" "}
-          </div>
-          {/* <div className="fs-6 p-4">₹231 saved on this order</div> */}
-        </div>
-        <div className="text-danger">
-          <FontAwesomeIcon icon={faCirclePlus} className="text-danger fs-5" />
-          <span className="ps-1 fs-5 fw-bold ">Continue Shoping</span>
-        </div>
-      </div>
+    <div className="cart-container">
+      <div className="item-container">{
+      slotMenu ? (<div>
+      
+        <span className="items-count-text">Select Delivery Type</span> 
 
-      <div className="">
-        <div className="row">
-          <div className="col-8">
-            <div className="">
-              <div>
-                <div className="card edobo-orange rounded-4 cart-unlock-card-container">
-                  <div className="card rounded-4">
-                    <div className="d-flex justify-content-between ">
-                      <div className="">
-                        <div className="d-flex p-3 rounded-4">
-                          <div className="ps-0 fs-3 d-flex align-items-center">
-                            To get upto <b className="ms-2 me-2">$100</b> OFF
+        <div className="delivery-container">
+            <div className="time-bar">
+              <span>Pick your date and time according to your convenience</span>
+            </div>
+            <div className="select-delivery-container">
+            <div className="delivery-row">
+   <input type='checkbox'
+   className="delivery-checkbox"
+   checked={selectedOption == 'Slot Delivery'}
+   onChange={() => setSelectedOption('Slot Delivery')}
+   />
+  <img src={slotDelivery} className="delivery-img" />
+  <div className="delivery-info">
+    <span className="delivery-name">Slot Delivery</span>
+    <span className="delivery-time">{slotInfo ? slotInfo.slotDate : 'No date Selected'}, Between {slotInfo ? slotInfo.slotTime : 'No time selected'}</span>
+  </div>
+</div>
+
+
+  <div className="changeTime-button">
+    <button onClick={()=>setChangeSlot(true)}>Change date and time <FontAwesomeIcon icon={faChevronRight}/></button>
+  </div>
+</div>
+
+{ changeSlot && (<div className="dataSlot-container">
+<span>Choose Date</span>
+<div className="date-slots">
+{
+  datesData.map((items) => (
+    <div
+    onClick={()=>setselectDate(items.date.getDate())}
+
+     key={items.id}  
+     className={`date-card-${selectDate == items.date.getDate()?'selected':'un'}`}>
+      <div className="date-text-container"><span style={{fontSize:'8px'}}>{items.text}</span></div>
+      <span>{items.day}</span>
+      <span className="date-value">{items.date.getDate()}</span>
+    </div>
+  ))
+}
+</div>
+</div>)}
+
+{ selectDate && (<div className="dataSlot-container">
+<span>Choose Time</span>
+<div className="time-slots">
+{
+  timeSlots.map((items)=>(
+    <div
+    onClick={()=>setSelectTime(items)}
+     className={`time-card-${selectTime == items ? 'selected': 'un'}`}>
+     {items}
+    </div>
+  ))
+}
+{
+  selectTime && (<button onClick={handleSlotInfo} className="change-button">Change</button>)
+}
+</div>
+</div>)}
+
+        </div>
+
+        <div className="delivery-container">
+            <div className="time-bar">
+              <span>Pefer express delivery option for dilevery within 15-20 minutes</span>
+
+            </div>
+            <div className="select-delivery-container">
+  <div className="delivery-row">
+  <input type='checkbox'
+  className="delivery-checkbox"
+  checked={selectedOption == 'Express Delivery'}
+  onChange={(e)=>setSelectedOption('Express Delivery')} />
+
+  
+    <img src={express} className="delivery-img" />
+    <div className="delivery-info">
+      <span  className="delivery-name">Express Delivery</span>
+
+      <span className="delivery-time">*Additional charges may apply</span>
+    </div>
+  </div>
+</div>
+
+        </div>
+
+
+        <div className="delivery-container">
+            <div className="time-bar">
+              <span>Pick up your order through our drive through stores near you</span>
+            </div>
+            <div className="select-delivery-container">
+  <div className="delivery-row">
+  <input type='checkbox'
+  className="delivery-checkbox"
+  checked={selectedOption == 'Pick-Up'}
+  onChange={(e)=>setSelectedOption('Pick-Up')} />
+  
+    <img src={pickUp} className="delivery-img" />
+    <div className="delivery-info">
+      <span  className="delivery-name">Pick up</span>
+
+      <span className="delivery-time">Address of the store near the user appears here</span>
+    </div>
+  </div>
+</div>
+
+        </div>
+        
+      </div>):(<div>
+        
+        <span className="items-count-text">{EDITIBLE.length} items added</span> 
+            <div className="item-box-container">
+               <div className="box-container-title">
+               <input type="checkbox" 
+               className="delivery-checkbox"
+               />
+             
+                   <span>Product in cart</span>
+                   <span style={{color: '#A5A5A5' , fontSize: '10px'}}>({EDITIBLE.length})</span>
+               </div>
+              <div className="offer-container">
+                <div className="claimed-offer-container">
+                 <div>
+                  <span>Avail combo offer</span>
+                 </div>
+                 <button>+ Claim offer</button>
+               </div>
+
+                    {
+                      ComboOffer.map((items)=>(
+                        <div className="offer-card">
+                        <div style={{display: 'flex' , flexDirection: 'row', alignItems: 'center'}}>
+                        <input type="checkbox"
+                        className="delivery-checkbox"
+                        />
+                        <img src={items.url} width={'60px'}/> 
+                        <div style={{display: 'flex' , flexDirection: 'column'}}>
+                          <span className="offer-item-title">{items.title}</span>
+                          <span className="offer-item-price">{items.price}</span>
+                          <span className="offer-item-mrp">{items.mrp}</span>
+                        </div>
+                        </div>
+                        <div className="offer-item-button-container">
+                          <div>
+                            <button onClick={()=>EDITIBLE.push(items)} className="add-button">Add</button>
+                          </div>
+                          <div>
+                           
                           </div>
                         </div>
-                      </div>
-                      <div className="fs-6 d-flex align-items-center p-2">
-                        {/* <AddToCartButton /> */}
-                        Use Code
-                        <span className="fs-6 fw-bold ps-1 pe-1">SAVER10</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-center p-1 text-white gap-2">
-                    <div>
-                      <FontAwesomeIcon
-                        // icon={faUnlock}
-                        className="faicon-size"
-                      />
-                    </div>
-                    <div className="fs-6 pb-2">
-                      Add Items worth{" "}
-                      <span className="fs-6 fw-bold ps-1 pe-1">$799</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="conatiner d-flex justify-content-between mt-2 mb-4 gap-3">
-                <div className="card w-75 cart-delivery-type-card border-danger cursor-pointer shadow">
-                  <div className="text-danger fs-12 fw-bold mb-2">
-                    <FontAwesomeIcon icon={faClock} /> 15 - 30 mins
-                  </div>
-                  <div>
-                    <img
-                      src={Images.delivery}
-                      alt=""
-                      className="faicons-size mb-1"
-                    />
-                  </div>
-                  <div className="text-danger fs-6 fw-bold mb-3">
-                    Express Develiery
-                  </div>
-                  <div className="position-absolute  bottom-0 bg-danger w-100 d-flex justify-content-center text-white rounded-bottom-1 p-1">
-                    *Additional Charges may apply
-                  </div>
-                </div>
-                <div className="card w-75 cart-delivery-type-card border-danger cursor-pointer shadow">
-                  <div>
-                    <img
-                      src={Images.calenderRed}
-                      alt=""
-                      className="faicons-size my-2"
-                    />
-                  </div>
-                  {/* <FontAwesomeIcon icon={faBus} className="faicons-size" /> */}
-                  <div className="text-danger fs-6 fw-bold">Slot Delivery</div>
-                  {/* <div className="position-absolute  bottom-0 bg-danger w-100 d-flex justify-content-center text-white rounded-bottom-1 p-1">
-                    *Additional Charges may apply
-                  </div> */}
-                </div>
-                <div className="card w-75 cart-delivery-type-card border-danger cursor-pointer shadow">
-                  <div>
-                    <img
-                      src={Images.delivery}
-                      alt=""
-                      className="faicons-size my-2"
-                    />
-                  </div>
-                  {/* <FontAwesomeIcon icon={faBus} className="faicons-size" /> */}
-                  <div className="text-danger fs-6 fw-bold ">Pickup</div>
-                  {/* <div className="position-absolute  bottom-0 bg-danger w-100 d-flex justify-content-center text-white rounded-bottom-1 p-1">
-                    *Additional Charges may apply
-                  </div> */}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-4 m-0 p-1">
-            <div className="mt-1 d-flex gap-2">
-              <FontAwesomeIcon
-                icon={faTags}
-                className="faicons-size text-danger"
-              />
-              <div className="fw-bold fs-6 ">Unlock New Offers</div>
-            </div>
-
-            <div className=" ">
-              <div className="cartcomponent-new-offer-container hide-x-scrollbars">
-                {NEWOFFERS.map((item) => {
-                  return (
-                    <div className="mb-2" key={item.id}>
-                      <CartUnlockCardComponent {...item} />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="card shadow-sm edobo-white">
-          {[...Array(5)].map((value, index) => {
-            return (
-              <div key={index} className="p-3">
-                <div className="border-bottom d-flex">
-                  <div className="cart-product-img-container">
-                    <img
-                      className="product-image"
-                      src={
-                        "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/64f84698d171af6a6696032d/5-1--320x320.jpg"
-                      }
-                      alt={"productimage"}
-                      // onClick={onClick}
-                    />
-                  </div>
-                  <div className=" w-100 d-flex justify-content-between">
-                    <div className="p-2 gap-2">
-                      <div className="fs-6 fw-bold">Tomato Hybrid</div>
-                      <div className="fs-6 fw-lighter">1Kg</div>
-                      <div className="d-flex align-items-center gap-3 mt-2">
-                        <div className="fs-6 fw-bold text-nowrap">₹ 87</div>
-                        <div className="fs-6 text-decoration-line-through fw-medium text-nowrap text-danger">
-                          ₹ 100
                         </div>
-                      </div>
-                      {/* <p className="">
-                          With supporting text below as a natural lead-in to
-                          additional content.
-                        </p> */}
-                    </div>
-                    <div className="d-flex align-items-center justify-content-center">
-                      <AddToCartButton quantity={1} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        {/* <div className="delivery-instuction-container edobo-white p-4 mt-3 shadow-sm ">
-          <div className="fw-bold fs-14">Delivery instructions</div>
-          <div className="">Delivery partner will be notified</div>
-          <div className="cart-delivery-instuction-container hide-scrollbar">
-            {[...Array(6)].map((value, index) => {
-              return (
-                <div
-                  key={index}
-                  className="card cart-delivery-instuction-card "
-                >
-                  <FontAwesomeIcon
-                    icon={faBottleWater}
-                    className="faicons-size"
-                  />
-                  <div className="gap-2">
-                    <div className="fs-13 fw-bold">Return Pet Bottles</div>
-                    <p className="fw-medium">
-                      Help us recycle plastic bottles by returning them to our
-                      delivery partner
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div> */}
-
-        {/* <div className=" mt-3 border border-danger rounded-3">
-          <div className="d-flex align-items-center gap-2 mb-2 ps-2 mt-1">
-            <FontAwesomeIcon icon={faWallet} className="faicons-size" />
-            <div className="">Pickup and Delivery Options</div>
-          </div>
-          <div className="conatiner d-flex justify-content-between mb-4 gap-3 ps-2 pe-2">
-            <div className="card w-75 cart-delivery-type-card shadow-sm border-danger cursor-pointer">
-              <FontAwesomeIcon icon={faBus} className="faicons-size" />
-              <div>Shoping</div>
-              <div>Express Delivery</div>
-            </div>
-            <div className="card w-75 cart-delivery-type-card shadow-sm cursor-pointer">
-              <FontAwesomeIcon icon={faCar} className="faicons-size" />
-              <div>Shoping</div>
-              <div>Slot Delivery</div>
-            </div>
-            <div className="card w-75 cart-delivery-type-card shadow-sm cursor-pointer">
-              <FontAwesomeIcon icon={faBagShopping} className="faicons-size" />
-              <div>Shoping</div>
-              <div>Pickup</div>
-            </div>
-          </div>
-        </div> */}
-        <div className="fs-5 fw-bold my-3 ">Delivery 2/3</div>
-        <div className="mt-2 border border-danger rounded-3">
-          <div className=" row  ">
-            <div className="col-8">
-              <div className="fs-6 fw-bold p-2">
-                How do you want your item ?
-              </div>
-
-              {/* <div className="m-2 card w-50 cart-delivery-type-card shadow-sm border-danger cursor-pointer">
-                <FontAwesomeIcon
-                  icon={faCalendarDays}
-                  className="faicons-size text-danger"
-                />
-                <div className="p-2 pt-2 ">
-                  <DatePicker
-                    className="w-100  h-25 justify-content-center text-danger p-1"
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                  />
-                </div>
-              </div> */}
-              <div className="d-flex justify-content-evenly ">
-                <div className="ms-5 mb-3 card w-25  cart-delivery-type-card border-danger cursor-pointer shadow">
-                  <img
-                    src={Images.calenderRed}
-                    alt=""
-                    className="faicons-size my-2"
-                  />
-                  <div className="text-danger fs-6 fw-bold">Slot Delivery</div>
-                </div>
-
-                <div className="col ms-4 mt-2 fs-5">
-                  {datesData.map((item, index) => (
-                    <div key={index} className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="exampleRadios"
-                        id={`exampleRadios${index + 1}`}
-                        value={`option${index + 1}`}
-                        // Default to the first option being checked
-                      />
-                      <label className="form-check-label fw-bold">
-                        {item.text}
-                        <br />
-                        <span className="fs-13">
-                          {item.date.toLocaleDateString()}
-                        </span>
-                      </label>
-                    </div>
-                  ))}
-                </div>
-
-                {/* <div className="col ms-4 mt-2 fs-5">
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="exampleRadios"
-                      id="exampleRadios1"
-                      value="option1"
-                      checked
-                    />
-                    <label
-                      class="form-check-label fw-bold "
-                      for="exampleRadios1"
-                    >
-                      Today
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="exampleRadios"
-                      id="exampleRadios2"
-                      value="option2"
-                      checked
-                    />
-                    <label
-                      class="form-check-label fw-bold "
-                      for="exampleRadios2"
-                    >
-                      Tommorrow
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="exampleRadios"
-                      id="exampleRadios3"
-                      value="option3"
-                      checked
-                    />
-                    <label
-                      class="form-check-label fw-bold "
-                      for="exampleRadios3"
-                    >
-                      Sunday
-                    </label>
-                  </div>
-                </div> */}
+                      ))
+                    }          
+          
               </div>
             </div>
 
-            <div className="col-4">
-              <div className=" mt-3 fw-bold fs-6">AVAILABLE SLOT</div>
-              <div className="mt-3 me-2 fs-6 mt-4">
-                <div
-                  className={`${
-                    selectedSlot === "7-10"
-                      ? "mob-cart-component-selected-slot"
-                      : "mob-cart-component-normal-slot"
-                  }`}
-                  onClick={() => handleSlotSelection("7-10")}
-                >
-                  7:00 AM - 10:00 AM
-                </div>
-                <div
-                  className={`${
-                    selectedSlot === "10-1"
-                      ? "mob-cart-component-selected-slot"
-                      : "mob-cart-component-normal-slot"
-                  } mt-2`}
-                  onClick={() => handleSlotSelection("10-1")}
-                >
-                  10:00 AM - 01:00 PM
-                </div>
+            <div className="item-box-container">
+            <div className="box-container-title">
+              
+                   <span>Unlock new offer</span>
+                   
+               </div>
+               <div className="claimed-offer-container">
+                 <div>
+                  <span>Avail offers</span>
+                 </div>
+                 <button>+ Claim offer</button>
+               </div>
 
-                <div
-                  className={`${
-                    selectedSlot === "1-3"
-                      ? "mob-cart-component-selected-slot"
-                      : "mob-cart-component-normal-slot"
-                  } mt-2`}
-                  onClick={() => handleSlotSelection("1-3")}
-                >
-                  10:00 AM - 01:00 PM
-                </div>
-                <button className="fs-6 fw-bold btn btn-danger my-3 ms-4">
-                  CONFIRM
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="fs-5 fw-bold my-3 ">Delivery 3/3</div>
-
-        <div className="card shadow-sm edobo-white mt-3">
-          {[...Array(3)].map((value, index) => {
-            return (
-              <div key={index} className="p-3">
-                <div className="border-bottom d-flex">
-                  <div className="cart-product-img-container">
-                    <img
-                      className="product-image"
-                      src={
-                        "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/64f84698d171af6a6696032d/5-1--320x320.jpg"
-                      }
-                      alt={"productimage"}
-                      // onClick={onClick}
-                    />
-                  </div>
-                  <div className=" w-100 d-flex justify-content-between">
-                    <div className="p-2 gap-2">
-                      <div className="fs-6 fw-bold">Tomato Hybrid</div>
-                      <div className="fs-6 fw-lighter">1Kg</div>
-                      <div className="d-flex align-items-center gap-3 mt-2">
-                        <div className="fs-6 fw-bold text-nowrap">₹ 87</div>
-                        <div className="fs-6 text-decoration-line-through fw-medium text-nowrap text-danger">
-                          ₹ 100
+               {
+                      NEWOFFERS.map((items)=>(
+                        <div className="offer-card">
+                        <div style={{display: 'flex' , flexDirection: 'row', alignItems: 'center'}}>
+                        <input type="checkbox"
+                        className="delivery-checkbox"
+                        />
+                        <img src={items.imageSrc} width={'60px'}/> 
+                        <div style={{display: 'flex' , flexDirection: 'column'}}>
+                          <span className="offer-item-title">{items.name}</span>
+                          <span className="offer-item-price">₹{items.price}</span>
+                          <span className="offer-item-mrp">₹{items.originalPrice}</span>
                         </div>
-                      </div>
-                      {/* <p className="">
-                          With supporting text below as a natural lead-in to
-                          additional content.
-                        </p> */}
-                    </div>
-                    <div className="d-flex align-items-center justify-content-center">
-                      <AddToCartButton quantity={1} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="mt-2 border border-danger rounded-3">
-          <div className=" row  ">
-            <div className="col-8">
-              <div className="fs-6 fw-bold p-2">
-                How do you want your item ?
-              </div>
-
-              {/* <div className="m-2 card w-50 cart-delivery-type-card shadow-sm border-danger cursor-pointer">
-                <FontAwesomeIcon
-                  icon={faCalendarDays}
-                  className="faicons-size text-danger"
-                />
-                <div className="p-2 pt-2 ">
-                  <DatePicker
-                    className="w-100  h-25 justify-content-center text-danger p-1"
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                  />
-                </div>
-              </div> */}
-              <div className="d-flex justify-content-evenly ">
-                <div className="ms-5 mb-3 card w-25  cart-delivery-type-card border-danger cursor-pointer shadow">
-                  <img
-                    src={Images.calenderRed}
-                    alt=""
-                    className="faicons-size my-2"
-                  />
-                  <div className="text-danger fs-6 fw-bold">Slot Delivery</div>
-                </div>
-
-                <div className="col ms-4 mt-2 fs-5">
-                  {datesData.map((item, index) => (
-                    <div key={index} className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="exampleRadios"
-                        id={`exampleRadios${index + 1}`}
-                        value={`option${index + 1}`}
-                        // Default to the first option being checked
-                      />
-                      <label className="form-check-label fw-bold">
-                        {item.text}
-                        <br />
-                        <span className="fs-13">
-                          {item.date.toLocaleDateString()}
-                        </span>
-                      </label>
-                    </div>
-                  ))}
-                </div>
-
-                {/* <div className="col ms-4 mt-2 fs-5">
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="exampleRadios"
-                      id="exampleRadios1"
-                      value="option1"
-                      checked
-                    />
-                    <label
-                      class="form-check-label fw-bold "
-                      for="exampleRadios1"
-                    >
-                      Today
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="exampleRadios"
-                      id="exampleRadios2"
-                      value="option2"
-                      checked
-                    />
-                    <label
-                      class="form-check-label fw-bold "
-                      for="exampleRadios2"
-                    >
-                      Tommorrow
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="exampleRadios"
-                      id="exampleRadios3"
-                      value="option3"
-                      checked
-                    />
-                    <label
-                      class="form-check-label fw-bold "
-                      for="exampleRadios3"
-                    >
-                      Sunday
-                    </label>
-                  </div>
-                </div> */}
-              </div>
-            </div>
-
-            <div className="col-4">
-              <div className=" mt-3 fw-bold fs-6">AVAILABLE SLOT</div>
-              <div className="mt-3 me-2 fs-6 mt-4">
-                <div
-                  className={`${
-                    selectedSlot === "7-10"
-                      ? "mob-cart-component-selected-slot"
-                      : "mob-cart-component-normal-slot"
-                  }`}
-                  onClick={() => handleSlotSelection("7-10")}
-                >
-                  7:00 AM - 10:00 AM
-                </div>
-                <div
-                  className={`${
-                    selectedSlot === "10-1"
-                      ? "mob-cart-component-selected-slot"
-                      : "mob-cart-component-normal-slot"
-                  } mt-2`}
-                  onClick={() => handleSlotSelection("10-1")}
-                >
-                  10:00 AM - 01:00 PM
-                </div>
-
-                <div
-                  className={`${
-                    selectedSlot === "1-3"
-                      ? "mob-cart-component-selected-slot"
-                      : "mob-cart-component-normal-slot"
-                  } mt-2`}
-                  onClick={() => handleSlotSelection("1-3")}
-                >
-                  10:00 AM - 01:00 PM
-                </div>
-                <button className="fs-6 fw-bold btn btn-danger my-3 ms-4">
-                  CONFIRM
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="card shadow-sm edobo-white mt-3">
-          {[...Array(3)].map((value, index) => {
-            return (
-              <div key={index} className="p-3">
-                <div className="border-bottom d-flex">
-                  <div className="cart-product-img-container">
-                    <img
-                      className="product-image"
-                      src={
-                        "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/64f84698d171af6a6696032d/5-1--320x320.jpg"
-                      }
-                      alt={"productimage"}
-                      // onClick={onClick}
-                    />
-                  </div>
-                  <div className=" w-100 d-flex justify-content-between">
-                    <div className="p-2 gap-2">
-                      <div className="fs-6 fw-bold">Tomato Hybrid</div>
-                      <div className="fs-6 fw-lighter">1Kg</div>
-                      <div className="d-flex align-items-center gap-3 mt-2">
-                        <div className="fs-6 fw-bold text-nowrap">₹ 87</div>
-                        <div className="fs-6 text-decoration-line-through fw-medium text-nowrap text-danger">
-                          ₹ 100
                         </div>
-                      </div>
-                      {/* <p className="">
-                          With supporting text below as a natural lead-in to
-                          additional content.
-                        </p> */}
-                    </div>
-                    <div className="d-flex align-items-center justify-content-center">
-                      <AddToCartButton quantity={1} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+                        <div className="offer-item-button-container">
+                          <div>
+                            <button className="add-button">Add</button>
+                          </div>
+                          <div>
+                           
+                          </div>
+                        </div>
+                        </div>
+                      ))
+                    } 
         </div>
 
-        <div className="row">
-          <div className="col-7">
-            <div className="">
-              <div className="mt-3 border border-danger rounded-2">
-                <div className="d-flex justify-content-between">
-                  <div className="d-flex">
-                    <div className="p-3">
-                      <FontAwesomeIcon
-                        icon={faTags}
-                        className="faicons-size text-danger"
-                      />
-                    </div>
+            
+    
+      </div>)
+      } </div>
 
-                    <div className=" mt-2">
-                      <div className="fw-bold fs-5">APPNEW</div>
-                      <div className="text-body-secondary fw-bold fs-12">
-                        Save Flat₹75 on this order
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-3">
-                    <div className="fw-bold text-danger fs-6">Apply</div>
-                  </div>
-                </div>
-
-                <div
-                  className="p-2 mob-cart-component-view-more-coupon"
-                  onClick={() => {
-                    navigate(ROUTES_NAVIGATION.ALL_COUPONS_LIST);
-                  }}
-                >
-                  <div className="">View more coupons</div>
-                  <FontAwesomeIcon
-                    icon={faChevronRight}
-                    className="faicon-size ps-2"
-                  />
-                </div>
-
-                {/* {showCouponComponent && <MobCartCouponComponent />} */}
+      {checkout? (<div className="checkout-container">
+        <Summary data={EDITIBLE} method={handleCOD} />
+      </div>):
+      (<div className="checkout-container">
+        <div className="delivery-instruction-container">
+          <span className="items-count-text">Select delivery Instructions</span>
+          <div className="delivery-instruction">
+          {
+            instruction.map((items)=>(
+              <div 
+              className={`des-instruction-card ${userInstruction.includes(items) ? 'selected' : ''}`}
+              onClick={()=>{handleAddInstruction(items)}}
+              >
+                <img src={items.instructionIcons}/>
+                <h3>{items.title}</h3>
               </div>
-            </div>
-
-            <CartBillingComponent />
-          </div>
-
-          <div className="col-5">
-            <div className="mt-3">
-              <div className="fw-bold fs-6">Delivery Instructions</div>
-              <div className="d-flex mt-2">
-                <div
-                  className={`card mob-cart-component-delivery-instruction ${
-                    selectedCards.includes(0)
-                      ? "mob-cart-component-selected-delivery-instraction"
-                      : ""
-                  }`}
-                  onClick={() => toggleCardSelection(0)}
-                >
-                  <FontAwesomeIcon
-                    icon={faUserSecret}
-                    className="faicons-size pb-1"
-                  />
-                  <div>Leave with</div>
-                  <div>guard</div>
-                </div>
-
-                <div
-                  className={`card mob-cart-component-delivery-instruction ${
-                    selectedCards.includes(1)
-                      ? "mob-cart-component-selected-delivery-instraction"
-                      : ""
-                  }`}
-                  onClick={() => toggleCardSelection(1)}
-                >
-                  <FontAwesomeIcon
-                    icon={faDoorClosed}
-                    className="faicons-size pb-1"
-                  />
-                  <div>Leave at</div>
-                  <div>door</div>
-                </div>
-
-                <div
-                  className={`card mob-cart-component-delivery-instruction ${
-                    selectedCards.includes(2)
-                      ? "mob-cart-component-selected-delivery-instraction"
-                      : ""
-                  }`}
-                  onClick={() => toggleCardSelection(2)}
-                >
-                  <FontAwesomeIcon
-                    icon={faPhoneSlash}
-                    className="faicons-size pb-1"
-                  />
-                  <div>Avoid </div>
-                  <div>calling</div>
-                </div>
-
-                <div
-                  className={`card mob-cart-component-delivery-instruction ${
-                    selectedCards.includes(3)
-                      ? "mob-cart-component-selected-delivery-instraction"
-                      : ""
-                  }`}
-                  onClick={() => toggleCardSelection(3)}
-                >
-                  <FontAwesomeIcon icon={faCat} className="faicons-size pb-1" />
-                  <div>Beware </div>
-                  <div>of pets</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="my-3 card shadow p-2 text-center ">
-              <div className="fw-bold fs-6">Tip Your Delivery Partner</div>
-              <div className="fs-12 text-secondary">
-                The entire amount will be sent to your delivery partner
-              </div>
-
-              <div className="my-2 d-flex justify-content-center ">
-                {[0, 1, 2, 3].map((index) => (
-                  <div
-                    key={index}
-                    className={`mob-cart-component-tip-selection-bg-white ${
-                      selectedTips.includes(index)
-                        ? "mob-cart-component-tip-selected-bg-blue"
-                        : ""
-                    }`}
-                    onClick={() => tipCardSelection(index)}
-                  >
-                    ₹{10 * (index + 1)}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-3 card shadow p-3">
-              <div className="row pt-1">
-                <div className="col-3 p-0 ps-3 ">
-                  <FontAwesomeIcon icon={faWallet} className="fs-6 pt-1" />
-                  <span className="ps-2 fw-bold fs-6">Wallet</span>
-                </div>
-                <div className="col-4">
-                  <div>Available Balance</div>
-                </div>
-                <div className="col-3">
-                  <div className="fs-6 fw-bold ">₹260</div>
-                </div>
-                <div className="col-2 fw-bold fs-6 text-danger">Use</div>
-              </div>
-
-              <div className="row pt-1 border-top">
-                <div className="col-3 p-0 ps-3">
-                  <img src={coin} alt="paynow" width={25} />
-                  <span className="ps-2 fw-bold fs-6">Loyality Points </span>
-                </div>
-                <div className=" col-4">
-                  <div>200 Reward Points worth</div>
-                </div>
-                <div className="col-3">
-                  <div className="fs-6 fw-bold ">₹20</div>
-                </div>
-                <div className="col-2 fw-bold fs-6 text-danger">Apply</div>
-              </div>
-            </div>
-
-            <div className="d-flex mt-3 p-2 border border-danger rounded-2 gap-2">
-              <div className="">
-                <img src={Images.paynow} alt="paynow" width={150} />
-              </div>
-              <div className="fs-6 ">
-                You will earn 2974 edobo credito worth ₹29.74 on this order,
-                once it's delivered.
-              </div>
-            </div>
+            ))
+          }
           </div>
         </div>
-
-        <div className=" mt-3 fs-6 fw-bold">
-          <div>
-            Please review your order and address details to avoid cancellations
-          </div>
-
-          <div className="fs-10 mt-3 fs-6 text-danger">
-            Note: Something will come here.
-          </div>
-          <div className="fs-10 mt-3 fs-6 text-danger cursor-pointer">
-            Read Refund & Cancellation Policy
-          </div>
-        </div>
-
-        <div className="pt-4">
-          <div className="fw-bold fs-4 mb-2">Replace Product</div>
-          <div className="d-flex hide-scrollbar pt-2 mob-editable-productcard-container gap-2">
-            {/* {EDITIBLE?.map((value) => {
-              return ( */}
-            {[...Array(4)].map((value, index) => {
-              return (
-                <div key={index}>
-                  <div className="edititable-product-image-container me-2">
-                    <ReplceProductComponent />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="pt-2">
-          <div className="fw-bold fs-4 mb-2">Upsell Products</div>
-          <div className="d-flex hide-scrollbar pt-2 mob-editable-productcard-container gap-2">
-            {EDITIBLE?.map((value) => {
-              return (
-                <div key={value?.id}>
-                  <div className="edititable-product-image-container me-2">
-                    <MobProductCard
-                      imageSrc={value?.url}
-                      title={value?.title}
-                      price={value?.price}
-                      mrp={value?.mrp}
-                      description={value?.description}
-                      onAddtoCartClick={() => {}}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="pt-2">
-          <div className="fw-bold fs-4 mb-2">Cross Sell Products</div>
-
-          <div className="d-flex hide-scrollbar pt-2 mob-editable-productcard-container gap-2">
-            {EDITIBLE?.map((value) => {
-              return (
-                <div key={value?.id}>
-                  <div className="edititable-product-image-container me-2">
-                    <MobProductCard
-                      imageSrc={value?.url}
-                      title={value?.title}
-                      price={value?.price}
-                      mrp={value?.mrp}
-                      description={value?.description}
-                      onAddtoCartClick={() => {}}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="edobo-red p-3 ">
-          <div className="d-flex justify-content-between ">
-            <div className="text-white fs-6 ">
-              Deliver to - 400074, Chembur Colony, Mumbai
+       <div className="add-tip-container">
+            <div>
+              <img src={coin} width={'20px'}/>
+              <span>Tip your delivery partner</span>
             </div>
-            <div className="text-white d-flex">
-              <div className="fs-5">Amount to pay 2,974</div>
+
+            <div className="button-container">
+              <button onClick={()=>{if(Tip>0){setTip(Tip-10)}}} className="add-minus-button"><span>-</span></button>
+              <span>₹{Tip}</span>
+              <button onClick={()=>setTip(Tip+10)} className="add-minus-button"><span>+</span></button>
             </div>
-            <button className="btn btn-light ">Proceed To Payment</button>
-          </div>
+       </div>
+      {couponList ? 
+      (<div className="coupons-container">
+        {
+          CouponCodes.map((items)=>(
+            <div className="coupon-code-container">
+                  <div  className="coupon-code-text-area">
+
+                    <span className="coupon-code">{items.code}</span>
+                    <span className="offer-desc"><b>{items.discount}% </b>on this order</span>
+                  </div>
+                  <button 
+                  onClick={()=>{
+                    setCouponApplied(items)
+                    setCouponList(false)
+                    }}>Apply</button>
+              </div>
+
+          ))
+        }
+      </div>):
+      (<div className="coupons-container"> 
+         <div className="coupon-container">
+       { couponApplied!=null 
+       ? ( <div className="applied-coupon-code-container">
+        <div  className="coupon-code-text-area">
+
+          <span className="coupon-code">{couponApplied.code}</span>
+          <span className="offer-desc"><b>{couponApplied.discount}% </b>on this order</span>
         </div>
+        <button 
+        onClick={()=>{
+         
+          setCouponList(true)
+          }}>Change</button>
+    </div>) 
+       :(<img 
+          onClick={()=>setCouponList(true)}
+          src={couponBanner} width={'90%'}/>)}
+       </div>
+       <div className="billing-container">
+        <CartBillingComponent/>
+       </div>
+      </div>)}
+
+       <div className="checkout-button-container">
+        <img src={sticker1} className="saving-banner-sticker1" width={'35px'}/>
+        <img src={sticker2} className="saving-banner-sticker2" width={'80px'}/>
+      <div className="saving-banner">
+        <span>You're saving ₹234 on this order</span>
       </div>
+      <button onClick={handleProceedCheckOut} className="checkout-button">Proceed to checkout</button>
+      
+      </div>
+
+      </div>)}
+      
     </div>
   );
 };

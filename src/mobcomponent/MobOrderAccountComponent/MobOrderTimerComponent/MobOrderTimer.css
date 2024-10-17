@@ -4,9 +4,16 @@
   background-size: cover;
   background-position: center;
   padding: 1px;
-  margin-top: -20px;
+  margin-top: 0px;
 }
 
 .progress-card {
   opacity: 0.92;
+}
+
+.stepper-container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

@@ -234,7 +234,7 @@ const ProfileComponent = () => {
   }, [redirectedPath?.pathname]);
 
   return (
-    <div className="container mb-5">
+    <div className="container mb-5 p-0">
       <DiscountCouponComponent />
 
       <div className="">

@@ -1,223 +1,158 @@
-import React from "react";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./ProductDetailsCard.css";
 import ProductDetailsImageComponent from "./ProductDetailsImageComponent";
-import ProductDetailsDescriptionComponent from "./ProductDetailsDescriptionComponent";
-// import RelatedProductComponent from "./RelatedProductComponent";
-import ProductCard from "../../common/ProductCard";
-import ROUTES_NAVIGATION from "../../routes/routes";
-import { useNavigate } from "react-router-dom";
-const products = [
-  {
-    id: 1,
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
-    title: "Green Masala Combo",
-    description:
-      "This is a short description of Product 1. You can provide additional details here.",
-    price: "₹ 41.3",
-    mrp: "₹ 51.3",
-  },
-  {
-    id: 2,
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
-    title: "Green Masala Combo",
-    description:
-      "This is a short description of Product 2. You can provide additional details here.",
-    price: "₹ 41.3",
-    mrp: "₹ 51.3",
-  },
-  {
-    id: 3,
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
-    title: "Green Masala Combo",
-    description:
-      "This is a short description of Product 3. You can provide additional details here.",
-    price: "₹ 41.3",
-    mrp: "₹ 51.3",
-  },
-  {
-    id: 4,
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
-    title: "Green Masala Combo",
-    description:
-      "This is a short description of Product 3. You can provide additional details here.",
-    price: "₹ 41.3",
-    mrp: "₹ 51.3",
-  },
-  {
-    id: 5,
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
-    title: "Green Masala Combo",
-    description:
-      "This is a short description of Product 3. You can provide additional details here.",
-    price: "₹ 41.3",
-    mrp: "₹ 51.3",
-  },
-  {
-    id: 6,
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
-    title: "Green Masala Combo",
-    description:
-      "This is a short description of Product 3. You can provide additional details here.",
-    price: "₹ 41.3",
-    mrp: "₹ 51.3",
-  },
-];
+import greenStar from '../../assets/Icon/greenStar.png';
+import uv from '../../assets/UV.png'
+import affordable from '../../assets/Affordable.png'
+import minimum from '../../assets/NoMinimumOrder.png'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+faChevronDown,
+faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
+import { flatMap } from "lodash";
+import bestSeller from '../../assets/bestSeller.png'
 
 const ProductDetailsComponent = () => {
-  const navigate = useNavigate();
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+
+  const rating = queryParams.get("rating") || "N/A";
+  const bestseller = queryParams.get("bestseller") || "No";
+  const hideWishlist = queryParams.get("hideWishlist") || "false";
+  const imageSrc = queryParams.get("imageSrc") || "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/64f84698d171af6a6696032d/5-1--320x320.jpg";
+  const title = queryParams.get("title") || "Untitled";
+  const description = queryParams.get("description") || "No description available.";
+  const price = queryParams.get("price") || "0";
+  const mrp = queryParams.get("mrp") || "0";
+  const quantity = queryParams.get("quantity") || "0";
+  const isNew = queryParams.get("isNew") || "No";
+  const discount = queryParams.get("discount") || "0";
+  const imagesParam = queryParams.get("images") || "";
+
+  const [ProductDetails , setProductDetails] = useState(false)
+  const [Description , setDescription] = useState(false)
+
+  const images = imagesParam.split(",").map(url => url.trim()).filter(url => url);
+
+  
+  const ratingStars = !isNaN(rating) 
+    ? Array.from({ length: parseInt(rating, 10) }, (_, index) => (
+        <img key={index} width={'20px'} src={greenStar} alt="Rating star" className="rating-star"/>
+      ))
+    : <span>{rating}</span>;
+
   return (
-    <>
-      <div className="container home-container">
-        <div className="row">
-          <div className="col-6 ">
-            <ProductDetailsImageComponent />
+    <div className="product-detail-container">
+      <div className="product-image-and-info-container">
+        <ProductDetailsImageComponent images={images} />
+        <div className="product-info-container">
+          <div className="product-title-and-rating">
+            {bestseller && (<img className='best-seller-icon' src={bestSeller} width={'80px'}/>)}
+            <h2 className="product-title-text">{title}</h2>
+            <div className="rating-section">
+              {ratingStars}
+              <span className="rating-text">({rating})</span>
+              <span className="review-count">12 reviews</span>
+            </div>
+            <span className="review-by">Review all by Modern</span>
           </div>
-          <div className="col-6">
-            <ProductDetailsDescriptionComponent />
+
+          <div className="pricing-container">
+             <div className="price-and-mrp">
+                  <span className="price-text">{price}</span>
+                  <span className="mrp-text">{mrp}</span>
+                  <div className="discount-text">5% off</div>
+             </div>
+             <div className="combo-price-container">
+                <div className="combo-price-card">
+                    <span>2 x 1Kg</span>
+          <div style={{display: 'flex' , flexDirection: 'row' , alignItems: 'center' , gap: '5px'}}>
+          <span className="combo-price-text">{price}</span>
+          <span className="combo-mrp-text">MRP:{mrp}</span>
           </div>
-          {/* <div
-            className="accordion"
-            id="accordionExample"
-            style={{ background: "none", marginTop: "10px" }}
-          >
-            <div className="accordion" id="accordionExample">
-              <div className="accordion-item">
-                <h2 className="accordion-header">
-                  <button
-                    className="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseOne"
-                    aria-expanded="false"
-                    aria-controls="collapseOne"
-                  >
-                    Products Details
-                  </button>
-                </h2>
-                <div
-                  id="collapseOne"
-                  className="accordion-collapse collapse "
-                  data-bs-parent="#accordionExample"
-                >
-                  <div className="accordion-body">
-                    <div>
-                      <h3 style={{ fontSize: "12px", fontWeight: "bold" }}>
-                        Key Features
-                      </h3>
-                      <p style={{ fontSize: "12px" }}>
-                        Made with wholegrains of Corn and Oats to add the
-                        perfect crunch to your breakfast. Calcium and Vitamin D
-                        combination helps you maintain bone health. Source of
-                        Iron, Folic acid, B-Vitamins and Fibre.
-                      </p>
-                    </div>
-                    <div>
-                      <h3 style={{ fontSize: "12px", fontWeight: "bold" }}>
-                        Ingredients
-                      </h3>
-                      <p style={{ fontSize: "12px" }}>
-                        some this on key product
-                      </p>
-                    </div>
-                    <div>
-                      <h3 style={{ fontSize: "12px", fontWeight: "bold" }}>
-                        Shelf Life
-                      </h3>
-                      <p style={{ fontSize: "12px" }}>
-                        some this on key product
-                      </p>
-                    </div>
-                    <div>
-                      <h3 style={{ fontSize: "12px", fontWeight: "bold" }}>
-                        Manufacturer Details
-                      </h3>
-                      <p style={{ fontSize: "12px" }}>
-                        some this on key product
-                      </p>
-                    </div>
-                    <div>
-                      <h3 style={{ fontSize: "12px", fontWeight: "bold" }}>
-                        FSSAI License
-                      </h3>
-                      <p style={{ fontSize: "12px" }}>11522008000380</p>
-                    </div>
-                  </div>
                 </div>
-              </div>
-              <div className="accordion-item">
-                <h2 className="accordion-header">
-                  <button
-                    className="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseTwo"
-                    aria-expanded="false"
-                    aria-controls="collapseTwo"
-                  >
-                    Disclaimer
-                  </button>
-                </h2>
-                <div
-                  id="collapseTwo"
-                  className="accordion-collapse collapse"
-                  data-bs-parent="#accordionExample"
-                >
-                  <div className="accordion-body">
-                    <div>
-                      <h3 style={{ fontSize: "12px", fontWeight: "bold" }}>
-                        Disclaimer
-                      </h3>
-                      <p style={{ fontSize: "12px" }}>
-                        Every effort is made to maintain accuracy of all
-                        information. However, actual product packaging and
-                        materials may contain more and/or different information.
-                        It is recommended not to solely rely on the information
-                        presented
-                      </p>
-                    </div>
-                  </div>
-                </div>
+             </div>
+             <div className="cart-wishlist-container">
+              <button className="add-to-cart-btn">
+                Add to cart
+              </button>
+              <button className="add-to-wishlist-btn">
+                Add to wishlist
+              </button>
+             </div>
+          </div>
+
+          <div className="edobo-special-container">
+            <span className="edobo-special-heading">Why shop from edobo?</span>
+            <div className="edobo-special-card">
+              <img src={uv} width={'50px'} alt="UV Sanitised" className="edobo-special-image"/>
+              <div className="edobo-special-info">
+                <span className="special-title">
+                  UV Sanitised Products
+                </span>
+                <span className="special-description">
+                  A quality testing team makes sure that all products are gone through UV sanitisation. All products are tested for quality assurance.
+                </span>
               </div>
             </div>
-          </div> */}
-        </div>
-      </div>
-
-      <div className="container">
-        <div>
-          <h4 style={{ marginLeft: "4%", marginBottom: "2%" }}>
-            Related Products
-          </h4>
-        </div>
-        <div className="productdetails-scrollable-container">
-          <div className="row row-cols-5">
-            {products?.map((productId) => (
-              <div className="col" key={parseInt(productId)}>
-                <ProductCard
-                  imageSrc={products[productId].imageSrc}
-                  title={products[productId].title}
-                  price={products[productId].price}
-                  mrp={products[productId].mrp}
-                  onClick={() => {
-                    navigate(
-                      ROUTES_NAVIGATION.PRODUCT_DETAILS +
-                        "/" +
-                        productId?.title.toLocaleLowerCase().replaceAll(" ", "-")
-                    );
-                  }}
-                />
+            <div className="edobo-special-card">
+              <img src={affordable} width={'50px'} alt="Affordable Prices" className="edobo-special-image"/>
+              <div className="edobo-special-info">
+                <span className="special-title">
+                  Affordable Prices & Offers
+                </span>
+                <span className="special-description">
+                  A quality testing team makes sure that all products are gone through UV sanitisation. All products are tested for quality assurance.
+                </span>
               </div>
-            ))}
+            </div>
+
+            <div className="edobo-special-card">
+              <img src={minimum} width={'50px'} alt="No Minimum Order" className="edobo-special-image"/>
+              <div className="edobo-special-info">
+                <span className="special-title">
+                  No Minimum Order
+                </span>
+                <span className="special-description">
+                  A quality testing team makes sure that all products are gone through UV sanitisation. All products are tested for quality assurance.
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </>
+      <div className="product-detail-and-desc-container">
+        <div className="product-d-d-conatiner">
+        <div className="product-detail-card">
+          <span className="product-detail-title">Product Detail</span>
+         <button onClick={()=>setProductDetails(!ProductDetails)}> <FontAwesomeIcon   icon={ProductDetails ? faChevronDown: faChevronRight}/></button>
+         </div>
+         {
+          ProductDetails && (
+            <span className="description-text">
+              {description}
+            </span>
+          )
+         }
+           </div>
+
+           <div className="product-d-d-conatiner">
+        <div className="product-detail-card">
+          <span className="product-detail-title">Description</span>
+        <button onClick={()=>setDescription(!Description)}> <FontAwesomeIcon  icon={ Description ? faChevronDown : faChevronRight}/> </button>
+         </div>
+         {
+          Description && (
+            <span className="description-text">
+              {description}
+            </span>
+          )
+         }
+           </div>
+      </div>
+    </div>
   );
 };
 

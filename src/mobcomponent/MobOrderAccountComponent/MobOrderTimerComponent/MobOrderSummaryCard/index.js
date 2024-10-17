@@ -1,10 +1,23 @@
 import React from "react";
 import "./MobOrderSummaryCard.css";
+import { useNavigate } from "react-router-dom";
+import ROUTES_NAVIGATION from "../../../../routes/routes";
+
+
+
 
 function MobOrderSummaryCard() {
+  const navigate = useNavigate()
+
+  const handleSummaryOrder=()=>{
+       navigate(ROUTES_NAVIGATION.ORDER_DETAIL_SUMMARY)
+  }
+
   return (
     <>
-      <div className="container">
+      <div
+      onClick={handleSummaryOrder}
+       className="container">
         <div class="card border-0">
           <div class="card-header rounded-3 mt-2">Order Summary</div>
           <div class="card-body">

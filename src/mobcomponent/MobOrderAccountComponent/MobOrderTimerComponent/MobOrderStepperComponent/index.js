@@ -4,12 +4,16 @@ import React, { useState, useEffect } from "react";
 import { Stepper } from "react-form-stepper";
 import "./MobOrderStepperComponent.css";
 import Timer from "./Timer";
+import down from '../../../../assets/Mob/mob-image/downStatus.png';
+import scooter from '../../../../assets/Mob/mob-image/scooterIcon.png';
+import map from '../../../../assets/Mob/mob-image/map.png';
+import {  useNavigate } from "react-router-dom";
+
+import ROUTES_NAVIGATION from "../../../../routes/routes";
 
 function CustomStepper(props) {
   const { steps, activeStep } = props;
 
-  console.log("active status", activeStep);
-  console.log("steps status", steps);
 
   return (
     <div>
@@ -54,41 +58,52 @@ const Delivered = () => {
 
 function MobOrderStepperComponent() {
   const [activeStep, setActiveStep] = useState(0);
-  const [orderStatus, setOrderStatus] = useState(""); // State to hold the order status
+  const [orderStatus, setOrderStatus] = useState("");
+  const navigate = useNavigate()
 
+ const handleLiveTrack=()=>{
+  navigate(ROUTES_NAVIGATION.ORDER_LIVE_TRACK)
+ }
   useEffect(() => {
-    // Simulating an API call with setTimeout
     const fetchOrderStatus = async () => {
       try {
-        // Make an API call to fetch order status
         const response = await fetch("your_api_endpoint");
         const data = await response.json();
-        // Assuming the response contains the order status
         setOrderStatus(data.orderStatus);
       } catch (error) {
         console.error("Error fetching order status:", error);
       }
     };
 
-    // Call the fetchOrderStatus function
     fetchOrderStatus();
-  }, []); // Run this effect only once, on component mount
+  }, []);
 
   useEffect(() => {
     if (activeStep < 3) {
       const timer = setInterval(() => {
         setActiveStep((prevStep) => prevStep + 1);
-      }, 25000); // Increment step every 30 seconds
+      }, 25000); // Increment step every 25 seconds
 
       return () => clearInterval(timer);
     }
   }, [activeStep]);
 
+  useEffect(() => {
+    // Navigate to another route when activeStep reaches 3
+    if (activeStep === 3) {
+      navigate(ROUTES_NAVIGATION.ORDER_DELAY); // Replace with your desired route
+    }
+  }, [activeStep, navigate]);
+
+
   const steps = [
     {
       label: (
         <div className="gap-1">
-          <div>Order placed</div>
+          <div style={{height: '30px'}}>Order placed</div>
+          <div>
+            <img src={down} width={'15px'} />
+          </div>
           <div className="mt-1">11:45 AM</div>
         </div>
       ),
@@ -96,22 +111,33 @@ function MobOrderStepperComponent() {
     {
       label: (
         <div className="gap-1">
-          <div>Sanitized</div>
+          <div style={{height: '30px'}}>Sanitized</div>
+          <div>
+            <img src={down} width={'15px'} />
+          </div>
+          <div className="mt-1">Done</div>
         </div>
       ),
     },
     {
       label: (
         <div className="gap-1">
-          <div>In Transit </div>
-          {/* <div className="mt-1">Click on the icon for live status</div> */}
+          
+          <div style={{height: '30px'}}>In Transit</div>
+        <div style={{display:'flex' , flexDirection: 'column' , alignItems: 'center'}}>
+        <img src={scooter} width={'20px'} />
+        <div className="dot"/>
+        <img 
+        onClick={handleLiveTrack}
+        src={map} width={'30px'}/>
+        </div>
         </div>
       ),
     },
     {
       label: (
-        <div className="gap-1 ">
-          <div>Rider reached</div>
+        <div className="gap-1">
+          <div style={{height: '30px'}}>Rider reached</div>
           <div className="mt-1">1:20 PM</div>
         </div>
       ),
@@ -134,23 +160,21 @@ function MobOrderStepperComponent() {
   }
 
   return (
-    <div>
-      <div className="container">
+    <div className="timer-container">
+      <div className="">
         <div className="border-bottom text-center text-capitalize fs-2">
           <Timer />
         </div>
       </div>
       <CustomStepper steps={steps} activeStep={activeStep} />
       <div className="d-flex justify-content-center fs-6">
-        {getSectionComponent()}
+       
       </div>
       <div className="d-flex ms-2 my-2">
         <div className="p-1 me-2 call-rider fs-13">
-          {" "}
           <FontAwesomeIcon icon={faPhone} /> Call Rider
         </div>
         <div className="p-1 chat-rider fs-13">
-          {" "}
           <FontAwesomeIcon icon={faCommentDots} /> Chat
         </div>
       </div>

@@ -21,6 +21,17 @@ const OrderRescheduleComponent = ({ items }) => {
     setSelectedSlot(slot);
   };
 
+
+  const timeSlot = [
+    { id: 1, time: "10:00 AM - 11:00 AM"},
+    { id: 2, time: "11:00 AM - 12:00 PM"},
+    {  id: 3, time: "12:00 PM - 1:00 PM"},
+    
+    {id: 4 , time: ''}
+
+  ]
+
+
   const datesData = [
     { id: 1, text: "Today", date: new Date() },
     {
@@ -37,8 +48,8 @@ const OrderRescheduleComponent = ({ items }) => {
   ];
 
   return (
-    <>
-      <div className="offcanvas-header edobo-red">
+    <div className="main-side-view-slot-container">
+      <div className="reschedule-header-component offcanvas-header edobo-red">
         <div className="d-flex text-bg-black text-white m-2">
           {/* <FontAwesomeIcon icon={faCartShopping} width="30" height="30" /> */}
           <div className=" order-reschedule-component-header-img">
@@ -77,7 +88,7 @@ const OrderRescheduleComponent = ({ items }) => {
               <div className=" row  ">
                 <div className="d-flex py-3 gap-1 ">
                   <div className=" ms-3 ">
-                    <div className="p-2 mb-3 w-100 card cart-delivery-type-card border-danger cursor-pointer shadow">
+                    <div className="p-2 mb-3 card cart-delivery-type-card border-danger cursor-pointer shadow">
                       <img
                         src={Images.calenderRed}
                         alt=""
@@ -100,10 +111,10 @@ const OrderRescheduleComponent = ({ items }) => {
                             value={`option${index + 1}`}
                             // Default to the first option being checked
                           />
-                          <label className="form-check-label fw-bold fs-14">
+                          <label className="form-check-label fw-bold fs-20">
                             {item.text}
                             <br />
-                            <span className=" text-secondary fs-12">
+                            <span className=" text-secondary fs-8">
                               {item.date.toLocaleDateString()}
                             </span>
                           </label>
@@ -115,9 +126,9 @@ const OrderRescheduleComponent = ({ items }) => {
               </div>
             </div>
 
-            <div className="col-12 w-75  ps-5 border border-danger rounded-4 ">
+            {/* <div className="available-slot-container">
               <div className=" mt-3 fw-bold fs-6">AVAILABLE SLOT</div>
-              <div className="mt-3 me-2 fs-6 mt-4">
+              <div className="time-slots-container">
                 <div
                   className={`${
                     selectedSlot === "7-10"
@@ -149,33 +160,57 @@ const OrderRescheduleComponent = ({ items }) => {
                 >
                   10:00 AM - 01:00 PM
                 </div>
-                <button className="fs-6 fw-bold btn btn-danger my-3 ms-4">
-                  CONFIRM
-                </button>
+            
               </div>
+            </div> */}
+
+             <div className="time-slots-container">
+              <div className="time-slots-header-text">
+                  AVAILABLE SLOT
+              </div>
+               
+               {
+                timeSlot.map((timeSlot, index) => (
+                  <div key={index}
+                  className={`${
+                    selectedSlot === timeSlot.time
+                      ? "mob-cart-component-selected-slot"
+                      : "mob-cart-component-normal-slot"
+                  }`}
+                  onClick={() => handleSlotSelection(timeSlot.time)}
+                  >
+                    {timeSlot.time}
+                  </div>
+                ))
+               }
+               
+                  
             </div>
+
           </div>
 
+        
+
+         
           <div className="offcanvas-bottom">
-            <div className="row m-0">
-              <div className="col bg-danger fw-bold showcartsummar-bottom-button-container">
-                <div className="fs-6 text-white">Confirm</div>
-              </div>
+  <div className="row m-0">
+    <div className="col">
+      {/* Display selected slot just above the confirm button */}
+      {selectedSlot && (
+        <div className="selected-slot-text">
+          <span>You have selected {selectedSlot} delivery slot, please confirm.</span>
+        </div>
+      )}
 
-              {/* <div
-                className="col bg-danger showcartsummar-bottom-button-container"
-                onClick={() => {
-                  closeButtonRef?.current?.click();
-                  navigate(ROUTES_NAVIGATION.CART);
-                }}
-              >
-                <div className="fs-6 text-white">View Cart</div>
-              </div> */}
-            </div>
-          </div>
+      {/* Confirm button */}
+      <div className="confirm-btn">Confirm</div>
+    </div>
+  </div>
+</div>
+
         </>
       )}
-    </>
+    </div>
   );
 };
 

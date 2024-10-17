@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MobHeaderComponent from "../MobHeaderComponent";
+import MobHeaderComponent from "../MobHeaderNavigation";
 import MobToBeReviwedComponent from "./MobToBeReviwedComponent";
 import MobReviewedComponent from "./MobReviewedComponent";
 import MobBottomNavComponent from "../MobBottomNavComponent";
@@ -11,10 +11,13 @@ const MobRatingReviewsComponent = () => {
     setActiveTab(tab);
   };
   return (
-    <>
+    <div 
+    style={{width: '100%' , overflowX: 'hidden'}}
+    className="">
+
       <MobHeaderComponent
         isBack={true}
-        headerText={"My Rating & Reviews"}
+        text={"My Rating & Reviews"}
         isCartShow={false}
         isEdoboLogo={true}
       />
@@ -59,7 +62,7 @@ const MobRatingReviewsComponent = () => {
         </div>
       </div>
       <MobBottomNavComponent />
-    </>
+    </div>
   );
 };
 

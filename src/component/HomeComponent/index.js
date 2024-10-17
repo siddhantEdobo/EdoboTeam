@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import BannerComponent from "./BannerComponent";
+import useFetchProducts from "../../hooks/homeSetPincode";
 import DiscountCouponComponent from "./DiscountCouponComponent";
 import HouseHoldingProductComponent from "./HouseHoldingProductComponent";
 import EdiblesComponent from "./EdiblesComponent";
@@ -18,9 +19,44 @@ import TopCategoryComponent from "./TopCategoryComponent";
 import UVBannerComponent from "./UVBannerComponent";
 import CrossBannerComponent from "./CrossBannerComponent";
 import SlideMultiBanner from "./SlideMultiBanner";
+import { useDispatch , useSelector } from "react-redux";
+import substoreId, { setSubStoreId } from "../../redux/reducers/substoreId";
 
 const HomeComponent = () => {
   const [Event, setEvent] = useState(false);
+  
+  const [showLocation, setShowLocation] = useState(false);
+  const [productData, setProductData] = useState(null);
+  const [refreshCounter, setRefreshCounter] = useState(0);
+  const { loading, fetchData, error } = useFetchProducts();
+  const pincode = useSelector((state) => state.home.pincode);
+  const cartItems = useSelector((state) => state.cart.addToCart);
+ 
+   const dispatch = useDispatch();
+
+  useEffect(() => {
+    localStorage.removeItem("pinCode");
+    // Clear the pinCode state as well
+  }, []);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (pincode) {
+        const data = await fetchData(pincode);
+        const substore = data?.data[0]?.sub_store_id;
+        if (substore) {
+          dispatch(setSubStoreId(substore));
+        }
+        setProductData(data);
+        console.log("here find substore id", substore);
+      }
+    };
+
+    fetchProducts();
+  }, [pincode, fetchData, refreshCounter, dispatch]);
+
+  console.log(productData)
+  
 
   return (
     <div className="container-fluid">

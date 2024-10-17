@@ -3,7 +3,10 @@ import OrderHistoryCard from "../../common/OrderHistoryCard";
 
 const UserOrderHistoryComponent = () => {
   return (
-    <div>
+    <div style={{
+      marginTop: '40px',
+      padding: '5px'
+    }}>
       <OrderHistoryCard />
     </div>
   );

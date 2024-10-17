@@ -103,7 +103,7 @@
 //   );
 // };
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import MobEmptyOrder from "../MobEmptyOrderComponent";
 // import "../MobOrderHistoryComponent/MobOrderHistoryComponent.css";
 import { useNavigate } from "react-router";
@@ -119,17 +119,45 @@ import {
   faCircleExclamation,
   faStore,
 } from "@fortawesome/free-solid-svg-icons";
+import track from '../../assets/Icon/trackIcon.png'
 import "./OrderHistoryCard.css";
 import OrderRescheduleComponent from "../../component/OrderDetailsComponent/OrderRescheduleComponent";
+import Express from '../../assets/Icon/Express.png'
+import OrderCancel from "../../component/OrderDetailsComponent/OrderCancel";
+import useFetchCategoryProducts from "../../hooks/categorySetPincode";
 // import Datepicker from "../Datepicker";
 // import Datepicker from "../../";
 // import MobBottomNavComponent from "../../MobBottomNavComponent";
 
 const OrderHistoryCard = () => {
-  const [activeOrderId, setActiveOrderId] = useState(null);
+  const [activeOrderId, setActiveOrderId] = useState([]);
   const [isAddressShow, setIsAddressShow] = useState(false);
   const [selectedCutoffTime, setSelectedCutoffTime] = useState("");
   const [expandedOrderId, setExpandedOrderId] = useState(null);
+
+  const [trackDropDown , setTrackDropDown] =  useState(false)
+  
+  const width = window.innerWidth
+
+  useEffect(()=>{
+    console.log('width',width)
+  }, [width])
+
+
+  const handleCheck = (orderId) => {
+    if (activeOrderId.includes(orderId)) {
+      // Remove the orderId if it's already active
+      setActiveOrderId(activeOrderId.filter(item => item !== orderId));
+    } else {
+      // Add the orderId if it's not active
+      setActiveOrderId([...activeOrderId, orderId]); // Create a new array with the added orderId
+    }
+  };
+
+
+
+
+console.log(activeOrderId)
 
   const handleCardClick = (orderId) => {
     setExpandedOrderId(orderId === expandedOrderId ? null : orderId);
@@ -174,6 +202,13 @@ const OrderHistoryCard = () => {
     // navigate(ROUTES_NAVIGATION.HOME);
   };
 
+  const handlePayNow = () => {
+    if (activeOrderId) {
+      // Your payment logic here
+      alert("Processing payment for order:", activeOrderId);
+    }
+  };
+
   const cutoffTimes = [
     { label: "9:00 AM - 10:00 AM", value: "9:00 AM" },
     { label: "9:00 AM - 10:00 PM", value: "9:30 AM" },
@@ -191,6 +226,7 @@ const OrderHistoryCard = () => {
       id: 1,
       orderno: "#89759843123",
       date: new Date(),
+      deliveryType: 'Express',
       status: [
         { id: 1, title: "ORDER RECEIVED", bg: "#620b94" },
         { id: 2, title: "DISPATCH", bg: "#FF7900" },
@@ -208,6 +244,7 @@ const OrderHistoryCard = () => {
       id: 2,
       orderno: "#89759843",
       date: new Date(),
+      deliveryType: 'Express',
       status: [
         { id: 1, title: "DISPATCH", bg: "#FF7900" },
         { id: 2, title: "ORDER RECEIVED", bg: "#620b94" },
@@ -290,46 +327,53 @@ const OrderHistoryCard = () => {
         ""
       ) : (
         <div className="container-fluid m-0 p-0">
-          <div className="fs-6 fw-semibold">My Orders</div>
+      <div className="order-internal-header">
+      <div className="fs-6 fw-semibold">My Orders</div>
+      <div 
+   className={`btn-paynow ${activeOrderId.length === 0 ? '': 'active'  } `}
+    onClick={activeOrderId.length > 0 ? handlePayNow : null}
+  >
+    PAY NOW
+  </div>
+
+      </div>
+                               
           {/* <div className="border mt-2"></div>  */}
           {OrderDetails.map((order) => (
-            <div className="d-flex mx-2 my-2" key={order.id}>
-              {/* <input
-                type="checkbox"
-                data-bs-toggle="collapse"
-                href={`#trackorderCollapse${order.id}`}
-                role="button"
-                aria-expanded="false"
-                aria-controls="trackorderCollapse"
-                className="me-2 fs-1"
-                checked={activeOrderId === order.id}
-              /> */}
+            <div className="order-detail-main-container">
+
+<input
+  className="checkbox"
+  type="checkbox"
+  onChange={() => handleCheck(order.id)} // Use a function reference
+  checked={activeOrderId.includes(order.id)}
+/>
 
               <div
                 className={`card shadow-sm mob-order-history-component-card-container ${
                   activeOrderId === order.id ? "active" : ""
                 }`}
-                data-bs-toggle="collapse"
-                href={`#trackorderCollapse${order.id}`}
-                role="button"
-                aria-expanded="false"
-                aria-controls="trackorderCollapse"
-                checked={activeOrderId === order.id}
-                // className="me-2 fs-1"
-                onChange={() => handleCheckboxChange(order.id)}
+                // data-bs-toggle="collapse"
+                // href={`#trackorderCollapse${order.id}`}
+                // role="button"
+                // aria-expanded="false"
+                // aria-controls="trackorderCollapse"
+                // checked={activeOrderId === order.id}
+                // // className="me-2 fs-1"
+                // onChange={() => handleCheckboxChange(order.id)}
               >
                 <div className="card-body mob-order-history-component-card-body">
-                  <div className="row ">
-                    <div className="d-flex gap-2 pt-2">
+                  <div className="row">
+                    <div className="order-detail-container d-flex gap-2 pt-2">
                       <div className="col-2">
                         <div className=" d-flex justify-content-between">
-                          <div>
-                            <div className="">Order No.</div>
-                            <div className="fw-bold">{order.orderno}</div>
+                          <div className="orderno-container">
+                          <div className="">{width <= 1400 ? 'OR.no': 'Ordered no.'}</div>
+                            <div className="fw-bold">{ width <=1400 ? order.orderno.slice(0,6)+'.. ' : order.orderno}</div>
                           </div>
 
-                          <div>
-                            <div className="">Ordered on:</div>
+                          <div className="orderon-container">
+                            <div className="">{width <= 1400 ? 'OR.on': 'Ordered on'}</div>
                             <div className="fw-bold">
                               {order.date.toLocaleDateString()}
                             </div>
@@ -339,18 +383,30 @@ const OrderHistoryCard = () => {
 
                       <div className="col-3">
                         <div className="d-flex justify-content-between">
-                          <div>
+                          <div className="schedule-container">
                             <div className=" ">Schedule:</div>
-                            <div className="fw-bold">{order.schedule}</div>
+                            <div className="fw-bold">{ width ? order.schedule.slice(0,15)+'.. ': order.schedule}</div>
                           </div>
 
-                          <div>
-                            <div className="my-order-history-track-btn">
+                         
+                        </div>
+                      </div>
+                    {!trackDropDown ? (<div className="order-detail-btns">
+                      <div>
+                            <div className="my-order-history-track-btn"
+                             data-bs-toggle="collapse"
+                             href={`#trackorderCollapse${order.id}`}
+                             role="button"
+                             aria-expanded="false"
+                             aria-controls="trackorderCollapse"
+                             checked={activeOrderId === order.id}
+                             // className="me-2 fs-1"
+                             onChange={() => handleCheckboxChange(order.id)}
+                             onClick={()=>setTrackDropDown(true)}
+                            >
                               Track
                             </div>
                           </div>
-                        </div>
-                      </div>
 
                       <div className="col-7  ">
                         <div className=" d-flex  gap-4">
@@ -367,26 +423,9 @@ const OrderHistoryCard = () => {
         aria-labelledby="offcanvasRightLabel"
       > */}
 
-                            <div
-                              className="my-order-history-checklist-btn "
-                              // className="nav-link text-white cursor-pointer text-white "
-                              aria-current="page"
-                              data-bs-toggle="offcanvas"
-                              data-bs-target="#orderSchedule"
-                              aria-controls="offcanvasRight"
-                              onClick={() => {}}
-                            >
-                              Reschedule
-                            </div>
+                           
 
-                            <div
-                              className="offcanvas offcanvas-start"
-                              tabIndex="-1"
-                              id="orderSchedule"
-                              aria-labelledby="offcanvasRightLabel"
-                            >
-                              <OrderRescheduleComponent />
-                            </div>
+                            
 
                             {/* <div
                               className="nav-link text-white cursor-pointer text-white "
@@ -411,27 +450,15 @@ const OrderHistoryCard = () => {
                             </div> */}
                           </div>
                           <div>
-                            <div
-                              className="fs-12 fw-bold text-danger mt-2"
-                              onClick={() => {
-                                handleCancelClick();
-                              }}
-                            >
-                              Cancel
-                            </div>
+                         
                           </div>
                           <div className=" d-flex gap-3">
-                            <div
-                              className="my-order-history-order-receive-btn"
-                              style={{ backgroundColor: order.status[0].bg }}
-                            >
-                              {order.status[1].title}
-                            </div>
+                          
 
                             <div className="">
-                              <div className="btn btn-warning rounded-5 fs-13 fw-bold">
+                              {/* <div className="btn btn-warning rounded-5 fs-13 fw-bold">
                                 PAY NOW
-                              </div>
+                              </div> */}
                             </div>
                           </div>
 
@@ -468,6 +495,45 @@ const OrderHistoryCard = () => {
                           </div> */}
                         </div>
                       </div>
+                    </div>) : (<img style={{margin: '10px'}} src={Express} width={'80px'} alt={order.deliveryType}/>)}
+
+                    <div className="offcanvas offcanvas-start"
+                              tabIndex="-1"
+                              id="orderSchedule"
+                              aria-labelledby="offcanvasRightLabel"
+                            >
+                              <OrderRescheduleComponent />
+                            </div>     
+
+
+                            <div
+                              className="offcanvas offcanvas-start"
+                              tabIndex="-1"
+                              id="orderCancel"
+                              aria-labelledby="offcanvasRightLabel"
+                            >
+                              <OrderCancel/>
+                            </div> 
+
+               <div className="order-detail-btns">
+                
+               {/* <div
+                              className="fs-12 fw-600 text-danger mt-2"
+                              onClick={() => {
+                                handleCancelClick();
+                              }}
+                            >
+                              Cancel
+                            </div> */}
+
+                            
+                    <div
+                              className="my-order-history-order-receive-btn"
+                              style={{ backgroundColor: order.status[0].bg }}
+                            >
+                              {order.status[1].title}
+                            </div>
+               </div>
                     </div>
                   </div>
 
@@ -527,16 +593,32 @@ const OrderHistoryCard = () => {
                     className="collapse"
                     id={`trackorderCollapse${order.id}`}
                   >
+                    <div className="track-header"
+                     data-bs-toggle="collapse"
+                     href={`#trackorderCollapse${order.id}`}
+                     role="button"
+                     aria-expanded="false"
+                     aria-controls="trackorderCollapse"
+                     checked={activeOrderId === order.id}
+                     // className="me-2 fs-1"
+                     onChange={() => handleCheckboxChange(order.id)}
+                    onClick={()=>setTrackDropDown(false)}
+                    ><img src={track} width={'20px'}/>Track</div>
                     <>
                       {console.log("test", activeOrderId)}
 
                       {order.id &&
                         RiderDetails.map((rider, index) => (
                           <div
+                        
                             className="d-flex align-items-center my-2"
                             key={rider}
                           >
+                            
                             <div>
+                              <div className="otp-container">
+                                OTP: 4989
+                              </div>
                               <img
                                 src={rider.img}
                                 alt={rider.Name}
@@ -565,6 +647,40 @@ const OrderHistoryCard = () => {
                     </>
 
                     <MobOrderCofirmProgressComponent />
+                <div style={{display:'flex' , flexDirection : 'row', gap: '10px'}}>
+                <div
+                              className="my-order-history-checklist-btn "
+                              // className="nav-link text-white cursor-pointer text-white "
+                              aria-current="page"
+                              data-bs-toggle="offcanvas"
+                              data-bs-target="#orderSchedule"
+                              aria-controls="offcanvasRight"
+                              onClick={() => {}}
+                            >
+                              Reschedule
+                            </div>
+
+                            <div>
+                            <div className="my-order-history-checklist-btn">
+                              Checklist
+                            </div>
+                          </div>
+
+                          <div
+                            aria-current="page"
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#orderCancel"
+                            aria-controls="offcanvasRight"
+                              className="fs-12 fw-600 text-danger mt-2"
+                              onClick={() => {
+                                handleCancelClick();
+                              }}
+                            >
+                              Cancel
+                            </div>
+                </div>
+
+                            
                   </div>
                 </div>
               </div>
@@ -618,7 +734,7 @@ const OrderHistoryCard = () => {
                         </div>
                       ))}
                     </div>
-                  </div>
+                  </div> 
                 </div>
               </div>
             </div>

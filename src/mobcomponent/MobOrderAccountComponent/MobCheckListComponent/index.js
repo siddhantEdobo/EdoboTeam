@@ -1,5 +1,5 @@
 import React from "react";
-import MobHeaderComponent from "../../MobHeaderComponent";
+import MobHeaderComponent from "../../MobHeaderNavigation";
 import "./MobCheckList.css";
 import { useNavigate } from "react-router";
 import ROUTES_NAVIGATION from "../../../routes/routes";
@@ -101,7 +101,7 @@ function MobOrderChecklistComponent() {
     <>
       <MobHeaderComponent
         isBack={true}
-        headerText={"Checklist"}
+        text={"Checklist"}
         isCartShow={false}
         isEdoboLogo={true}
       />
@@ -195,7 +195,7 @@ function MobOrderChecklistComponent() {
           CONFIRM
         </div>
       </div>
-      <MobBottomNavComponent />
+      {/* <MobBottomNavComponent /> */}
     </>
   );
 }
