@@ -20,10 +20,8 @@ import calenderlogo from "../../assets/Icon/calendar-logo.png";
 import CustomModal from "../../common/CustomModel";
 import axios from "axios";
 import { GoogleMap, InfoWindow, MarkerF } from "@react-google-maps/api";
-import { useDispatch , useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPincode } from "../../redux/reducers/home";
-
-
 
 function Subheader() {
   const [userPincode, setUserPincode] = useState(null);
@@ -37,7 +35,7 @@ function Subheader() {
   const [pinCode, setPinCode] = useState("");
   const [searchBox, setSearchBox] = useState(null);
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [selectedPlaceInfo, setSelectedPlaceInfo] = useState(null);
   const [show, setShow] = useState(false);
   const handleClose = () => {
@@ -274,8 +272,8 @@ function Subheader() {
     const pincode = placeData.pincode;
     console.log("function 1 pincode", pincode);
     localStorage.setItem("userPincode", pincode);
-    
-    dispatch(setPincode(pincode))
+
+    dispatch(setPincode(pincode));
     setUserPincode(pincode);
     setShow(false);
   };
@@ -330,7 +328,7 @@ function Subheader() {
     });
 
     passUserDataToProfile();
-  }, []);
+  }, [passUserDataToProfile]);
 
   const icons = [
     { id: 1, name: "Home", icon: faHome },

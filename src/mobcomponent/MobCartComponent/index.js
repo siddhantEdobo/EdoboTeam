@@ -1,35 +1,25 @@
 import React, { useEffect, useState } from "react";
-import MobHeaderComponent from "../MobHeaderNavigation";
+// import MobHeaderComponent from "../MobHeaderNavigation";
 import "./mobCartView.css";
-import Slider from "react-slick";
-import AddToCartButton from "../../common/AddToCartButton";
+// import Slider from "react-slick";
+// import AddToCartButton from "../../common/AddToCartButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faWallet,
-  faCar,
-  faBus,
-  faBagShopping,
-  faCalendarDays,
   faTags,
   faHeart,
   faChevronRight,
-  faCat,
-  faPhoneSlash,
-  faUserSecret,
-  faDoorClosed,
   faChevronDown,
   faLocationPin,
-  faCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import CartUnlockCardComponent from "../../common/CartUnlockCardComponent";
+// import CartUnlockCardComponent from "../../common/CartUnlockCardComponent";
 import { useNavigate } from "react-router";
 import ROUTES_NAVIGATION from "../../routes/routes";
-import ProductCard from "../../common/ProductCard";
+// import ProductCard from "../../common/ProductCard";
 import MobCartProductSelectedList from "./MobCartProductSelectedList";
 import MobCartBillingComponent from "./MobCartBillingComponent";
-import MobProductCard from "../../common/MobProductCard";
+// import MobProductCard from "../../common/MobProductCard";
 import { Images } from "../../assets";
 import express from "../../assets/Icon/expressDilev.png";
 import slot from "../../assets/Icon/slotDilv.png";
@@ -37,17 +27,17 @@ import pickup from "../../assets/Icon/pickup.png";
 import location from "../../assets/Icon/location.png";
 import delivery from "../../assets/Icon/delivery.png";
 import wishlist from "../../assets/Icon/wishlist.png";
-import wallet from "../../assets/Icon/wallet.png";
+// import wallet from "../../assets/Icon/wallet.png";
 import leaveWithGuard from "../../assets/Icon/leaveWithGuard.png";
 import leaveWithDoor from "../../assets/Icon/leaveWithHome.png";
 import avoidcall from "../../assets/Icon/avoidCall.png";
 import dogs from "../../assets/Icon/bewareOfDog.png";
-import coins from "../../assets/Icon/coins.png";
+// import coins from "../../assets/Icon/coins.png";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import EmptyCart from "./EmptyCart";
-import { addCoupon, removeCoupon } from "../../redux/reducers/coupon";
+import { removeCoupon } from "../../redux/reducers/coupon";
 import {
   applyWalletAmount,
   removeWalletAmount,
@@ -65,7 +55,7 @@ import {
   addInstruction,
   removeInstruction,
 } from "../../redux/reducers/deliveryinstruction";
-import { findKey } from "lodash";
+// import { findKey } from "lodash";
 import {
   clearDeliverySlot,
   setDeliveryOption,
@@ -76,13 +66,13 @@ import {
 import { setPaymentMethod } from "../../redux/reducers/payment";
 import { setTotalAmount } from "../../redux/reducers/totalAmountPay";
 import { setOrderId } from "../../redux/reducers/orderid";
-import { clearCart, removeFromCart } from "../../redux/reducers/addCart";
-import {
-  setEmail,
-  setFirstName,
-  setLastName,
-  setMobNumber,
-} from "../../redux/reducers/profileData";
+import { clearCart } from "../../redux/reducers/addCart";
+// import {
+//   setEmail,
+//   setFirstName,
+//   setLastName,
+//   setMobNumber,
+// } from "../../redux/reducers/profileData";
 // import { faUserSecret, faDoorClosed, faPhoneSlash, faCat } from '@fortawesome/free-solid-svg-icons';
 
 const OFFERSCODE = [
@@ -104,89 +94,89 @@ const OFFERSCODE = [
   },
 ];
 
-const NEWOFFERS = [
-  {
-    id: 1,
-    name: "Madhur 1Kg",
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/64f84698d171af6a6696032d/5-1--320x320.jpg",
-    price: 9,
-    originalPrice: 67,
-    quantity: "1 kg",
-  },
-  {
-    id: 2,
-    name: "Madhur 1Kg",
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/64f84698d171af6a6696032d/5-1--320x320.jpg",
-    price: 9,
-    originalPrice: 67,
-    quantity: "1 kg",
-  },
-  {
-    id: 3,
-    name: "Madhur 1Kg",
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/64f84698d171af6a6696032d/5-1--320x320.jpg",
-    price: 9,
-    originalPrice: 67,
-    quantity: "1 kg",
-  },
-  {
-    id: 4,
-    name: "Madhur 1Kg",
-    imageSrc:
-      "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/64f84698d171af6a6696032d/5-1--320x320.jpg",
-    price: 9,
-    originalPrice: 67,
-    quantity: "1 kg",
-  },
-];
+// const NEWOFFERS = [
+//   {
+//     id: 1,
+//     name: "Madhur 1Kg",
+//     imageSrc:
+//       "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/64f84698d171af6a6696032d/5-1--320x320.jpg",
+//     price: 9,
+//     originalPrice: 67,
+//     quantity: "1 kg",
+//   },
+//   {
+//     id: 2,
+//     name: "Madhur 1Kg",
+//     imageSrc:
+//       "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/64f84698d171af6a6696032d/5-1--320x320.jpg",
+//     price: 9,
+//     originalPrice: 67,
+//     quantity: "1 kg",
+//   },
+//   {
+//     id: 3,
+//     name: "Madhur 1Kg",
+//     imageSrc:
+//       "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/64f84698d171af6a6696032d/5-1--320x320.jpg",
+//     price: 9,
+//     originalPrice: 67,
+//     quantity: "1 kg",
+//   },
+//   {
+//     id: 4,
+//     name: "Madhur 1Kg",
+//     imageSrc:
+//       "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/64f84698d171af6a6696032d/5-1--320x320.jpg",
+//     price: 9,
+//     originalPrice: 67,
+//     quantity: "1 kg",
+//   },
+// ];
 
-const EDITIBLE = [
-  {
-    id: 1,
-    url: "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
-    title: "Green Masala Milk",
-    price: "₹ 41.3",
-    mrp: "₹ 51.3",
-  },
-  {
-    id: 2,
-    url: "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
-    title: "Green Masala Milk",
-    price: "₹ 41.3",
-    mrp: "₹ 51.3",
-  },
-  {
-    id: 3,
-    url: "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
-    title: "Green Masala Milk",
-    price: "₹ 41.3",
-    mrp: "₹ 51.3",
-  },
-  {
-    id: 4,
-    url: "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
-    title: "Green Masala Milk",
-    price: "₹ 41.3",
-    mrp: "₹ 51.3",
-  },
-  {
-    id: 5,
-    url: "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
-    title: "Green Masala Milk",
-    price: "₹ 41.3",
-    mrp: "₹ 51.3",
-  },
-  {
-    id: 6,
-    url: "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
-    title: "Green Masala Milk",
-    price: "₹ 41.3",
-    mrp: "₹ 51.3",
-  },
-];
+// const EDITIBLE = [
+//   {
+//     id: 1,
+//     url: "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
+//     title: "Green Masala Milk",
+//     price: "₹ 41.3",
+//     mrp: "₹ 51.3",
+//   },
+//   {
+//     id: 2,
+//     url: "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
+//     title: "Green Masala Milk",
+//     price: "₹ 41.3",
+//     mrp: "₹ 51.3",
+//   },
+//   {
+//     id: 3,
+//     url: "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
+//     title: "Green Masala Milk",
+//     price: "₹ 41.3",
+//     mrp: "₹ 51.3",
+//   },
+//   {
+//     id: 4,
+//     url: "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
+//     title: "Green Masala Milk",
+//     price: "₹ 41.3",
+//     mrp: "₹ 51.3",
+//   },
+//   {
+//     id: 5,
+//     url: "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
+//     title: "Green Masala Milk",
+//     price: "₹ 41.3",
+//     mrp: "₹ 51.3",
+//   },
+//   {
+//     id: 6,
+//     url: "https://cdn1.storehippo.com/s/60a39f1801d30d79c4caa94b/6502ff9d3fcf6003a40dcfa4/8901808006640-320x320.png",
+//     title: "Green Masala Milk",
+//     price: "₹ 41.3",
+//     mrp: "₹ 51.3",
+//   },
+// ];
 
 const instruction = [
   {
@@ -229,29 +219,29 @@ const MobCartComponent = () => {
   );
   console.log("amount to pay ", amount);
   const selectedCards = useSelector((state) => state.delivery.selectedCards); // Adjust state path if necessary
-  const { deliveryType, selectSlot } = useSelector((state) => state.delivery);
+  // const { deliveryType, selectSlot } = useSelector((state) => state.delivery);
   console.log("cards select", userInstruction);
 
-  const handleUseClick = () => {
-    setShowInput(!showInput); // Toggle the input box
-  };
-  const handleApplyClick = () => {
-    dispatch(applyWalletAmount(walletAmount)); // Dispatch to Redux
-    setShowInput(false); // Hide input after applying
-    setWalletAmount(0); // Reset input field
-  };
+  // const handleUseClick = () => {
+  //   setShowInput(!showInput); // Toggle the input box
+  // };
+  // const handleApplyClick = () => {
+  //   dispatch(applyWalletAmount(walletAmount)); // Dispatch to Redux
+  //   setShowInput(false); // Hide input after applying
+  //   setWalletAmount(0); // Reset input field
+  // };
 
-  const handleRemoveClick = () => {
-    // setAppliedWalletAmount(0);
-    dispatch(removeWalletAmount()); // Remove the applied wallet amount
-  };
-  const handleInputChange = (e) => {
-    const value = Math.max(
-      0,
-      Math.min(availableBalance, Number(e.target.value))
-    ); // Limit input to available balance
-    setWalletAmount(value);
-  };
+  // const handleRemoveClick = () => {
+  //   // setAppliedWalletAmount(0);
+  //   dispatch(removeWalletAmount()); // Remove the applied wallet amount
+  // };
+  // const handleInputChange = (e) => {
+  //   const value = Math.max(
+  //     0,
+  //     Math.min(availableBalance, Number(e.target.value))
+  //   ); // Limit input to available balance
+  //   setWalletAmount(value);
+  // };
 
   // const handleApplyClick = () => {
   //   // onWalletAmountChange(walletAmount); // Call the function passed from parent to update wallet amount in billing
@@ -262,14 +252,14 @@ const MobCartComponent = () => {
   const [Payment, ChangePaymentmode] = useState(false);
   const [PaymentMethod, ChangePaymentMethod] = useState("");
 
-  const [startDate, setStartDate] = useState(new Date());
-  const [selectedSlot, setSelectedSlot] = useState(null);
+  // const [startDate, setStartDate] = useState(new Date());
+  // const [selectedSlot, setSelectedSlot] = useState(null);
   const navigate = useNavigate();
   const [instructionCon, setInstruction] = useState(false);
-  const [selectedInstructions, setSelectedInstructions] = useState([]);
-  const [showCouponComponent, setShowCouponComponent] = useState(false);
+  // const [selectedInstructions, setSelectedInstructions] = useState([]);
+  // const [showCouponComponent, setShowCouponComponent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [walletDownMenu, setWalletDownMenu] = useState(false);
+  // const [walletDownMenu, setWalletDownMenu] = useState(false);
   // const [userInstruction, setUserInstruction] = useState([]);
   // const [selectedCards, setSelectedCards] = useState([]);
   // const [selectedTips, setSelectedTips] = useState([]);
@@ -285,36 +275,36 @@ const MobCartComponent = () => {
   //   }
   // };
 
-  const tipCardSelection = (index) => {
-    const tipAmount = 10 * (index + 1);
-    // dispatch(selectTip(tipAmount)); // Calculate the tip amount based on the index
+  // const tipCardSelection = (index) => {
+  //   const tipAmount = 10 * (index + 1);
+  //   // dispatch(selectTip(tipAmount)); // Calculate the tip amount based on the index
 
-    if (selectedTip === tipAmount) {
-      // If the clicked tip is already selected, deselect it
-      dispatch(removeTip()); // Deselect the tip
-    } else {
-      // Otherwise, select the new tip
-      dispatch(selectTip(tipAmount)); // Dispatch the selected tip to Redux
-    }
-  };
+  //   if (selectedTip === tipAmount) {
+  //     // If the clicked tip is already selected, deselect it
+  //     dispatch(removeTip()); // Deselect the tip
+  //   } else {
+  //     // Otherwise, select the new tip
+  //     dispatch(selectTip(tipAmount)); // Dispatch the selected tip to Redux
+  //   }
+  // };
 
   // const tipCardDoubleSelect = (index) => {
   //   setSelectedTip(selectedTip.filter((i) => i !== index));
   // };
 
-  const handleToggleCardSelection = (index) => {
-    dispatch(toggleCardSelection(index));
-    console.log(selectedCards);
-    // Dispatch the action to update Redux state
+  // const handleToggleCardSelection = (index) => {
+  //   dispatch(toggleCardSelection(index));
+  //   console.log(selectedCards);
+  //   // Dispatch the action to update Redux state
 
-    // const isSelected = selectedCards.includes(index);
-    // if (isSelected) {
+  //   // const isSelected = selectedCards.includes(index);
+  //   // if (isSelected) {
 
-    //   setSelectedCards(selectedCards.filter((i) => i !== index));
-    // } else {
-    //   setSelectedCards([...selectedCards, index]);
-    // }
-  };
+  //   //   setSelectedCards(selectedCards.filter((i) => i !== index));
+  //   // } else {
+  //   //   setSelectedCards([...selectedCards, index]);
+  //   // }
+  // };
 
   //
 
@@ -326,9 +316,9 @@ const MobCartComponent = () => {
     }
   };
 
-  const handleSlotSelection = (slot) => {
-    dispatch(setSelectedTimeSlot(slot));
-  };
+  // const handleSlotSelection = (slot) => {
+  //   dispatch(setSelectedTimeSlot(slot));
+  // };
 
   const handleProceedToPayment = () => {
     setIsLoading(true);
@@ -338,14 +328,14 @@ const MobCartComponent = () => {
     }, 2000);
   };
 
-  const settings = {
-    dots: true,
-    arrows: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+  // const settings = {
+  //   dots: true,
+  //   arrows: false,
+  //   infinite: true,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  // };
 
   const cookies = new Cookies();
 
@@ -354,7 +344,7 @@ const MobCartComponent = () => {
   console.log("couponsss  ", coupon);
 
   const dispatch = useDispatch();
-  const [code, setCode] = useState(null);
+  // const [code, setCode] = useState(null);
   // const [couponCode, setCouponCode] = useState(coupon.map((item) => item.code));
   const [couponCode, setCouponCode] = useState(coupon ? coupon.code : "");
   const cartItems = useSelector((state) => state.cart.items);
@@ -363,8 +353,8 @@ const MobCartComponent = () => {
   console.log("idd  is", substoreId);
 
   const [billSummary, setBillSummary] = useState(false);
-  const [slotshow, setSlotShow] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
+  // const [slotshow, setSlotShow] = useState(false);
+  // const [isClicked, setIsClicked] = useState(false);
   console.log(couponCode);
   // const couponCode = coupon.map((item) => item.code);
   // setCode(couponCode);
@@ -402,24 +392,24 @@ const MobCartComponent = () => {
 
   // Slot delivery - Anirudh Bhardwaj
 
-  const date = [
-    {
-      date: "20",
-      day: "MON",
-    },
-    {
-      date: "21",
-      day: "TUE",
-    },
-    {
-      date: "22",
-      day: "WED",
-    },
-    {
-      date: "23",
-      day: "THUR",
-    },
-  ];
+  // const date = [
+  //   {
+  //     date: "20",
+  //     day: "MON",
+  //   },
+  //   {
+  //     date: "21",
+  //     day: "TUE",
+  //   },
+  //   {
+  //     date: "22",
+  //     day: "WED",
+  //   },
+  //   {
+  //     date: "23",
+  //     day: "THUR",
+  //   },
+  // ];
 
   // const timeSlots = [
   //   "",
@@ -441,7 +431,7 @@ const MobCartComponent = () => {
   const pincode = useSelector((state) => state.home.pincode);
   console.log(city?.results[0]?.address_components[5]?.long_name);
   // const [selectedDate, setSelectedDate] = useState("");
-  const [selectedTime, setSelectedTime] = useState("");
+  // const [selectedTime, setSelectedTime] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(2);
   const [chooseTime, setChooseTime] = useState(false);
   const [dayId, setDayId] = useState(null);
@@ -721,7 +711,6 @@ const MobCartComponent = () => {
   console.log("place order data", data);
   const amountInPaise = amount * 100;
 
-  
   const initiateRazorpayPayment = async (razorpayOrderId) => {
     const scriptLoaded = await loadRazorpayScript();
     const options = {
@@ -999,7 +988,7 @@ const MobCartComponent = () => {
                   handleDeliveryOptionChange("Express");
                 }}
               >
-                <img src={express} className="dilvery-icon" />
+                <img alt="logo" src={express} className="dilvery-icon" />
                 <div
                   style={{
                     display: "flex",
@@ -1026,7 +1015,7 @@ const MobCartComponent = () => {
                   handleDeliveryOptionChange("Slot");
                 }}
               >
-                <img src={slot} className="dilvery-icon" />
+                <img alt="logo" src={slot} className="dilvery-icon" />
                 <div
                   style={{
                     display: "flex",
@@ -1047,7 +1036,7 @@ const MobCartComponent = () => {
                 }}
                 onClick={() => handleDeliveryOptionChange("Pick_up")}
               >
-                <img src={pickup} className="dilvery-icon" />
+                <img alt="logo" src={pickup} className="dilvery-icon" />
                 <div
                   style={{
                     display: "flex",
@@ -1144,6 +1133,7 @@ const MobCartComponent = () => {
             >
               <div>
                 <img
+                  alt="logo"
                   src={location}
                   width={"20px"}
                   height={"20px"}
@@ -1212,6 +1202,7 @@ const MobCartComponent = () => {
             >
               <div>
                 <img
+                  alt="logo"
                   src={wishlist}
                   width={"20px"}
                   height={"20px"}
