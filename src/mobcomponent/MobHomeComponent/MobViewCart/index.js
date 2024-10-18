@@ -16,7 +16,7 @@ export default function MobCartView() {
 
   return (
     <div className="view-cart-container">
-      <img className="gift-icon" src={gift} width={"50px"} />
+      <img alt="logo" className="gift-icon" src={gift} width={"50px"} />
       <div className="view-card">
         <span>
           <b>{cartItems.length} items</b>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Moborderscreen.css";
 import logo from "../../../../assets/Icon/delay.png";
-import sorry from '../../../../assets/Icon/discount.png'
+import sorry from "../../../../assets/Icon/discount.png";
 import contact from "../../../../assets/Icon/contact.png";
 import app from "../../../../assets/Icon/app.png";
 import earn from "../../../../assets/Icon/earn.png";
@@ -18,7 +18,7 @@ function MobOrderDelayScreen() {
 
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
-  const arriveStatus = queryParams.get('arriveStatus');
+  const arriveStatus = queryParams.get("arriveStatus");
 
   console.log("arrive status", arriveStatus);
 
@@ -27,30 +27,47 @@ function MobOrderDelayScreen() {
       <div className="">
         <div className="mob-order-background-screen">
           <div className="order-text-container">
-            <div className="order-text-hey">{arriveStatus == 'On-time' ? 'Hey!': 'Opps!' }</div>
-            <div className="order-reached-text">
-              { arriveStatus == 'On-time'  ? 'Your order reached in 29 mins'  : 'Your order reached in 10 mins delayed' }
-
+            <div className="order-text-hey">
+              {arriveStatus === "On-time" ? "Hey!" : "Opps!"}
             </div>
-            <img src={arriveStatus == 'On-time' ? logo : sorry} alt="delay logo" width={40} className="mb-5 mt-5" />
+            <div className="order-reached-text">
+              {arriveStatus === "On-time"
+                ? "Your order reached in 29 mins"
+                : "Your order reached in 10 mins delayed"}
+            </div>
+            <img
+              src={arriveStatus === "On-time" ? logo : sorry}
+              alt="delay logo"
+              width={40}
+              className="mb-5 mt-5"
+            />
           </div>
 
-        {/* compensation component */}
-{ 
-      arriveStatus != 'On-time' &&  (<div className="compensation-container">
-             <span className="compensation-discount-header">10% OFF on your next order</span>
-            <span className="compensation-discount-discription">As we have delayed your order by 10 mins, 
-            you are getting this offer for next order. </span>
-            <span className="compensation-discount-discription">Use Coupon Use:</span>
-            <span className="compensation-discount-code">10MINDELAY</span>
-        </div>)
-        
-        }
+          {/* compensation component */}
+          {arriveStatus !== "On-time" && (
+            <div className="compensation-container">
+              <span className="compensation-discount-header">
+                10% OFF on your next order
+              </span>
+              <span className="compensation-discount-discription">
+                As we have delayed your order by 10 mins, you are getting this
+                offer for next order.{" "}
+              </span>
+              <span className="compensation-discount-discription">
+                Use Coupon Use:
+              </span>
+              <span className="compensation-discount-code">10MINDELAY</span>
+            </div>
+          )}
 
           {/* Connect and Earn */}
           <div className="text-start my-1">
             <div
-              style={{ height: '350px', backgroundColor: '#FCC550', justifyContent: 'center' }}
+              style={{
+                height: "350px",
+                backgroundColor: "#FCC550",
+                justifyContent: "center",
+              }}
               className="p-4 card bg-warning rounded-0"
             >
               <div className="fs-5 fw-bold">Connect & Earn</div>
@@ -74,13 +91,15 @@ function MobOrderDelayScreen() {
 
               <div className="text-center">
                 <div className="my-2 fs-6">KNOW MORE ABOUT HOW THIS</div>
-                <button type="button" className="btn btn-light w-75 rounded-5 text-danger">
+                <button
+                  type="button"
+                  className="btn btn-light w-75 rounded-5 text-danger"
+                >
                   SYNC CONTACTS
                 </button>
               </div>
             </div>
           </div>
-
 
           {/* Star Rating */}
           <div className="container mt-5 mob-order-delay-star-main-div">
@@ -104,7 +123,9 @@ function MobOrderDelayScreen() {
                       icon={faStar}
                       className="mob-order-delay-star"
                       size="1x"
-                      color={ratingValue <= (hover || rating) ? "#FF0101" : "#e4e5e9"}
+                      color={
+                        ratingValue <= (hover || rating) ? "#FF0101" : "#e4e5e9"
+                      }
                       onMouseEnter={() => setHover(ratingValue)}
                       onMouseLeave={() => setHover(null)}
                     />
