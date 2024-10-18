@@ -594,7 +594,7 @@ const HeaderComponent = () => {
                   }}
                 >
                   <img
-                    alt="logo"
+                    alt="logoo"
                     src={favourite}
                     style={{ height: "30px", width: "25px" }}
                   />
