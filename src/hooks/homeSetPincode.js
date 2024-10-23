@@ -25,8 +25,16 @@ const useFetchProducts = () => {
         setLoading(true);
         try {
           const response = await axios.get(
-            `http://13.61.33.202/api/v2/home-screen?device=1&pincode=${pinCode}`
+            `http://13.61.33.202/api/v2/home-screen?device=1&pincode=${pinCode}`,
+            {
+              timeout: 5000, // Set a 5-second timeout for the request
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+            }
           );
+
           if (response) {
             const data = response.data;
             cache.current[pinCode] = data; // Store the result in cache
