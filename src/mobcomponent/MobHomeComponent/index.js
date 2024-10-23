@@ -51,14 +51,24 @@ const MobHomeComponent = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      if (pincode) {
-        const data = await fetchData(pincode);
-        const substore = data?.data[0]?.sub_store_id;
-        if (substore) {
-          dispatch(setSubStoreId(substore));
+      try {
+        if (pincode) {
+          const data = await fetchData(pincode);
+
+          if (data?.data?.length > 0) {
+            const substore = data.data[0].sub_store_id;
+            if (substore) {
+              dispatch(setSubStoreId(substore));
+            }
+            console.log("here find substore id", substore);
+          } else {
+            console.warn("No substore found for this pincode.");
+          }
+
+          setProductData(data);
         }
-        setProductData(data);
-        console.log("here find substore id", substore);
+      } catch (error) {
+        console.error("Error fetching products:", error);
       }
     };
 

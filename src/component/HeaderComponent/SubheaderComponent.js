@@ -328,7 +328,7 @@ function Subheader() {
     });
 
     passUserDataToProfile();
-  }, [passUserDataToProfile]);
+  }, []);
 
   const icons = [
     { id: 1, name: "Home", icon: faHome },
