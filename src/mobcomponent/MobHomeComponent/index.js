@@ -41,6 +41,7 @@ const MobHomeComponent = () => {
   const [refreshCounter, setRefreshCounter] = useState(0);
   const { loading, fetchData, error } = useFetchProducts();
   const pincode = useSelector((state) => state.home.pincode);
+  console.log("poncpedadnadwa", pincode);
   const cartItems = useSelector((state) => state.cart.addToCart);
   const dispatch = useDispatch();
 

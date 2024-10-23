@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./MobAddAddressLocationDeliveryComponent.css";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { setAddressData } from "../../redux/reducers/addressStore";
 
 const MobAddAddressLocationDeliveryComponent = ({
   onConfirm = () => {},
@@ -125,29 +126,21 @@ const MobAddAddressLocationDeliveryComponent = ({
   };
   console.log("fullData", fullData);
 
-  const handleConfirmContinue = async () => {
+  const handleConfirmContinue = () => {
     if (isFormValid()) {
       try {
-        const response = await axios.post(
-          "http://13.61.33.202/api/v2/address/add",
-          fullData
-        );
+        // Dispatch the full data directly to Redux
+        dispatch(setAddressData(fullData));
+        console.log("Address data set in Redux:", fullData);
 
-        if (response && response.status === 200) {
-          console.log("Address added successfully:", response.data);
+        // Dispatch the pincode separately
+        dispatch(setPincode(pinCode));
 
-          dispatch(setPincode(pinCode));
-          console.log("Pincode set in Redux:", pinCode);
-
-          onConfirm(pinCode);
-
-          onClose();
-        }
+        // Call the necessary handlers
+        onConfirm(pinCode);
+        onClose();
       } catch (error) {
-        console.error(
-          "Error while adding address:",
-          error.response ? error.response.data : error.message
-        );
+        console.error("Error while dispatching data:", error.message);
       }
     } else {
       console.log("Form is invalid");
