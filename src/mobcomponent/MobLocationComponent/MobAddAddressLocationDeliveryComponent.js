@@ -123,12 +123,7 @@ const MobAddAddressLocationDeliveryComponent = ({
       try {
         const response = await axios.post(
           "http://13.61.33.202/api/v2/address/add",
-          fullData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          fullData
         );
 
         if (response && response.status === 200) {
