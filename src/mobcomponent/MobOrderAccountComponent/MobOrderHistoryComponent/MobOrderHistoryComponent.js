@@ -182,7 +182,7 @@ const MobOrderHistoryComponent = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/user/order-list",
+          "http://3.107.28.148/user/order-list",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -217,7 +217,7 @@ const MobOrderHistoryComponent = () => {
         const statuses = await Promise.all(
           status.map(async (orderId) => {
             const response = await axios.get(
-              `http://localhost:3000/user/order-status?orderId=${orderId}`,
+              `http://3.107.28.148/user/order-status?orderId=${orderId}`,
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
@@ -246,7 +246,7 @@ const MobOrderHistoryComponent = () => {
     try {
       // Call the Cancel Order API using PUT
       const response = await axios.put(
-        `http://localhost:3000/user/cancel-order`,
+        `http://3.107.28.148/user/cancel-order`,
         { order_id: orderId },
         {
           headers: {

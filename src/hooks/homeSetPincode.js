@@ -25,7 +25,7 @@ const useFetchProducts = () => {
         setLoading(true);
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/v2/home-screen?device=1&pincode=${pinCode}`
+            `http://13.61.33.202/api/v2/home-screen?device=1&pincode=${pinCode}`
           );
           if (response) {
             const data = response.data;

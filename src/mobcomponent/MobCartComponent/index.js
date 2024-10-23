@@ -365,7 +365,7 @@ const MobCartComponent = () => {
   const handleRemove = async () => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/remove-coupon",
+        "http://13.61.33.202/api/remove-coupon",
         {
           coupon_code: couponCode,
         },
@@ -447,7 +447,7 @@ const MobCartComponent = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:3000/user/deliveryTimeSlots?delivery_name=govandii&substore_id=${substoreId}`,
+        `http://3.107.28.148/user/deliveryTimeSlots?delivery_name=govandii&substore_id=${substoreId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -667,7 +667,7 @@ const MobCartComponent = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/v2/user-details",
+          "http://13.61.33.202/api/v2/user-details",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -766,7 +766,7 @@ const MobCartComponent = () => {
 
       try {
         // Step 1: Call your backend to create a Razorpay order
-        const response = await fetch("http://localhost:3000/user/order-place", {
+        const response = await fetch("http://3.107.28.148/user/order-place", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -809,7 +809,7 @@ const MobCartComponent = () => {
     } else {
       try {
         const response = await axios.post(
-          "http://localhost:3000/user/order-place",
+          "http://3.107.28.148/user/order-place",
           {
             payment_mode: payment,
             store_id: substoreId,
@@ -869,7 +869,7 @@ const MobCartComponent = () => {
   const fetchDeliveryTypes = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/delivery-types"
+        "http://13.61.33.202/api/delivery-types"
       );
       setDeliveryTypes(response.data.results.data);
       console.log("delivery Types..", response.data.results.data);

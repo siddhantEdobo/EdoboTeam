@@ -18,7 +18,7 @@ const MobWishList = ({ id }) => {
       try {
         // setLoading(true);
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/v2/wish-list",
+          "http://13.61.33.202/api/v2/wish-list",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ const MobWishList = ({ id }) => {
     try {
       if (!isAddedToWishlist) {
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/v2/wishlist-store",
+          "http://13.61.33.202/api/v2/wishlist-store",
           { product_id: id },
           {
             headers: {
@@ -63,7 +63,7 @@ const MobWishList = ({ id }) => {
         }
       } else {
         const response = await axios.post(
-          `http://127.0.0.1:8000/api/v2/wishlist-delete?product_id=${id}`,
+          `http://13.61.33.202/api/v2/wishlist-delete?product_id=${id}`,
           {},
           {
             headers: {
@@ -83,7 +83,6 @@ const MobWishList = ({ id }) => {
   }, [id, isAddedToWishlist, token]);
 
   return (
-   
     <FontAwesomeIcon
       icon={isAddedToWishlist ? SolidHeart : faHeart} // Use solid heart if added
       className="fa-2xl"

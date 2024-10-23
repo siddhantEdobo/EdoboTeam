@@ -44,7 +44,7 @@ const AddToCartButtonCustomIcon = ({ product }, props) => {
         const quantity = productQuantities[product?.id] || 1;
         console.log(quantity);
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/v2/add-to-cart",
+          "http://113.61.33.202/api/v2/add-to-cart",
           {
             product_id: product?.id,
             qty: 1,
@@ -77,7 +77,7 @@ const AddToCartButtonCustomIcon = ({ product }, props) => {
 
       try {
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/v2/cart/product",
+          "http://13.61.33.202/api/v2/cart/product",
           {
             pincode: pincode,
             product_id: product?.id,
@@ -107,7 +107,7 @@ const AddToCartButtonCustomIcon = ({ product }, props) => {
 
       try {
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/v2/cart/product",
+          "http://13.61.33.202/api/v2/cart/product",
           {
             pincode: pincode,
             product_id: product?.id,

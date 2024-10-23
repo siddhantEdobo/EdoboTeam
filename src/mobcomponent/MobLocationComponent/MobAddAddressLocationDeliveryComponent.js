@@ -122,7 +122,7 @@ const MobAddAddressLocationDeliveryComponent = ({
     if (isFormValid()) {
       try {
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/v2/address/add",
+          "http://13.61.33.202/api/v2/address/add",
           fullData,
           {
             headers: {

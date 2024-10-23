@@ -44,7 +44,7 @@ const MobOTPVerificationComponent = () => {
 
     if (OTP.toString() === otp) {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/v2/verify-otp",
+        "http://13.61.33.202/api/v2/verify-otp",
         { phone: phone, otp: otp, ref_id: ref_id }
       );
       if (response) {
@@ -81,7 +81,7 @@ const MobOTPVerificationComponent = () => {
   }, []);
   return (
     <>
-     <MobHeaderNavigation text={'OTP Verification'}/>
+      <MobHeaderNavigation text={"OTP Verification"} />
       <div className="mt-5 p-3 gap-3">
         <div className="d-flex  justify-content-center ">
           <div className="mt-3">
