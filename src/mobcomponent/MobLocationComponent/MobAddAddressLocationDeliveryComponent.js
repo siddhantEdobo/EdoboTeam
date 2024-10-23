@@ -105,19 +105,23 @@ const MobAddAddressLocationDeliveryComponent = ({
 
     return !Object.values(newErrors).some((error) => error !== "");
   };
+  console.log("pincodes ", pinCode);
   const fullData = {
     formatted: houseNumber + gpsAddress?.results[0].formatted_address,
     state:
       apartmentDetails +
+      " " +
+      gpsAddress?.results[0]?.address_components[6]?.long_name +
       gpsAddress?.results[0]?.address_components[8]?.long_name,
-    city: gpsAddress?.results[0]?.address_components[5]?.long_name,
-    country:
-      gpsAddress?.results[0]?.address_components[9]?.long_name ||
-      gpsAddress?.results[0]?.address_components[7]?.long_name,
+    city:
+      gpsAddress?.results[0]?.address_components[5]?.long_name +
+      gpsAddress?.results[0]?.address_components[6]?.long_name,
+    country: "India",
     pincode:
-      gpsAddress?.results[0]?.address_components[10]?.long_name ||
-      gpsAddress?.results[0]?.address_components[8]?.long_name ||
-      gpsAddress?.results[0]?.address_components[9]?.long_name,
+      // gpsAddress?.results[0]?.address_components[10]?.long_name ||
+      // gpsAddress?.results[0]?.address_components[8]?.long_name ||
+      // gpsAddress?.results[0]?.address_components[9]?.long_name,
+      pinCode,
   };
   console.log("fullData", fullData);
 
