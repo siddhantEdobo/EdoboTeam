@@ -111,9 +111,12 @@ const MobAddAddressLocationDeliveryComponent = ({
       apartmentDetails +
       gpsAddress?.results[0]?.address_components[8]?.long_name,
     city: gpsAddress?.results[0]?.address_components[5]?.long_name,
-    country: gpsAddress?.results[0]?.address_components[9]?.long_name,
+    country:
+      gpsAddress?.results[0]?.address_components[9]?.long_name ||
+      gpsAddress?.results[0]?.address_components[7]?.long_name,
     pincode:
       gpsAddress?.results[0]?.address_components[10]?.long_name ||
+      gpsAddress?.results[0]?.address_components[8]?.long_name ||
       gpsAddress?.results[0]?.address_components[9]?.long_name,
   };
   console.log("fullData", fullData);
