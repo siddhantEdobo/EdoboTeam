@@ -50,12 +50,9 @@ const MobLoginComponent = (props) => {
     setOtpVerificationInProgress(true);
 
     try {
-      const response = await axios.post(
-        `http://127.0.0.1:8000/api/v2/send-otp`,
-        {
-          mobile_no: phoneNumber,
-        }
-      );
+      const response = await axios.post(`http://13.61.33.202/api/v2/send-otp`, {
+        mobile_no: phoneNumber,
+      });
       if (response) {
         const otp = response.data.data.otp;
         const ref_id = response.data.data.ref_id;

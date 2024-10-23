@@ -135,7 +135,7 @@ const MobProductDetailComponent = () => {
     const response = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/api/v2/product-details?id=${productId}&pincode=${pincode}`
+          `http://13.61.33.202/api/v2/product-details?id=${productId}&pincode=${pincode}`
         );
         console.log(response.data);
         setData(response.data.data[0]);
@@ -260,7 +260,8 @@ const MobProductDetailComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent text={'Product Detail'}
+      <MobHeaderComponent
+        text={"Product Detail"}
         // isBack={true}
         // headerText={"Product Detail"}
         // isEdoboLogo={true}

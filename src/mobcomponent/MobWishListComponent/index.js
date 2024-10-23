@@ -80,7 +80,7 @@ const MobWishListComponent = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/v2/wish-list",
+          "http://13.61.33.202/api/v2/wish-list",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -104,7 +104,7 @@ const MobWishListComponent = () => {
   const handleRemove = async (value) => {
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/v2/wishlist-delete?product_id=${value?.product_details?.id}`,
+        `http://13.61.33.202/api/v2/wishlist-delete?product_id=${value?.product_details?.id}`,
         {},
         {
           headers: {
@@ -148,7 +148,8 @@ const MobWishListComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent  text={'Yours Wishlist'}
+      <MobHeaderComponent
+        text={"Yours Wishlist"}
         // isBack={true}
         // headerText={"Wish List"}
         // isCartShow={false}

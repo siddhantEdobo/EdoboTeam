@@ -75,7 +75,7 @@ const MobCollectionProductComponent = () => {
     const fetchdata = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/user/order-list`,
+          `http://3.107.28.148/user/order-list`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

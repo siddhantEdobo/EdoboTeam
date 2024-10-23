@@ -123,7 +123,7 @@ function MobSearchComponent() {
     if (searchProductItem) {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/api/v2/product-search?pincode=${pincode}&q=${searchProductItem}`
+          `http://13.61.33.202/api/v2/product-search?pincode=${pincode}&q=${searchProductItem}`
         );
         setData(response.data.data[0]);
         console.log("datais", data);
@@ -187,7 +187,8 @@ function MobSearchComponent() {
 
   return (
     <>
-      <MobHeaderComponent text={''}
+      <MobHeaderComponent
+        text={""}
         // isBack={true}
         // headerText={""}
         // isCartShow={false}

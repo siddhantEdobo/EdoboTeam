@@ -18,7 +18,7 @@ const useCart = (pincode) => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/v2/cart/product",
+        "http://13.61.33.202/api/v2/cart/product",
         { pincode, product_id: product.id, action: "add" },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -41,7 +41,7 @@ const useCart = (pincode) => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/v2/cart/product",
+        "http://13.61.33.202/api/v2/cart/product",
         { pincode, product_id: product.id, action: "minus" },
         { headers: { Authorization: `Bearer ${token}` } }
       );

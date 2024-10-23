@@ -14,7 +14,7 @@ const MobTabDiscountComponent = () => {
       setLoading(true); // Start loading
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/v2/coupons-list"
+          "http://13.61.33.202/api/v2/coupons-list"
         );
         if (response) {
           const data = response.data;
@@ -42,7 +42,8 @@ const MobTabDiscountComponent = () => {
 
   return (
     <>
-      <MobHeaderComponent text={'Discount and Coupons'}
+      <MobHeaderComponent
+        text={"Discount and Coupons"}
         // isBack={true}
         // headerText={"Discount and Coupons"}
         // isCartShow={false}

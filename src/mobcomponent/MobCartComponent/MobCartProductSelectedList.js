@@ -1,4 +1,4 @@
-import { faTrashCan , faTimes} from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import axios from "axios";
@@ -33,7 +33,7 @@ const MobCartProductSelectedList = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/v2/cart/product",
+        "http://13.61.33.202/api/v2/cart/product",
         {
           pincode: pincode,
           product_id: product.id,
@@ -64,7 +64,7 @@ const MobCartProductSelectedList = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/v2/cart/product",
+        "http://13.61.33.202/api/v2/cart/product",
         {
           pincode: pincode,
           product_id: product.id,
@@ -97,7 +97,7 @@ const MobCartProductSelectedList = () => {
       console.log("okokoko", token);
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/v2/cart/details?pincode=400071&device=1",
+          "http://13.61.33.202/api/v2/cart/details?pincode=400071&device=1",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -142,7 +142,7 @@ const MobCartProductSelectedList = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/v2/cart/product",
+        "http://13.61.33.202/api/v2/cart/product",
         requestData,
         {
           headers: {
@@ -182,10 +182,9 @@ const MobCartProductSelectedList = () => {
             <div className="border-bottom d-flex">
               <div className="bg-danger mob-cart-product-img-container">
                 <img
-                  
                   src={`http://103.165.118.218/edobo/${item.thumb_image_url}`}
                   alt="productimage"
-                  width={'80px'}
+                  width={"80px"}
                 />
               </div>
               <div className="d-flex justify-content-between flex-fill">

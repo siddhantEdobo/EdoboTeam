@@ -25,7 +25,7 @@ const MobCartCouponComponent = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/v2/coupons-list"
+          "http://13.61.33.202/api/v2/coupons-list"
         );
         if (response) {
           setCouponData(response.data);
@@ -45,7 +45,7 @@ const MobCartCouponComponent = () => {
   const handleApplyCoupon = async (coupon) => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/apply-coupon",
+        "http://13.61.33.202/api/apply-coupon",
         { coupon_code: coupon.code },
         {
           headers: {
@@ -65,8 +65,7 @@ const MobCartCouponComponent = () => {
 
   return (
     <>
-      <MobHeaderNavigation text={'Coupon'}
-      />
+      <MobHeaderNavigation text={"Coupon"} />
       <div className="container home-container">
         <div className="fs-6 border-bottom pb-1">Available Coupons</div>
         {couponData && couponData.data ? (
