@@ -22,6 +22,7 @@ import substoreReducer from "./substoreId";
 import profileReducer from "./profileData";
 import paymentReducer from "./payment";
 import orderReducer from "./orderid";
+import addressReducer from "./addressStore";
 // ==============================|| COMBINE REDUCERS ||============================== //
 
 const reducers = combineReducers({
@@ -44,6 +45,7 @@ const reducers = combineReducers({
   profile: profileReducer,
   payment: paymentReducer,
   order: orderReducer,
+  addressStore: addressReducer,
 });
 
 export default reducers;
