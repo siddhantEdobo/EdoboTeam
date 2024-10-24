@@ -1610,7 +1610,7 @@ const MobCartComponent = () => {
                 className="mob-cart-component-payment-button cursor-pointer"
                 onClick={handleProceedToPayment}
               >
-                {isLoading ? "Loading..." : "Proceed To Payment"}
+                {isLoading ? "load" : "Proceed To Payment"}
               </div>
 
               {/* <div
@@ -1738,7 +1738,7 @@ const MobCartComponent = () => {
                 // });
               }}
             >
-              {isLoading ? "Loading..." : "Proceed To Payment"}
+              {isLoading ? "loading" : "Proceed To Payment"}
             </div>
 
             {/* <div

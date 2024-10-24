@@ -288,7 +288,7 @@ const MobOrderHistoryComponent = () => {
   };
 
   // if (loading) {
-  //   return <div>Loading...</div>; // Show loading state while data is being fetched
+  //   return <div>load</div>; // Show loading state while data is being fetched
   // }
 
   return (
@@ -301,7 +301,7 @@ const MobOrderHistoryComponent = () => {
       />
       {loading && (
         <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
+          <span className="visually-hidden">load</span>
         </div>
       )}
       {!loading && orderDetails?.length > 0 ? (

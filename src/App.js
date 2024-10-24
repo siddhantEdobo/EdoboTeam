@@ -15,19 +15,13 @@ function App() {
   return (
     // {/* // <GoogleMapsProvider> */}
     <BrowserRouter>
-      <LoadScript
-        googleMapsApiKey="AIzaSyBYaUmkSyrXGhQhl2GmRjpQ53a99fI7d5E"
-        libraries={libraries}
-        // onLoad={handleLoade}
-      >
-        <GlobalContextProvider>
-          <Provider store={store}>
-            <LoaderProvider>
-              <RouteComponent />
-            </LoaderProvider>
-          </Provider>
-        </GlobalContextProvider>
-      </LoadScript>
+      <GlobalContextProvider>
+        <Provider store={store}>
+          <LoaderProvider>
+            <RouteComponent />
+          </LoaderProvider>
+        </Provider>
+      </GlobalContextProvider>
     </BrowserRouter>
     // {/* // </GoogleMapsProvider> */}
   );
