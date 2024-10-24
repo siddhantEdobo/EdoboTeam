@@ -33,7 +33,7 @@ const MobTabDiscountComponent = () => {
 
   // Check for loading or error state
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>load</div>;
   }
 
   if (error) {

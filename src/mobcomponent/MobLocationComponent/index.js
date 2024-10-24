@@ -522,8 +522,7 @@ const MobLocationComponent = ({
     }
   };
   return (
-    <div
-     className="">
+    <div className="">
       <div className="">
         <div className="d-flex justify-content-center align-items-center">
           <div className="mob-location-component-image-container">
@@ -539,8 +538,9 @@ const MobLocationComponent = ({
         </div>
         <div className="d-flex justify-content-center align-items-center">
           <div
-          style={{width: '310px'}}
-           className=" fs-12 mt-2 mb-3 text-secondary ps-4 pe-3 ">
+            style={{ width: "310px" }}
+            className=" fs-12 mt-2 mb-3 text-secondary ps-4 pe-3 "
+          >
             We need your location to find the nearest store & provide you a
             seamless delivery experience
           </div>
@@ -553,15 +553,15 @@ const MobLocationComponent = ({
         >
           <div>Enable Location</div>
         </div>
-        <div 
-        style={{borderWidth: '1px', borderColor: 'red'}}
-        className="d-flex justify-content-center gap-2 mt-2">
+        <div
+          style={{ borderWidth: "1px", borderColor: "red" }}
+          className="d-flex justify-content-center gap-2 mt-2"
+        >
           <div
             className="mob-location-component-search-loaction-container gap-2"
             onClick={onShortSearchLocationManuallyOpenCloseHandler}
           >
-            <div 
-            className="">
+            <div className="">
               <FontAwesomeIcon
                 icon={faSearch}
                 className="faicons-size text-success mt-1 text-danger cursor-pointer "
@@ -610,7 +610,7 @@ const MobLocationComponent = ({
                   setIisEnableLocationShow(false);
                   onClose();
                 }}
-                onConfirm={(pinCode) => { 
+                onConfirm={(pinCode) => {
                   onConfirmLocation(pinCode);
                 }}
               />
